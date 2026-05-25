@@ -21,8 +21,6 @@ public class Outcome extends KomponenKeuangan {
 
     @Override
     public double hitungNilaiBersih() {
-        // 🚨 PANGKAS / KOSONGKAN LOGIKA DI SINI:
-        // Biarkan Teman B yang mengatur logika pengurangan/nilai negatif outcome.
-        return 0.0; 
+        return -getJumlah(); 
     }
 }

@@ -16,9 +16,9 @@ public class User {
     }
 
     public void setNama(String nama) {
-        // 🚨 PANGKAS: Hapus pengecekan isEmpty()
-        // Biarkan Teman B yang menyusun pengondisian validasi nama pengguna.
-        this.nama = nama;
+        if (nama != null && !nama.trim().isEmpty()) {
+            this.nama = nama;
+        }
     }
 
     public String getPassword() {
@@ -26,9 +26,9 @@ public class User {
     }
 
     public void setPassword(String password) {
-        // 🚨 PANGKAS: Hapus pengecekan panjang karakter >= 6
-        // Biarkan Teman B yang mengetik aturan keamanan password di level model ini.
-        this.password = password;
+        if (password != null && password.length() >= 6) {
+            this.password = password;
+        }
     }
 
     public double getSaldoAktif() {
@@ -36,7 +36,6 @@ public class User {
     }
 
     public void sesuaikanSaldo(double jumlah) {
-        // 🚨 PANGKAS / KOSONGKAN LOGIKA DI SINI:
-        // Biarkan Teman B yang mengetik rumus kalkulasi perubahan saldo user (+= jumlah).
+        this.saldoAktif += jumlah;
     }
 }

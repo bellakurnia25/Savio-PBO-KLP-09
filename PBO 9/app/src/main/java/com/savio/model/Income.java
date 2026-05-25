@@ -21,8 +21,6 @@ public class Income extends KomponenKeuangan {
 
     @Override
     public double hitungNilaiBersih() {
-        // 🚨 PANGKAS / KOSONGKAN LOGIKA DI SINI:
-        // Biarkan Teman B (Logic) yang menentukan nilai return matematisnya sendiri nanti.
-        return 0.0; 
+        return getJumlah(); 
     }
 }
