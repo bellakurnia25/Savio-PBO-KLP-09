@@ -44,7 +44,7 @@ public class DanaDaruratView extends ScrollPane {
         lblSimpananTitle.setStyle("-fx-text-fill: #FFE5B4; -fx-font-size: 14px; -fx-font-weight: bold;");
         vaultHeader.getChildren().addAll(lblIconVault, lblSimpananTitle);
 
-        lblTotalDarurat = new Label("Rp " + String.format("%,.0f", DataDompet.DANA_DARURAT));
+        lblTotalDarurat = new Label("Rp " + String.format("%,.0f", DataDompet.DANA_DARURAT.get()));
         lblTotalDarurat.setStyle("-fx-text-fill: white; -fx-font-size: 36px; -fx-font-weight: bold;");
 
         HBox actionRow = new HBox(15);
@@ -88,33 +88,52 @@ public class DanaDaruratView extends ScrollPane {
         btnCairkan.setOnAction(e -> handleAksiDana("Cairkan Dana Darurat", false));
     }
 
-    private void handleAksiDana(String judul, boolean isTarik) {
-        TextInputDialog dialog = buatDialogKustom(judul, "Masukkan Nominal (Rp):");
+   private void handleAksiDana(String judul, boolean isTarik) {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle(judul);
+        dialog.setHeaderText(isTarik ? "Simpan uang ke brankas darurat" : "Ambil dana dari brankas darurat");
+        dialog.setContentText("Masukkan Nominal (Rp):");
+
         dialog.showAndWait().ifPresent(input -> {
             try {
                 double nominal = Double.parseDouble(input.trim());
-                if (nominal <= 0) return;
+                if (nominal <= 0) throw new NumberFormatException();
 
                 if (isTarik) {
+                    // Validasi: nominal tidak boleh melebihi saldo aktif yang tersedia
                     if (nominal > DataDompet.SALDO_AKTIF.get()) {
-                        tampilkanAlert("Saldo Kurang", "Saldo Aktif tidak mencukupi!", Alert.AlertType.ERROR);
+                        tampilkanAlert("Saldo Kurang", "Saldo Aktif tidak mencukupi untuk dialokasikan!", Alert.AlertType.ERROR);
                         return;
                     }
-                    DataDompet.SALDO_AKTIF.set(DataDompet.SALDO_AKTIF.get() - nominal);
-                    DataDompet.DANA_DARURAT += nominal;
+                    // Tambah ke dana darurat — kalkulasiUlang() akan otomatis kurangi SALDO_AKTIF
+                    DataDompet.DANA_DARURAT.set(DataDompet.DANA_DARURAT.get() + nominal);
+                    tampilkanAlert("Sukses", "Uang berhasil dikunci di brankas Dana Darurat!", Alert.AlertType.INFORMATION);
                 } else {
-                    if (nominal > DataDompet.DANA_DARURAT) {
-                        tampilkanAlert("Dana Kurang", "Melebihi total Dana Darurat!", Alert.AlertType.ERROR);
+                    // Validasi: tidak bisa cairkan lebih dari isi dana darurat
+                    if (nominal > DataDompet.DANA_DARURAT.get()) {
+                        tampilkanAlert("Dana Kurang", "Nominal penarikan melebihi isi simpanan Dana Darurat Anda!", Alert.AlertType.ERROR);
                         return;
                     }
-                    DataDompet.DANA_DARURAT -= nominal;
-                    DataDompet.SALDO_AKTIF.set(DataDompet.SALDO_AKTIF.get() + nominal);
+                    // Kurangi dari dana darurat — kalkulasiUlang() akan otomatis tambah SALDO_AKTIF
+                    DataDompet.DANA_DARURAT.set(DataDompet.DANA_DARURAT.get() - nominal);
+                    tampilkanAlert("Sukses", "Dana Darurat berhasil dicairkan ke Saldo Aktif!", Alert.AlertType.INFORMATION);
                 }
-                KoneksiJSON.simpanDataKeJSON(); // Simpan perubahan
-                lblTotalDarurat.setText("Rp " + String.format("%,.0f", DataDompet.DANA_DARURAT));
-            } catch (Exception ex) { tampilkanAlert("Error", "Nominal tidak valid!", Alert.AlertType.ERROR); }
+
+                // Kalkulasi ulang: SALDO_AKTIF = income - outcome - DANA_DARURAT (otomatis)
+                DataDompet.kalkulasiUlang();
+
+                // Simpan permanen perubahan nilai ke database JSON
+                com.savio.config.KoneksiJSON.simpanDataKeJSON();
+
+                // Perbarui label angka visual di halaman Dana Darurat
+                lblTotalDarurat.setText("Rp " + String.format("%,.0f", DataDompet.DANA_DARURAT.get()));
+
+            } catch (Exception ex) {
+                tampilkanAlert("Error", "Format nominal yang Anda masukkan tidak valid!", Alert.AlertType.ERROR);
+            }
         });
     }
+
 
     private void refreshTeksTarget() {
         Platform.runLater(() -> {

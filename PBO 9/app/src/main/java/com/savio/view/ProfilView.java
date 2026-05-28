@@ -83,8 +83,7 @@ public class ProfilView extends VBox {
         infoCard.getChildren().add(namaRow);
         infoCard.getChildren().add(buatBarisInfo("Alamat Email Akun", DataSesi.getUsernameAktif()));
         
-        double totalSaldoLive = DataDompet.SALDO_AKTIF.get() + DataDompet.DANA_DARURAT;
-        infoCard.getChildren().add(buatBarisInfo("Total Aset Terpantau", "Rp " + String.format("%,.0f", totalSaldoLive)));
+        double totalSaldoLive = DataDompet.SALDO_AKTIF.get() + DataDompet.DANA_DARURAT.get();        infoCard.getChildren().add(buatBarisInfo("Total Aset Terpantau", "Rp " + String.format("%,.0f", totalSaldoLive)));
 
         // Tombol Aksi Kustom Akun
         HBox actionButtonRow = new HBox(15);

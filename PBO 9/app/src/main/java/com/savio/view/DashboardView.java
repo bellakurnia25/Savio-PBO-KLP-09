@@ -62,7 +62,7 @@ public class DashboardView extends VBox {
 
         Region topSpacer = new Region();
         HBox.setHgrow(topSpacer, Priority.ALWAYS);
-        Button btnNotif = new Button("🔔");
+        Button btnNotif = new Button("");
         btnNotif.setStyle("-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 18px; -fx-cursor: hand;");
         topRow.getChildren().addAll(welcomeBox, topSpacer, btnNotif);
         this.getChildren().add(topRow);
@@ -77,7 +77,7 @@ public class DashboardView extends VBox {
         VBox cardDarurat = buatKartuAtas("Dana Darurat (Terkunci)", "linear-gradient(to bottom right, #5A1A6B, #340D40)", "Aman dan tidak dapat digunakan", "🔒");
         lblDaruratAtas = (Label) cardDarurat.getChildren().get(1);
 
-        VBox cardAlokasi = buatKartuAtas("Sisa Alokasi Bulan Ini", "linear-gradient(to bottom right, #D97316, #B0550B)", "Dari total alokasi dana", "🥧");
+        VBox cardAlokasi = buatKartuAtas("Saldo Keinginan Bulan Ini", "linear-gradient(to bottom right, #D97316, #B0550B)", "Dari total alokasi dana", "🥧");
         lblAlokasiAtas = (Label) cardAlokasi.getChildren().get(1);
 
         HBox.setHgrow(cardSaldo, Priority.ALWAYS); 
@@ -215,46 +215,17 @@ public class DashboardView extends VBox {
         boxInsight.getChildren().addAll(headerInsight, lblTextInsight, btnBoxInsight);
 
 // --- BOX D: QUICK ACTION ---
-        VBox boxQuickAction = new VBox(15);
-        boxQuickAction.setPrefWidth(350);
-        Label lblQuickAction = new Label("Quick Action");
-        lblQuickAction.setStyle("-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;");
         
-        HBox actionsRow = new HBox(10);
-        Button btnAddIncome = buatTombolAksi("📥", "Tambah\nIncome", "linear-gradient(to bottom, #3A51C6, #222E8A)");
-        Button btnAddOutcome = buatTombolAksi("📤", "Tambah\nOutcome", "linear-gradient(to bottom, #D31E5D, #84123E)");
-        Button btnViewTrans = buatTombolAksi("📋", "Lihat\nTransaksi", "linear-gradient(to bottom, #6F2492, #3E1355)");
-        
-        //LOGIKA KLIK
-        
-        btnAddIncome.setOnAction(e -> {
-            // Panggil method di MainLayout Anda untuk pindah ke halaman Transaksi
-            
-            System.out.println("Tombol Tambah Income ditekan!"); // Bantuan cek di terminal
-        });
-
-        btnAddOutcome.setOnAction(e -> {
-            // Pindah ke halaman Transaksi
-            
-            System.out.println("Tombol Tambah Outcome ditekan!");
-        });
-
-        btnViewTrans.setOnAction(e -> {
-            // Pindah ke halaman Transaksi
-            
-            System.out.println("Tombol Lihat Transaksi ditekan!");
-        });
-
         // ------------------------------------
 
-        HBox.setHgrow(btnAddIncome, Priority.ALWAYS);
-        HBox.setHgrow(btnAddOutcome, Priority.ALWAYS);
-        HBox.setHgrow(btnViewTrans, Priority.ALWAYS);
-        actionsRow.getChildren().addAll(btnAddIncome, btnAddOutcome, btnViewTrans);
+        // HBox.setHgrow(btnAddIncome, Priority.ALWAYS);
+        // HBox.setHgrow(btnAddOutcome, Priority.ALWAYS);
+        // HBox.setHgrow(btnViewTrans, Priority.ALWAYS);
+        // actionsRow.getChildren().addAll(btnAddIncome, btnAddOutcome, btnViewTrans);
         
-        boxQuickAction.getChildren().addAll(lblQuickAction, actionsRow);
+        // boxQuickAction.getChildren().addAll(lblQuickAction, actionsRow);
 
-        bottomRow.getChildren().addAll(boxInsight, boxQuickAction);
+        bottomRow.getChildren().addAll(boxInsight);
         this.getChildren().add(bottomRow);
 
         // ==================== REFRESH DATA REAKTIF REALTIME ====================
@@ -296,7 +267,7 @@ public class DashboardView extends VBox {
         return container;
     }
 
-private HBox buatRowRingkasan(String icon, String judul, String iconBgColor) {
+    private HBox buatRowRingkasan(String icon, String judul, String iconBgColor) {
         HBox row = new HBox(15); 
         row.setAlignment(Pos.CENTER_LEFT); 
         row.setPadding(new Insets(5, 0, 5, 0));
@@ -344,7 +315,7 @@ private HBox buatRowRingkasan(String icon, String judul, String iconBgColor) {
 
     public void refreshDashboardData() {
         double saldoActive = DataDompet.SALDO_AKTIF.get();
-        double emergencyFund = DataDompet.DANA_DARURAT;
+        double emergencyFund = DataDompet.DANA_DARURAT.get();
         double nominalKeb = DataDompet.NOMINAL_KEBUTUHAN.get();
         double nominalKei = DataDompet.NOMINAL_KEINGINAN.get();
 

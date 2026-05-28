@@ -78,8 +78,7 @@ public class KoneksiJSON {
             DataDompet.SALDO_AKTIF.set(ekstrakNilaiDouble(userBlock, "saldo_aktif"));
             DataDompet.NOMINAL_KEBUTUHAN.set(ekstrakNilaiDouble(userBlock, "nominal_kebutuhan"));
             DataDompet.NOMINAL_KEINGINAN.set(ekstrakNilaiDouble(userBlock, "nominal_keinginan"));
-            DataDompet.DANA_DARURAT = ekstrakNilaiDouble(userBlock, "dana_darurat");
-
+        DataDompet.DANA_DARURAT.set(ekstrakNilaiDouble(userBlock, "dana_darurat"));
             // Muat Rasio Slider
             double pKeb = ekstrakNilaiDouble(userBlock, "persen_kebutuhan");
             double pKei = ekstrakNilaiDouble(userBlock, "persen_keinginan");
@@ -265,7 +264,7 @@ public class KoneksiJSON {
         sb.append("      \"saldo_aktif\": ").append(DataDompet.SALDO_AKTIF.get()).append(",\n");
         sb.append("      \"nominal_kebutuhan\": ").append(DataDompet.NOMINAL_KEBUTUHAN.get()).append(",\n");
         sb.append("      \"nominal_keinginan\": ").append(DataDompet.NOMINAL_KEINGINAN.get()).append(",\n");
-        sb.append("      \"dana_darurat\": ").append(DataDompet.DANA_DARURAT).append(",\n");
+        sb.append("      \"dana_darurat\": ").append(DataDompet.DANA_DARURAT.get()).append(",\n");
         sb.append("      \"persen_kebutuhan\": ").append(DataDompet.PERSEN_KEBUTUHAN.get()).append(",\n");
         sb.append("      \"persen_keinginan\": ").append(DataDompet.PERSEN_KEINGINAN.get()).append(",\n");
         sb.append("      \"persen_tabungan\": ").append(DataDompet.PERSEN_TABUNGAN.get()).append(",\n");
@@ -343,7 +342,7 @@ public class KoneksiJSON {
         DataDompet.SALDO_AKTIF.set(0.0);
         DataDompet.NOMINAL_KEBUTUHAN.set(0.0);
         DataDompet.NOMINAL_KEINGINAN.set(0.0);
-        DataDompet.DANA_DARURAT = 0.0;
+        DataDompet.DANA_DARURAT.set(0.0);
         DataDompet.PERSEN_KEBUTUHAN.set(50.0);
         DataDompet.PERSEN_KEINGINAN.set(30.0);
         DataDompet.PERSEN_TABUNGAN.set(20.0);

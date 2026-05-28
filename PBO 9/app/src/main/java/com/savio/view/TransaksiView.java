@@ -53,20 +53,15 @@ public class TransaksiView extends VBox {
     private final DateTimeFormatter formatter =
         DateTimeFormatter.ofPattern("dd MMM yyyy");
 
-    // ── MODEL (inline agar standalone, ganti dengan import aslimu) ─
-    private final List<ModelTransaksi> daftarTransaksi = new ArrayList<>();
+    // ── MODEL REAKTIF SINKRON SAMA DENGAN DATABASE JSON ────────
+    private final javafx.collections.ObservableList<com.savio.model.ModelTransaksi> daftarTransaksi = com.savio.model.DataDompet.LIST_TRANSAKSI;
 
     public TransaksiView() {
         this.setSpacing(0);
         this.setStyle("-fx-background-color: " + BG_MAIN + ";");
         this.setPrefWidth(750);
 
-        // ── Seed data demo ──────────────────────────────────────
-        seedDemoData();
-
-        // ═══ 1. TOPBAR ══════════════════════════════════════════
-
-        // ═══ 2. KONTEN UTAMA (dengan ScrollPane) ════════════════
+        // ═══ KONTEN UTAMA (dengan ScrollPane) ════════════════
         ScrollPane scroll = new ScrollPane();
         scroll.setFitToWidth(true);
         scroll.setStyle("-fx-background: transparent; -fx-background-color: transparent; -fx-border-color: transparent;");
@@ -76,7 +71,7 @@ public class TransaksiView extends VBox {
         mainContent.setPadding(new Insets(28, 28, 28, 28));
         mainContent.setStyle("-fx-background-color: " + BG_MAIN + ";");
 
-        // ── 2a. Judul + Tombol Tambah ────────────────────────────
+        // ── Judul + Tombol Tambah ────────────────────────────
         HBox titleRow = new HBox();
         titleRow.setAlignment(Pos.CENTER_LEFT);
 
@@ -91,7 +86,7 @@ public class TransaksiView extends VBox {
 
         titleRow.getChildren().addAll(lblTitle, sp, btnTambah);
 
-        // ── 2b. Filter Tabs ──────────────────────────────────────
+        // ── Filter Tabs ──────────────────────────────────────
         HBox filterRow = new HBox(8);
         filterRow.setAlignment(Pos.CENTER_LEFT);
 
@@ -106,7 +101,7 @@ public class TransaksiView extends VBox {
         filterRow.getChildren().addAll(btnFilterSemua, btnFilterIncome, btnFilterOutcome);
         updateStyleFilter();
 
-        // ── 2c. List Container (Kartu Raksasa) ───────────────────
+        // ── List Container (Kartu Raksasa) ───────────────────
         listContainer = new VBox(0);
         listContainer.setStyle(
             "-fx-background-color: " + BG_CARD + ";" +
@@ -122,8 +117,6 @@ public class TransaksiView extends VBox {
         this.getChildren().addAll(scroll);
         refreshDaftarTransaksi();
     }
-
-
 
     // ═══════════════════════════════════════════════════════════
     // FILTER
@@ -151,16 +144,15 @@ public class TransaksiView extends VBox {
     }
 
     // ═══════════════════════════════════════════════════════════
-    // REFRESH LIST
+    // REFRESH LIST SINKRON DATABASE
     // ═══════════════════════════════════════════════════════════
     private void refreshDaftarTransaksi() {
         listContainer.getChildren().clear();
 
-        // Filter daftar
-        List<ModelTransaksi> filtered = new ArrayList<>();
-        for (ModelTransaksi t : daftarTransaksi) {
-            if (filterAktif.equals("Semua") ||
-                t.getKategori().equalsIgnoreCase(filterAktif)) {
+        // Menggunakan tipe data model asli com.savio.model.ModelTransaksi secara total
+        List<com.savio.model.ModelTransaksi> filtered = new ArrayList<>();
+        for (com.savio.model.ModelTransaksi t : daftarTransaksi) {
+            if (filterAktif.equals("Semua") || t.getKategori().equalsIgnoreCase(filterAktif)) {
                 filtered.add(t);
             }
         }
@@ -178,12 +170,11 @@ public class TransaksiView extends VBox {
         boolean firstGroup = true;
 
         for (int i = 0; i < filtered.size(); i++) {
-            ModelTransaksi t = filtered.get(i);
+            com.savio.model.ModelTransaksi t = filtered.get(i);
 
             // ── Group header tanggal ─────────────────────────────
             if (!t.getTanggal().equals(prevTanggal)) {
                 if (!firstGroup) {
-                    // Separator tipis antar grup tanggal
                     Separator sep = new Separator();
                     sep.setStyle("-fx-background-color: " + C_BORDER + "; -fx-border-width: 0;");
                     VBox.setMargin(sep, new Insets(0));
@@ -193,9 +184,7 @@ public class TransaksiView extends VBox {
 
                 HBox dateHeader = new HBox();
                 dateHeader.setPadding(new Insets(14, 20, 6, 20));
-                dateHeader.setStyle(
-                    "-fx-background-color: rgba(255,255,255,0.025);"
-                );
+                dateHeader.setStyle("-fx-background-color: rgba(255,255,255,0.025);");
                 Label lblDate = new Label(t.getTanggal());
                 lblDate.setFont(Font.font("System", FontWeight.BOLD, 11));
                 lblDate.setTextFill(Color.web(C_DIM));
@@ -210,15 +199,14 @@ public class TransaksiView extends VBox {
             listContainer.getChildren().add(row);
         }
 
-        // Padding bawah
         Region pad = new Region(); pad.setPrefHeight(8);
         listContainer.getChildren().add(pad);
     }
 
     // ═══════════════════════════════════════════════════════════
-    // BARIS TRANSAKSI
+    // BARIS TRANSAKSI (PAKAI MODEL ASLI PROYEK)
     // ═══════════════════════════════════════════════════════════
-    private HBox buildTransaksiRow(ModelTransaksi t) {
+    private HBox buildTransaksiRow(com.savio.model.ModelTransaksi t) {
         HBox row = new HBox(14);
         row.setAlignment(Pos.CENTER_LEFT);
         row.setPadding(new Insets(13, 20, 13, 20));
@@ -235,10 +223,7 @@ public class TransaksiView extends VBox {
         StackPane iconBox = new StackPane();
         iconBox.setPrefSize(42, 42);
         iconBox.setMinSize(42, 42);
-        iconBox.setStyle(
-            "-fx-background-color: " + iconColor + ";" +
-            "-fx-background-radius: 12;"
-        );
+        iconBox.setStyle("-fx-background-color: " + iconColor + "; -fx-background-radius: 12;");
         Label ico = new Label(tentukanIkon(t.getDeskripsi(), t.getKategori()));
         ico.setFont(Font.font(18));
         iconBox.getChildren().add(ico);
@@ -256,7 +241,6 @@ public class TransaksiView extends VBox {
         lblDesc.setFont(Font.font("System", FontWeight.BOLD, 13));
         lblDesc.setTextFill(Color.web(C_TEXT));
 
-        // Chip sub-kategori
         Label chip = buildChip(subKat, t.getKategori());
 
         HBox descRow = new HBox(8, lblDesc, chip);
@@ -274,7 +258,6 @@ public class TransaksiView extends VBox {
         lblNominal.setFont(Font.font("System", FontWeight.BOLD, 13));
         lblNominal.setTextFill(Color.web(isIncome ? C_TEAL : C_RED));
 
-        // ── Edit button (tampil saat hover) ────────────────────────
         Label btnEdit = new Label("✏️");
         btnEdit.setFont(Font.font(14));
         btnEdit.setOpacity(0);
@@ -319,9 +302,9 @@ public class TransaksiView extends VBox {
     }
 
     // ═══════════════════════════════════════════════════════════
-    // POPUP FORM TAMBAH / EDIT
+    // POPUP FORM TAMBAH / EDIT (SINKRONISASI 5 PARAMETER ASLI)
     // ═══════════════════════════════════════════════════════════
-    private void bukaPopUpForm(boolean isEdit, ModelTransaksi lama) {
+    private void bukaPopUpForm(boolean isEdit, com.savio.model.ModelTransaksi lama) {
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setTitle(isEdit ? "Edit Transaksi" : "Tambah Transaksi Baru");
 
@@ -336,41 +319,28 @@ public class TransaksiView extends VBox {
 
         Button okBtn = (Button) dialog.getDialogPane().lookupButton(ButtonType.OK);
         okBtn.setText("Simpan");
-        okBtn.setStyle(
-            "-fx-background-color: " + GRAD_BTN + ";" +
-            "-fx-text-fill: white; -fx-font-weight: bold;" +
-            "-fx-background-radius: 10; -fx-padding: 10 22 10 22;"
-        );
+        okBtn.setStyle("-fx-background-color: " + GRAD_BTN + "; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 10 22 10 22;");
+        
         Button cancelBtn = (Button) dialog.getDialogPane().lookupButton(ButtonType.CANCEL);
         cancelBtn.setText("Batal");
-        cancelBtn.setStyle(
-            "-fx-background-color: transparent;" +
-            "-fx-text-fill: " + C_MUTED + ";" +
-            "-fx-border-color: " + C_BORDER + ";" +
-            "-fx-border-radius: 10; -fx-padding: 9 20 9 20;"
-        );
+        cancelBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: " + C_MUTED + "; -fx-border-color: " + C_BORDER + "; -fx-border-radius: 10; -fx-padding: 9 20 9 20;");
 
-        // ── Form fields ───────────────────────────────────────────
         VBox form = new VBox(14);
         form.setPadding(new Insets(20, 20, 8, 20));
         form.setPrefWidth(380);
 
-        // Judul form
         Label formTitle = new Label(isEdit ? "✏️  Edit Transaksi" : "➕  Transaksi Baru");
         formTitle.setFont(Font.font("System", FontWeight.BOLD, 16));
         formTitle.setTextFill(Color.web(C_TEXT));
         form.getChildren().add(formTitle);
 
-        // Deskripsi
         TextField txtDesc = buildInput("Deskripsi (Gaji, Makan Siang...)");
 
-        // Kategori
         ComboBox<String> cbKat = new ComboBox<>();
         cbKat.getItems().addAll("Income", "Outcome");
         cbKat.setMaxWidth(Double.MAX_VALUE);
         styleComboBox(cbKat);
 
-        // Pos alokasi (untuk Outcome)
         Label lblPos = buildFormLabel("Potong dari Pos Anggaran:");
         ComboBox<String> cbPos = new ComboBox<>();
         cbPos.getItems().addAll("Kebutuhan", "Keinginan");
@@ -378,32 +348,21 @@ public class TransaksiView extends VBox {
         cbPos.setMaxWidth(Double.MAX_VALUE);
         styleComboBox(cbPos);
 
-        // Nominal
         TextField txtNominal = buildInput("Nominal (contoh: 50000)");
 
-        // Tanggal
         DatePicker dp = new DatePicker();
         dp.setMaxWidth(Double.MAX_VALUE);
         dp.setValue(LocalDate.now());
-        dp.setStyle(
-            "-fx-background-color: " + BG_INPUT + ";" +
-            "-fx-border-color: " + C_BORDER + ";" +
-            "-fx-border-radius: 10; -fx-background-radius: 10;" +
-            "-fx-control-inner-background: " + BG_INPUT + ";" +
-            "-fx-text-fill: white;"
-        );
+        dp.setStyle("-fx-background-color: " + BG_INPUT + "; -fx-border-color: " + C_BORDER + "; -fx-border-radius: 10; -fx-background-radius: 10; -fx-control-inner-background: " + BG_INPUT + "; -fx-text-fill: white;");
 
-        // Visibility pos anggaran
         cbKat.valueProperty().addListener((o, ov, nv) -> {
             boolean out = nv != null && nv.equalsIgnoreCase("Outcome");
             lblPos.setVisible(out); lblPos.setManaged(out);
             cbPos.setVisible(out); cbPos.setManaged(out);
         });
 
-        // Pre-fill jika edit
         if (isEdit && lama != null) {
-            txtDesc.setText(lama.getDeskripsi()
-                .replace("[Kebutuhan] ", "").replace("[Keinginan] ", ""));
+            txtDesc.setText(lama.getDeskripsi().replace("[Kebutuhan] ", "").replace("[Keinginan] ", ""));
             cbKat.setValue(lama.getKategori());
             txtNominal.setText(String.format("%.0f", lama.getNominal()));
             cbPos.setValue(lama.getDeskripsi().contains("[Keinginan]") ? "Keinginan" : "Kebutuhan");
@@ -413,9 +372,7 @@ public class TransaksiView extends VBox {
             cbKat.setValue("Outcome");
         }
 
-        // Trigger visibility awal
-        boolean isOutcome = cbKat.getValue() != null &&
-            cbKat.getValue().equalsIgnoreCase("Outcome");
+        boolean isOutcome = cbKat.getValue() != null && cbKat.getValue().equalsIgnoreCase("Outcome");
         lblPos.setVisible(isOutcome); lblPos.setManaged(isOutcome);
         cbPos.setVisible(isOutcome); cbPos.setManaged(isOutcome);
 
@@ -427,7 +384,6 @@ public class TransaksiView extends VBox {
             buildFormLabel("Tanggal Transaksi:"), dp
         );
 
-        // ── Tombol Hapus (hanya mode edit) ───────────────────────
         if (isEdit && lama != null) {
             Separator lineSep = new Separator();
             lineSep.setStyle("-fx-background-color: " + C_BORDER + ";");
@@ -438,28 +394,19 @@ public class TransaksiView extends VBox {
             btnHapus.setPadding(new Insets(11));
             btnHapus.setFont(Font.font("System", FontWeight.BOLD, 13));
             btnHapus.setCursor(Cursor.HAND);
-            btnHapus.setStyle(
-                "-fx-background-color: rgba(247,43,176,0.08);" +
-                "-fx-border-color: " + C_PINK + ";" +
-                "-fx-border-radius: 10; -fx-background-radius: 10;" +
-                "-fx-text-fill: " + C_PINK + ";"
-            );
-            btnHapus.setOnMouseEntered(e ->
-                btnHapus.setStyle("-fx-background-color: rgba(247,43,176,0.18); -fx-border-color: " + C_PINK + "; -fx-border-radius: 10; -fx-background-radius: 10; -fx-text-fill: " + C_PINK + ";"));
-            btnHapus.setOnMouseExited(e ->
-                btnHapus.setStyle("-fx-background-color: rgba(247,43,176,0.08); -fx-border-color: " + C_PINK + "; -fx-border-radius: 10; -fx-background-radius: 10; -fx-text-fill: " + C_PINK + ";"));
+            btnHapus.setStyle("-fx-background-color: rgba(247,43,176,0.08); -fx-border-color: " + C_PINK + "; -fx-border-radius: 10; -fx-background-radius: 10; -fx-text-fill: " + C_PINK + ";");
 
-            final ModelTransaksi lamaFinal = lama;
+            final com.savio.model.ModelTransaksi lamaFinal = lama;
             btnHapus.setOnAction(e -> {
                 Alert konfirm = new Alert(Alert.AlertType.CONFIRMATION);
                 konfirm.setTitle("Konfirmasi Hapus");
                 konfirm.setHeaderText(null);
-                konfirm.setContentText("Hapus transaksi \"" +
-                    lamaFinal.getDeskripsi().replace("[Kebutuhan] ","").replace("[Keinginan] ","") + "\"?");
+                konfirm.setContentText("Hapus transaksi \"" + lamaFinal.getDeskripsi().replace("[Kebutuhan] ","").replace("[Keinginan] ","") + "\"?");
                 konfirm.getDialogPane().setStyle("-fx-background-color: " + BG_CARD + ";");
                 konfirm.showAndWait().ifPresent(r -> {
                     if (r == ButtonType.OK) {
                         daftarTransaksi.remove(lamaFinal);
+                        com.savio.config.KoneksiJSON.simpanDataKeJSON();
                         refreshDaftarTransaksi();
                         dialog.close();
                     }
@@ -470,7 +417,6 @@ public class TransaksiView extends VBox {
 
         dialog.getDialogPane().setContent(form);
 
-        // ── Proses OK ─────────────────────────────────────────────
         dialog.showAndWait().ifPresent(res -> {
             if (res != ButtonType.OK) return;
             try {
@@ -478,25 +424,64 @@ public class TransaksiView extends VBox {
                 double nominal  = Double.parseDouble(txtNominal.getText().trim().replace(".", "").replace(",", ""));
                 String kategori = cbKat.getValue();
                 String pos      = cbPos.getValue();
-                String tgl      = (dp.getValue() != null)
-                    ? dp.getValue().format(formatter)
-                    : LocalDate.now().format(formatter);
+                String tgl      = (dp.getValue() != null) ? dp.getValue().format(formatter) : LocalDate.now().format(formatter);
 
                 if (rawDesc.isEmpty() || nominal <= 0) return;
 
-                String descFinal = kategori.equalsIgnoreCase("Outcome")
-                    ? "[" + pos + "] " + rawDesc : rawDesc;
+                String descFinal = kategori.equalsIgnoreCase("Outcome") ? "[" + pos + "] " + rawDesc : rawDesc;
 
                 if (isEdit && lama != null) {
+                    // Balikkan efek saldo lama terlebih dahulu secara proporsional
+                    if (lama.getKategori().equalsIgnoreCase("Income")) {
+                        com.savio.model.DataDompet.SALDO_AKTIF.set(com.savio.model.DataDompet.SALDO_AKTIF.get() - lama.getNominal());
+                    } else {
+                        com.savio.model.DataDompet.SALDO_AKTIF.set(com.savio.model.DataDompet.SALDO_AKTIF.get() + lama.getNominal());
+                        if (lama.getDeskripsi().contains("[Keinginan]")) {
+                            com.savio.model.DataDompet.NOMINAL_KEINGINAN.set(com.savio.model.DataDompet.NOMINAL_KEINGINAN.get() + lama.getNominal());
+                        } else {
+                            com.savio.model.DataDompet.NOMINAL_KEBUTUHAN.set(com.savio.model.DataDompet.NOMINAL_KEBUTUHAN.get() + lama.getNominal());
+                        }
+                    }
+
+                    // Set nilai data ter-update
                     lama.setDeskripsi(descFinal);
                     lama.setKategori(kategori);
                     lama.setNominal(nominal);
                     lama.setTanggal(tgl);
+
+                    // Terapkan efek keuangan baru
+                    if (kategori.equalsIgnoreCase("Income")) {
+                        com.savio.model.DataDompet.SALDO_AKTIF.set(com.savio.model.DataDompet.SALDO_AKTIF.get() + nominal);
+                    } else {
+                        com.savio.model.DataDompet.SALDO_AKTIF.set(com.savio.model.DataDompet.SALDO_AKTIF.get() - nominal);
+                        if (pos.equalsIgnoreCase("Keinginan")) {
+                            com.savio.model.DataDompet.NOMINAL_KEINGINAN.set(com.savio.model.DataDompet.NOMINAL_KEINGINAN.get() - nominal);
+                        } else {
+                            com.savio.model.DataDompet.NOMINAL_KEBUTUHAN.set(com.savio.model.DataDompet.NOMINAL_KEBUTUHAN.get() - nominal);
+                        }
+                    }
                 } else {
-                    daftarTransaksi.add(0,
-                        new ModelTransaksi(UUID.randomUUID().toString(),
-                            descFinal, kategori, nominal, tgl));
+                    // MASUKKAN KE MODEL ASLI PROYEK (5 Parameter sesuai isi KoneksiJSON)
+                    com.savio.model.ModelTransaksi transaksiBaruObj = new com.savio.model.ModelTransaksi(
+                        UUID.randomUUID().toString(), descFinal, kategori, nominal, tgl
+                    );
+                    daftarTransaksi.add(0, transaksiBaruObj);
+
+                    // Jalankan efek kalkulasi saldo langsung
+                    if (kategori.equalsIgnoreCase("Income")) {
+                        com.savio.model.DataDompet.SALDO_AKTIF.set(com.savio.model.DataDompet.SALDO_AKTIF.get() + nominal);
+                    } else {
+                        com.savio.model.DataDompet.SALDO_AKTIF.set(com.savio.model.DataDompet.SALDO_AKTIF.get() - nominal);
+                        if (pos.equalsIgnoreCase("Keinginan")) {
+                            com.savio.model.DataDompet.NOMINAL_KEINGINAN.set(com.savio.model.DataDompet.NOMINAL_KEINGINAN.get() - nominal);
+                        } else {
+                            com.savio.model.DataDompet.NOMINAL_KEBUTUHAN.set(com.savio.model.DataDompet.NOMINAL_KEBUTUHAN.get() - nominal);
+                        }
+                    }
                 }
+                
+                // LOCK PATEN KE DATABASE JSON
+                com.savio.config.KoneksiJSON.simpanDataKeJSON();
                 refreshDaftarTransaksi();
             } catch (Exception ex) {
                 System.out.println("Gagal proses form: " + ex.getMessage());
@@ -513,11 +498,7 @@ public class TransaksiView extends VBox {
         btn.setTextFill(Color.web(C_TEXT));
         btn.setPadding(new Insets(10, 20, 10, 20));
         btn.setCursor(Cursor.HAND);
-        btn.setStyle(
-            "-fx-background-color: " + GRAD_BTN + ";" +
-            "-fx-background-radius: 11;" +
-            "-fx-border-width: 0;"
-        );
+        btn.setStyle("-fx-background-color: " + GRAD_BTN + "; -fx-background-radius: 11; -fx-border-width: 0;");
         return btn;
     }
 
@@ -532,32 +513,14 @@ public class TransaksiView extends VBox {
         TextField tf = new TextField();
         tf.setPromptText(prompt);
         tf.setFont(Font.font(13));
-        tf.setStyle(
-            "-fx-background-color: " + BG_INPUT + ";" +
-            "-fx-text-fill: white;" +
-            "-fx-prompt-text-fill: " + C_DIM + ";" +
-            "-fx-border-color: " + C_BORDER + ";" +
-            "-fx-border-radius: 10;" +
-            "-fx-background-radius: 10;" +
-            "-fx-padding: 11 14 11 14;"
-        );
+        tf.setStyle("-fx-background-color: " + BG_INPUT + "; -fx-text-fill: white; -fx-prompt-text-fill: " + C_DIM + "; -fx-border-color: " + C_BORDER + "; -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 11 14 11 14;");
         return tf;
     }
 
     private void styleComboBox(ComboBox<String> cb) {
-        cb.setStyle(
-            "-fx-background-color: " + BG_INPUT + ";" +
-            "-fx-text-fill: white;" +
-            "-fx-border-color: " + C_BORDER + ";" +
-            "-fx-border-radius: 10;" +
-            "-fx-background-radius: 10;" +
-            "-fx-padding: 4;"
-        );
+        cb.setStyle("-fx-background-color: " + BG_INPUT + "; -fx-text-fill: white; -fx-border-color: " + C_BORDER + "; -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 4;");
     }
 
-    // ═══════════════════════════════════════════════════════════
-    // IKON MAPPING
-    // ═══════════════════════════════════════════════════════════
     private String tentukanIkon(String desc, String kat) {
         String d = desc.toLowerCase();
         if (d.contains("gaji") || d.contains("bulanan") || d.contains("salary")) return "💼";
@@ -571,33 +534,5 @@ public class TransaksiView extends VBox {
         if (d.contains("hiburan") || d.contains("film") || d.contains("game")) return "🎮";
         if (d.contains("tabungan") || d.contains("saving")) return "🐷";
         return kat.equalsIgnoreCase("Income") ? "📥" : "💸";
-    }
-
-    // ═══════════════════════════════════════════════════════════
-    // SEED DATA DEMO
-    // ═══════════════════════════════════════════════════════════
-    private void seedDemoData() {
-        //
-    }
-
-    // ═══════════════════════════════════════════════════════════
-    // INNER MODEL CLASS (hapus ini jika sudah ada ModelTransaksi asli)
-    // ═══════════════════════════════════════════════════════════
-    public static class ModelTransaksi {
-        private String id, deskripsi, kategori, tanggal;
-        private double nominal;
-        public ModelTransaksi(String id, String deskripsi, String kategori, double nominal, String tanggal) {
-            this.id=id; this.deskripsi=deskripsi; this.kategori=kategori;
-            this.nominal=nominal; this.tanggal=tanggal;
-        }
-        public String getId() { return id; }
-        public String getDeskripsi() { return deskripsi; }
-        public String getKategori() { return kategori; }
-        public double getNominal() { return nominal; }
-        public String getTanggal() { return tanggal; }
-        public void setDeskripsi(String v) { deskripsi=v; }
-        public void setKategori(String v) { kategori=v; }
-        public void setNominal(double v) { nominal=v; }
-        public void setTanggal(String v) { tanggal=v; }
     }
 }

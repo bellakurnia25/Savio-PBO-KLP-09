@@ -329,9 +329,17 @@ public class AlokasiView extends VBox {
             return;
         }
 
+        // Simpan persentase ke model
         DataDompet.PERSEN_KEBUTUHAN.set(keb);
         DataDompet.PERSEN_KEINGINAN.set(kei);
         DataDompet.PERSEN_TABUNGAN.set(tab);
+
+        // Otomatis alokasikan nominal dana darurat dari income sesuai persentase
+        double nominalDanaDarurat = totalIncomeSaatIni * (tab / 100.0);
+        DataDompet.DANA_DARURAT.set(nominalDanaDarurat);
+
+        // Kalkulasi ulang agar SALDO_AKTIF menyesuaikan (income - outcome - dana_darurat)
+        DataDompet.kalkulasiUlang();
 
         // TULIS PERMANEN KE DATABASE JSON
         KoneksiJSON.simpanDataKeJSON();
@@ -339,8 +347,12 @@ public class AlokasiView extends VBox {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Sukses");
         alert.setHeaderText(null);
-        alert.setContentText("🎉 Hore! Rasio alokasi baru (" + keb + "/" + kei + "/" + tab + ") berhasil disimpan dan tersinkronisasi!");
+        alert.setContentText(
+            "🎉 Alokasi berhasil disimpan!\n" +
+            "Rasio: " + keb + "% / " + kei + "% / " + tab + "%\n" +
+            "Dana Darurat otomatis diisi: Rp " + String.format("%,.0f", nominalDanaDarurat)
+        );
         alert.getDialogPane().setStyle("-fx-background-color: #1A1D36;");
         alert.showAndWait();
     }
-}
+}

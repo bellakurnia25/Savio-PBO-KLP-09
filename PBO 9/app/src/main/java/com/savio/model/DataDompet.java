@@ -6,52 +6,68 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class DataDompet {
-    //tambah transaksi kas
-    public static final ObservableList<ModelTransaksi> LIST_TRANSAKSI = FXCollections.observableArrayList();
-
-    // Saldo murni
+    // 1. Variabel Utama (Sudah di-upgrade jadi Property agar Reaktif)
+    public static final DoubleProperty TOTAL_INCOME = new SimpleDoubleProperty(0.0);
+    public static final DoubleProperty TOTAL_OUTCOME = new SimpleDoubleProperty(0.0);
     public static final DoubleProperty SALDO_AKTIF = new SimpleDoubleProperty(0.0);
-    
-    // Kantong alokasi
-    public static final DoubleProperty NOMINAL_KEBUTUHAN = new SimpleDoubleProperty(0.0);
-    public static final DoubleProperty NOMINAL_KEINGINAN = new SimpleDoubleProperty(0.0);
-    
-    // Dana darurat awal
-    public static double DANA_DARURAT = 0.0;
+    public static final DoubleProperty DANA_DARURAT = new SimpleDoubleProperty(0.0);
 
-    //rasio alokasi persentase (50/30/20)
+    // 2. Variabel Alokasi Persentase
     public static final DoubleProperty PERSEN_KEBUTUHAN = new SimpleDoubleProperty(50.0);
     public static final DoubleProperty PERSEN_KEINGINAN = new SimpleDoubleProperty(30.0);
     public static final DoubleProperty PERSEN_TABUNGAN = new SimpleDoubleProperty(20.0);
 
-    //OTOMATISASI SAVIO:
+    // 3. Variabel Nominal (Ini yang dicari oleh DashboardView & AlokasiView agar tidak error!)
+    public static final DoubleProperty NOMINAL_KEBUTUHAN = new SimpleDoubleProperty(0.0);
+    public static final DoubleProperty NOMINAL_KEINGINAN = new SimpleDoubleProperty(0.0);
+    public static final DoubleProperty NOMINAL_TABUNGAN = new SimpleDoubleProperty(0.0);
 
-    public static void alokasikanPemasukanOtomatis(double jumlahIncome) {
-        double pKeb = PERSEN_KEBUTUHAN.get() / 100.0;
-        double pKei = PERSEN_KEINGINAN.get() / 100.0;
-        double pTab = PERSEN_TABUNGAN.get() / 100.0;
+    // 4. List Transaksi Global
+    public static final ObservableList<ModelTransaksi> LIST_TRANSAKSI = FXCollections.observableArrayList();
 
-        double jatahKebutuhan = jumlahIncome * pKeb;
-        double jatahKeinginan = jumlahIncome * pKei;
-        double jatahTabungan = jumlahIncome * pTab;
+    /**
+     * Mesin Back-End: Menghitung total income/outcome dan membagi nominal pos anggaran.
+     * SALDO_AKTIF = income - outcome - DANA_DARURAT (dana darurat sudah "dikunci", bukan bagian saldo bebas).
+     */
+    public static void kalkulasiUlang() {
+        double income = 0;
+        double outcome = 0;
 
-        // Distribusikan ke kantong pos reaktif
-        NOMINAL_KEBUTUHAN.set(NOMINAL_KEBUTUHAN.get() + jatahKebutuhan);
-        NOMINAL_KEINGINAN.set(NOMINAL_KEINGINAN.get() + jatahKeinginan);
-        
-      
-        DANA_DARURAT += jatahTabungan;
+        for (ModelTransaksi t : LIST_TRANSAKSI) {
+            if (t.getKategori().equalsIgnoreCase("Income")) {
+                income += t.getNominal();
+            } else if (t.getKategori().equalsIgnoreCase("Outcome")) {
+                outcome += t.getNominal();
+            }
+        }
 
-        // Saldo Aktif adalah gabungan nominal Kebutuhan + Keinginan yang bisa dibelanjakan
-        SALDO_AKTIF.set(SALDO_AKTIF.get() + (jatahKebutuhan + jatahKeinginan));
+        TOTAL_INCOME.set(income);
+        TOTAL_OUTCOME.set(outcome);
+
+        double nomKeb = income * (PERSEN_KEBUTUHAN.get() / 100.0);
+        double nomKei = income * (PERSEN_KEINGINAN.get() / 100.0);
+        double nomTab = income * (PERSEN_TABUNGAN.get() / 100.0);
+
+        NOMINAL_KEBUTUHAN.set(nomKeb);
+        NOMINAL_KEINGINAN.set(nomKei);
+        NOMINAL_TABUNGAN.set(nomTab);
+
+        // SALDO_AKTIF tidak termasuk dana darurat yang sudah dikunci
+        double sisaJatah = income - outcome - DANA_DARURAT.get();
+        SALDO_AKTIF.set(Math.max(0, sisaJatah));
     }
 
-    //SINKRONISASI KALKULASI PUSAT 
-    public static void kalkulasiPusat() {
-        System.out.println("🔄 [DataDompet] Kalkulasi pusat dijalankan secara aman.");
-    }
-
-    public static void refreshDataKalkulasiPusat() {
-        kalkulasiPusat();
+    public static void resetData() {
+        TOTAL_INCOME.set(0.0);
+        TOTAL_OUTCOME.set(0.0);
+        SALDO_AKTIF.set(0.0);
+        DANA_DARURAT.set(0.0);
+        PERSEN_KEBUTUHAN.set(50.0);
+        PERSEN_KEINGINAN.set(30.0);
+        PERSEN_TABUNGAN.set(20.0);
+        NOMINAL_KEBUTUHAN.set(0.0);
+        NOMINAL_KEINGINAN.set(0.0);
+        NOMINAL_TABUNGAN.set(0.0);
+        LIST_TRANSAKSI.clear();
     }
 }

@@ -181,7 +181,7 @@ public class LoginView extends StackPane {
         container.getChildren().addAll(icon, textContainer);
 
         if (showEye) {
-            Label eyeIcon = new Label("👁");
+            Label eyeIcon = new Label("");
             eyeIcon.setStyle("-fx-text-fill: #A0A4B8; -fx-font-size: 18px; -fx-cursor: hand;");
             container.getChildren().add(eyeIcon);
         }
@@ -235,7 +235,7 @@ public class LoginView extends StackPane {
             com.savio.model.DataDompet.SALDO_AKTIF.set(0.0);
             com.savio.model.DataDompet.NOMINAL_KEBUTUHAN.set(0.0);
             com.savio.model.DataDompet.NOMINAL_KEINGINAN.set(0.0);
-            com.savio.model.DataDompet.DANA_DARURAT = 0.0;
+            com.savio.model.DataDompet.DANA_DARURAT.set(0.0);
             com.savio.model.DataDompet.PERSEN_KEBUTUHAN.set(50.0);
             com.savio.model.DataDompet.PERSEN_KEINGINAN.set(30.0);
             com.savio.model.DataDompet.PERSEN_TABUNGAN.set(20.0);
