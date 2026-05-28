@@ -211,13 +211,13 @@ public class DashboardView extends VBox {
         lblTextInsight.setStyle("-fx-text-fill: #A0A4B8; -fx-font-size: 13px;");
         lblTextInsight.setWrapText(true);
         
-        HBox btnBoxInsight = new HBox();
-        btnBoxInsight.setAlignment(Pos.BOTTOM_RIGHT);
-        Button btnLihatAnalisis = new Button("Lihat Analisis");
-        btnLihatAnalisis.setStyle("-fx-background-color: transparent; -fx-border-color: #3B4262; -fx-border-radius: 6; -fx-text-fill: #A0A4B8; -fx-font-size: 11px; -fx-cursor: hand; -fx-padding: 5 10;");
-        btnBoxInsight.getChildren().add(btnLihatAnalisis);
+        // HBox btnBoxInsight = new HBox();
+        // btnBoxInsight.setAlignment(Pos.BOTTOM_RIGHT);
+        // Button btnLihatAnalisis = new Button("Lihat Analisis");
+        // btnLihatAnalisis.setStyle("-fx-background-color: transparent; -fx-border-color: #3B4262; -fx-border-radius: 6; -fx-text-fill: #A0A4B8; -fx-font-size: 11px; -fx-cursor: hand; -fx-padding: 5 10;");
+        // btnBoxInsight.getChildren().add(btnLihatAnalisis);
 
-        boxInsight.getChildren().addAll(headerInsight, lblTextInsight, btnBoxInsight);
+        boxInsight.getChildren().addAll(headerInsight, lblTextInsight);
 
 // --- BOX D: QUICK ACTION ---
         

@@ -1,3 +1,18 @@
 {
-  "users": []
+  "users": [
+    {
+      "email": "kurnia@gmail.com",
+      "nama_pengguna": "KURNIA",
+      "password_aktif": "123456",
+      "saldo_aktif": 0.0,
+      "nominal_kebutuhan": 0.0,
+      "nominal_keinginan": 0.0,
+      "dana_darurat": 0.0,
+      "persen_kebutuhan": 50.0,
+      "persen_keinginan": 30.0,
+      "persen_tabungan": 20.0,
+      "list_transaksi": [
+      ]
+    }
+  ]
 }

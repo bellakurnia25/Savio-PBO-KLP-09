@@ -2,7 +2,7 @@ package com.savio;
 
 import com.savio.view.LoginView;
 import com.savio.view.MainLayout;
-import com.savio.view.WelcomeView; // Pastikan WelcomeView ter-import sah
+import com.savio.view.WelcomeView;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -14,17 +14,17 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        
+
         // Hilangkan bingkai putih bawaan Windows (Undecorated)
         primaryStage.initStyle(StageStyle.UNDECORATED);
-        
-        // 🔥 INISIALISASI DATABASE JSON (hanya cek/buat file, bukan load data)
+
+        // Inisialisasi database JSON (hanya cek/buat file, bukan load data)
         // Data user baru akan dimuat di LoginView setelah user berhasil login
         com.savio.config.KoneksiJSON.inisialisasiDatabase();
-        
-        // KEMBALI KE SEMULA: Jalankan halaman Welcome/Splash Screen pertama kali!
+
+        // Jalankan halaman Welcome/Splash Screen pertama kali
         navigateToWelcome();
-        
+
         primaryStage.setTitle("SAVIO - Smart Finance, Better Life");
         primaryStage.setMinWidth(1150);
         primaryStage.setMinHeight(730);
@@ -32,7 +32,7 @@ public class MainApp extends Application {
     }
 
     /**
-     * Jalur Splash Screen / Welcome awal aplikasi kamu
+     * Jalur Splash Screen / Welcome awal aplikasi
      */
     public void navigateToWelcome() {
         WelcomeView welcomeView = new WelcomeView(this);
