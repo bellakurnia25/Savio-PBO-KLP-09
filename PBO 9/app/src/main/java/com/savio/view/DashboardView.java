@@ -19,6 +19,7 @@ public class DashboardView extends VBox {
     private final Label lblSaldoAtas;
     private final Label lblDaruratAtas;
     private final Label lblAlokasiAtas;
+    private final Label lblKebutuhanAtas;
     
     private final Label lblIncomeKanan;
     private final Label lblOutcomeKanan;
@@ -77,13 +78,17 @@ public class DashboardView extends VBox {
         VBox cardDarurat = buatKartuAtas("Dana Darurat (Terkunci)", "linear-gradient(to bottom right, #5A1A6B, #340D40)", "Aman dan tidak dapat digunakan", "🔒");
         lblDaruratAtas = (Label) cardDarurat.getChildren().get(1);
 
-        VBox cardAlokasi = buatKartuAtas("Saldo Keinginan Bulan Ini", "linear-gradient(to bottom right, #D97316, #B0550B)", "Dari total alokasi dana", "🥧");
+        VBox cardAlokasi = buatKartuAtas("Saldo Keinginan Bulan Ini", "linear-gradient(to bottom right, #D97316, #B0550B)", "Dari total alokasi dana", "☕");
         lblAlokasiAtas = (Label) cardAlokasi.getChildren().get(1);
+
+        VBox cardKebutuhan = buatKartuAtas("Saldo Kebutuhan Bulan Ini", "linear-gradient(to bottom right, #0E7E6B, #065A4A)", "Anggaran kebutuhan pokok", "🛒");
+        lblKebutuhanAtas = (Label) cardKebutuhan.getChildren().get(1);
 
         HBox.setHgrow(cardSaldo, Priority.ALWAYS); 
         HBox.setHgrow(cardDarurat, Priority.ALWAYS); 
         HBox.setHgrow(cardAlokasi, Priority.ALWAYS);
-        topCardsRow.getChildren().addAll(cardSaldo, cardDarurat, cardAlokasi);
+        HBox.setHgrow(cardKebutuhan, Priority.ALWAYS);
+        topCardsRow.getChildren().addAll(cardSaldo, cardDarurat, cardAlokasi, cardKebutuhan);
         this.getChildren().add(topCardsRow);
 
         // ==================== 3. BAGIAN TENGAH (ALOKASI & RINGKASAN) ====================
@@ -353,7 +358,8 @@ public class DashboardView extends VBox {
             // Tembak angka ke 3 Kartu Atas
             lblSaldoAtas.setText("Rp " + String.format("%,.0f", saldoActive));
             lblDaruratAtas.setText("Rp " + String.format("%,.0f", emergencyFund));
-            lblAlokasiAtas.setText("Rp " + String.format("%,.0f", nominalKei)); 
+            lblAlokasiAtas.setText("Rp " + String.format("%,.0f", nominalKei));
+            lblKebutuhanAtas.setText("Rp " + String.format("%,.0f", nominalKeb));
 
             // Teks persentase & nominal legenda (Tengah Kiri)
             lblLegendaKebutuhan.setText(String.format("Kebutuhan (%.0f%%)", pKeb));

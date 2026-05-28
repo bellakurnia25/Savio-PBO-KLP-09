@@ -29,8 +29,28 @@ import java.util.UUID;
  */
 public class KoneksiJSON {
 
-    // 🔥 PATH ABSOLUT: Disimpan di folder home user agar selalu bisa ditemukan
-    private static final String FILE_PATH = System.getProperty("user.home") + File.separator + "database_savio.json";
+    // Path database: prioritas ke src/main/resources (untuk development via Gradle),
+    // fallback ke folder home user jika path tersebut tidak bisa diakses (mode distribusi JAR).
+    private static final String FILE_PATH = resolveFilePath();
+
+    private static String resolveFilePath() {
+        // Saat dijalankan via Gradle, working directory (user.dir) adalah folder 'app'
+        String devPath = System.getProperty("user.dir")
+                + File.separator + "src"
+                + File.separator + "main"
+                + File.separator + "resources"
+                + File.separator + "database_savio.json";
+        File devFile = new File(devPath);
+        // Gunakan path development jika folder-nya ada (bisa ditulis)
+        if (devFile.getParentFile() != null && devFile.getParentFile().exists()) {
+            System.out.println("ℹ️ Database path (dev): " + devPath);
+            return devPath;
+        }
+        // Fallback ke home user untuk mode produksi / distribusi JAR
+        String homePath = System.getProperty("user.home") + File.separator + "database_savio.json";
+        System.out.println("ℹ️ Database path (home): " + homePath);
+        return homePath;
+    }
 
     /**
      * Muat data user yang sedang login ke memori DataDompet & DataSesi.
