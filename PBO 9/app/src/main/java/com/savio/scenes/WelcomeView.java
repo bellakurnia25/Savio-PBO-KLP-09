@@ -1,8 +1,9 @@
 package com.savio.scenes;
 
-import com.savio.utils.ColorPalette;
 import com.savio.MainApp;
 import com.savio.scenes.components.LogoSavio;
+import com.savio.utils.ColorPalette;
+
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.geometry.Insets;

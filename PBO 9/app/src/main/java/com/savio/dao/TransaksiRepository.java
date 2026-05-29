@@ -1,6 +1,6 @@
 package com.savio.dao;
 
-import com.savio.models.KomponenKeuangan;
+import com.savio.model.KomponenKeuangan;
 import java.util.ArrayList;
 import java.util.List;
 

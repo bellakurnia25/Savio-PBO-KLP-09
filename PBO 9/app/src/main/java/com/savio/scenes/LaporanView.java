@@ -1,8 +1,9 @@
-package com.savio.scenes;
+package com.savio.scenes; // Paket folder lamamu
 
+import com.savio.model.DataDompet;
+import com.savio.model.ModelTransaksi;
 import com.savio.utils.ColorPalette;
-import com.savio.models.DataDompet;
-import com.savio.models.ModelTransaksi;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;

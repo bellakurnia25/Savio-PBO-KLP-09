@@ -1,9 +1,10 @@
 package com.savio.scenes;
 
+import com.savio.model.DataDompet;
+import com.savio.model.ModelTransaksi;
 import com.savio.utils.ColorPalette;
-import com.savio.utils.DatabaseConfig;
-import com.savio.models.DataDompet;
-import com.savio.models.ModelTransaksi;
+import com.savio.utils.KoneksiJSON;
+
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -342,7 +343,7 @@ public class AlokasiView extends VBox {
         DataDompet.kalkulasiUlang();
 
         // TULIS PERMANEN KE DATABASE JSON
-        DatabaseConfig.simpanDataKeJSON();
+        KoneksiJSON.simpanDataKeJSON();
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Sukses");

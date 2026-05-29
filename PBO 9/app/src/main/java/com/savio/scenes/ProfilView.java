@@ -1,9 +1,10 @@
 package com.savio.scenes;
 
+import com.savio.model.DataDompet;
+import com.savio.model.DataSesi;
 import com.savio.utils.ColorPalette;
-import com.savio.utils.DatabaseConfig;
-import com.savio.models.DataDompet;
-import com.savio.models.DataSesi;
+import com.savio.utils.KoneksiJSON;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -141,7 +142,7 @@ public class ProfilView extends VBox {
                     lblInisial.setText(namaInput.substring(0, 1).toUpperCase());
                     
                     // 🔥 AUTO-SAVE NAMA BARU KE DATABASE JSON
-                    DatabaseConfig.simpanDataKeJSON();
+                    KoneksiJSON.simpanDataKeJSON();
                 }
             }
         });
@@ -181,7 +182,7 @@ public class ProfilView extends VBox {
                         DataSesi.setPasswordAktif(passBaruInput);
                         
                         // 🔥 AUTO-SAVE PASSWORD BARU KE DATABASE JSON
-                        DatabaseConfig.simpanDataKeJSON();
+                        KoneksiJSON.simpanDataKeJSON();
                         
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Sukses");

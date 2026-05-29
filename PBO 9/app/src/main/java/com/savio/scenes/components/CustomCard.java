@@ -1,6 +1,7 @@
 package com.savio.scenes.components;
 
 import com.savio.utils.ColorPalette;
+
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;

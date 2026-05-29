@@ -1,4 +1,4 @@
-package com.savio.models;
+package com.savio.model;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;

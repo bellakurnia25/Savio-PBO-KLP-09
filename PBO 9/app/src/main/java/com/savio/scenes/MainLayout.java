@@ -1,8 +1,9 @@
 package com.savio.scenes;
 
-import com.savio.utils.ColorPalette;
 import com.savio.MainApp;
 import com.savio.scenes.components.Sidebar;
+import com.savio.utils.ColorPalette;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;

@@ -1,4 +1,4 @@
-package com.savio.models;
+package com.savio.model;
 
 public class ModelTransaksi {
     private String id;

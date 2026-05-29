@@ -1,10 +1,11 @@
 package com.savio.scenes;
 
-import com.savio.utils.ColorPalette;
-import com.savio.utils.DatabaseConfig;
 import com.savio.MainApp;
-import com.savio.models.DataSesi;
+import com.savio.model.DataSesi;
 import com.savio.scenes.components.LogoSavio;
+import com.savio.utils.ColorPalette;
+import com.savio.utils.KoneksiJSON;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -212,16 +213,16 @@ public class LoginView extends StackPane {
         lblError.setManaged(false); lblError.setText("");
 
         if (isLoginMode) {
-            if (DatabaseConfig.verifikasiLoginSistem(usernameInput, passwordInput)) {
+            if (KoneksiJSON.verifikasiLoginSistem(usernameInput, passwordInput)) {
                 DataSesi.setUsernameAktif(usernameInput.toLowerCase());
                 DataSesi.setPasswordAktif(passwordInput);
-                DatabaseConfig.muatDataDariJSON();
+                KoneksiJSON.muatDataDariJSON();
                 mainApp.navigateToDashboard();
             } else {
                 tampilkanError("⚠️ Username atau password salah / belum terdaftar!");
             }
         } else {
-            if (DatabaseConfig.cekEmailSudahTerdaftar(usernameInput)) {
+            if (KoneksiJSON.cekEmailSudahTerdaftar(usernameInput)) {
                 tampilkanError("⚠️ Email ini sudah terdaftar! Silakan login.");
                 return;
             }
@@ -232,16 +233,16 @@ public class LoginView extends StackPane {
             DataSesi.setNamaPengguna((indexAt != -1) ? usernameInput.substring(0, indexAt).toUpperCase() : "USER");
 
             // Reset Data untuk User Baru
-            com.savio.models.DataDompet.SALDO_AKTIF.set(0.0);
-            com.savio.models.DataDompet.NOMINAL_KEBUTUHAN.set(0.0);
-            com.savio.models.DataDompet.NOMINAL_KEINGINAN.set(0.0);
-            com.savio.models.DataDompet.DANA_DARURAT.set(0.0);
-            com.savio.models.DataDompet.PERSEN_KEBUTUHAN.set(50.0);
-            com.savio.models.DataDompet.PERSEN_KEINGINAN.set(30.0);
-            com.savio.models.DataDompet.PERSEN_TABUNGAN.set(20.0);
-            com.savio.models.DataDompet.LIST_TRANSAKSI.clear();
+            com.savio.model.DataDompet.SALDO_AKTIF.set(0.0);
+            com.savio.model.DataDompet.NOMINAL_KEBUTUHAN.set(0.0);
+            com.savio.model.DataDompet.NOMINAL_KEINGINAN.set(0.0);
+            com.savio.model.DataDompet.DANA_DARURAT.set(0.0);
+            com.savio.model.DataDompet.PERSEN_KEBUTUHAN.set(50.0);
+            com.savio.model.DataDompet.PERSEN_KEINGINAN.set(30.0);
+            com.savio.model.DataDompet.PERSEN_TABUNGAN.set(20.0);
+            com.savio.model.DataDompet.LIST_TRANSAKSI.clear();
 
-            DatabaseConfig.simpanDataKeJSON();
+            KoneksiJSON.simpanDataKeJSON();
             
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Sukses");

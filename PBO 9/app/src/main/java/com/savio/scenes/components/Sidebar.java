@@ -1,7 +1,8 @@
 package com.savio.scenes.components;
 
-import com.savio.utils.ColorPalette;
 import com.savio.scenes.MainLayout;
+import com.savio.utils.ColorPalette;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
