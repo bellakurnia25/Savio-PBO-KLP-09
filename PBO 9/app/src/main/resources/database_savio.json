@@ -4,14 +4,21 @@
       "email": "kurnia@gmail.com",
       "nama_pengguna": "KURNIA",
       "password_aktif": "123456",
-      "saldo_aktif": 0.0,
-      "nominal_kebutuhan": 0.0,
-      "nominal_keinginan": 0.0,
-      "dana_darurat": 0.0,
+      "saldo_aktif": 2.0E7,
+      "nominal_kebutuhan": 1.25E7,
+      "nominal_keinginan": 7500000.0,
+      "dana_darurat": 5000000.0,
       "persen_kebutuhan": 50.0,
       "persen_keinginan": 30.0,
       "persen_tabungan": 20.0,
       "list_transaksi": [
+        {
+          "id": "567c7f10-33e7-4d6d-a221-d1896ed13bcd",
+          "deskripsi": "gaji",
+          "kategori": "Income",
+          "nominal": 2.5E7,
+          "tanggal": "29 May 2026"
+        }
       ]
     }
   ]

@@ -1,4 +1,4 @@
-package com.savio.model;
+package com.savio.models;
 
 public class User {
     private String nama;

@@ -1,4 +1,4 @@
-package com.savio.view.components;
+package com.savio.scenes.components;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

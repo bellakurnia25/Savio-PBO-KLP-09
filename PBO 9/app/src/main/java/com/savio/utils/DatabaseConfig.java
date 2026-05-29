@@ -1,8 +1,8 @@
-package com.savio.config;
+package com.savio.utils;
 
-import com.savio.model.DataDompet;
-import com.savio.model.DataSesi;
-import com.savio.model.ModelTransaksi;
+import com.savio.models.DataDompet;
+import com.savio.models.DataSesi;
+import com.savio.models.ModelTransaksi;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.util.Scanner;
 import java.util.UUID;
 
 /**
- * KoneksiJSON - Kelas utama pengelola database JSON untuk SAVIO.
+ * DatabaseConfig - Kelas utama pengelola database JSON untuk SAVIO.
  *
  * Format database (database_savio.json):
  * {
@@ -27,7 +27,7 @@ import java.util.UUID;
  *   ]
  * }
  */
-public class KoneksiJSON {
+public class DatabaseConfig {
 
     // Path database: prioritas ke src/main/resources (untuk development via Gradle),
     // fallback ke folder home user jika path tersebut tidak bisa diakses (mode distribusi JAR).

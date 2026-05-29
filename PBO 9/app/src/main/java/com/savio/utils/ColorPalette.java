@@ -1,4 +1,4 @@
-package com.savio.config;
+package com.savio.utils;
 
 /**
  * Kelas konstanta untuk menyimpan palet warna premium SAVIO.

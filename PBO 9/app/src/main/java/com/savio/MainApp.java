@@ -1,8 +1,8 @@
 package com.savio;
 
-import com.savio.view.LoginView;
-import com.savio.view.MainLayout;
-import com.savio.view.WelcomeView;
+import com.savio.scenes.LoginView;
+import com.savio.scenes.MainLayout;
+import com.savio.scenes.WelcomeView;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -20,7 +20,7 @@ public class MainApp extends Application {
 
         // Inisialisasi database JSON (hanya cek/buat file, bukan load data)
         // Data user baru akan dimuat di LoginView setelah user berhasil login
-        com.savio.config.KoneksiJSON.inisialisasiDatabase();
+        com.savio.utils.DatabaseConfig.inisialisasiDatabase();
 
         // Jalankan halaman Welcome/Splash Screen pertama kali
         navigateToWelcome();

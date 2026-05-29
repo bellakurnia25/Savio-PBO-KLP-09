@@ -1,4 +1,4 @@
-package com.savio.view;
+package com.savio.scenes;
 
 import javafx.beans.binding.Bindings;
 import javafx.geometry.*;
@@ -54,7 +54,7 @@ public class TransaksiView extends VBox {
         DateTimeFormatter.ofPattern("dd MMM yyyy");
 
     // ── MODEL REAKTIF SINKRON SAMA DENGAN DATABASE JSON ────────
-    private final javafx.collections.ObservableList<com.savio.model.ModelTransaksi> daftarTransaksi = com.savio.model.DataDompet.LIST_TRANSAKSI;
+    private final javafx.collections.ObservableList<com.savio.models.ModelTransaksi> daftarTransaksi = com.savio.models.DataDompet.LIST_TRANSAKSI;
 
     public TransaksiView() {
         this.setSpacing(0);
@@ -149,9 +149,9 @@ public class TransaksiView extends VBox {
     private void refreshDaftarTransaksi() {
         listContainer.getChildren().clear();
 
-        // Menggunakan tipe data model asli com.savio.model.ModelTransaksi secara total
-        List<com.savio.model.ModelTransaksi> filtered = new ArrayList<>();
-        for (com.savio.model.ModelTransaksi t : daftarTransaksi) {
+        // Menggunakan tipe data model asli com.savio.models.ModelTransaksi secara total
+        List<com.savio.models.ModelTransaksi> filtered = new ArrayList<>();
+        for (com.savio.models.ModelTransaksi t : daftarTransaksi) {
             if (filterAktif.equals("Semua") || t.getKategori().equalsIgnoreCase(filterAktif)) {
                 filtered.add(t);
             }
@@ -170,7 +170,7 @@ public class TransaksiView extends VBox {
         boolean firstGroup = true;
 
         for (int i = 0; i < filtered.size(); i++) {
-            com.savio.model.ModelTransaksi t = filtered.get(i);
+            com.savio.models.ModelTransaksi t = filtered.get(i);
 
             // ── Group header tanggal ─────────────────────────────
             if (!t.getTanggal().equals(prevTanggal)) {
@@ -206,7 +206,7 @@ public class TransaksiView extends VBox {
     // ═══════════════════════════════════════════════════════════
     // BARIS TRANSAKSI (PAKAI MODEL ASLI PROYEK)
     // ═══════════════════════════════════════════════════════════
-    private HBox buildTransaksiRow(com.savio.model.ModelTransaksi t) {
+    private HBox buildTransaksiRow(com.savio.models.ModelTransaksi t) {
         HBox row = new HBox(14);
         row.setAlignment(Pos.CENTER_LEFT);
         row.setPadding(new Insets(13, 20, 13, 20));
@@ -304,7 +304,7 @@ public class TransaksiView extends VBox {
     // ═══════════════════════════════════════════════════════════
     // POPUP FORM TAMBAH / EDIT (SINKRONISASI 5 PARAMETER ASLI)
     // ═══════════════════════════════════════════════════════════
-    private void bukaPopUpForm(boolean isEdit, com.savio.model.ModelTransaksi lama) {
+    private void bukaPopUpForm(boolean isEdit, com.savio.models.ModelTransaksi lama) {
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setTitle(isEdit ? "Edit Transaksi" : "Tambah Transaksi Baru");
 
@@ -396,7 +396,7 @@ public class TransaksiView extends VBox {
             btnHapus.setCursor(Cursor.HAND);
             btnHapus.setStyle("-fx-background-color: rgba(247,43,176,0.08); -fx-border-color: " + C_PINK + "; -fx-border-radius: 10; -fx-background-radius: 10; -fx-text-fill: " + C_PINK + ";");
 
-            final com.savio.model.ModelTransaksi lamaFinal = lama;
+            final com.savio.models.ModelTransaksi lamaFinal = lama;
             btnHapus.setOnAction(e -> {
                 Alert konfirm = new Alert(Alert.AlertType.CONFIRMATION);
                 konfirm.setTitle("Konfirmasi Hapus");
@@ -406,7 +406,7 @@ public class TransaksiView extends VBox {
                 konfirm.showAndWait().ifPresent(r -> {
                     if (r == ButtonType.OK) {
                         daftarTransaksi.remove(lamaFinal);
-                        com.savio.config.KoneksiJSON.simpanDataKeJSON();
+                        com.savio.utils.DatabaseConfig.simpanDataKeJSON();
                         refreshDaftarTransaksi();
                         dialog.close();
                     }
@@ -433,13 +433,13 @@ public class TransaksiView extends VBox {
                 if (isEdit && lama != null) {
                     // Balikkan efek saldo lama terlebih dahulu secara proporsional
                     if (lama.getKategori().equalsIgnoreCase("Income")) {
-                        com.savio.model.DataDompet.SALDO_AKTIF.set(com.savio.model.DataDompet.SALDO_AKTIF.get() - lama.getNominal());
+                        com.savio.models.DataDompet.SALDO_AKTIF.set(com.savio.models.DataDompet.SALDO_AKTIF.get() - lama.getNominal());
                     } else {
-                        com.savio.model.DataDompet.SALDO_AKTIF.set(com.savio.model.DataDompet.SALDO_AKTIF.get() + lama.getNominal());
+                        com.savio.models.DataDompet.SALDO_AKTIF.set(com.savio.models.DataDompet.SALDO_AKTIF.get() + lama.getNominal());
                         if (lama.getDeskripsi().contains("[Keinginan]")) {
-                            com.savio.model.DataDompet.NOMINAL_KEINGINAN.set(com.savio.model.DataDompet.NOMINAL_KEINGINAN.get() + lama.getNominal());
+                            com.savio.models.DataDompet.NOMINAL_KEINGINAN.set(com.savio.models.DataDompet.NOMINAL_KEINGINAN.get() + lama.getNominal());
                         } else {
-                            com.savio.model.DataDompet.NOMINAL_KEBUTUHAN.set(com.savio.model.DataDompet.NOMINAL_KEBUTUHAN.get() + lama.getNominal());
+                            com.savio.models.DataDompet.NOMINAL_KEBUTUHAN.set(com.savio.models.DataDompet.NOMINAL_KEBUTUHAN.get() + lama.getNominal());
                         }
                     }
 
@@ -451,37 +451,37 @@ public class TransaksiView extends VBox {
 
                     // Terapkan efek keuangan baru
                     if (kategori.equalsIgnoreCase("Income")) {
-                        com.savio.model.DataDompet.SALDO_AKTIF.set(com.savio.model.DataDompet.SALDO_AKTIF.get() + nominal);
+                        com.savio.models.DataDompet.SALDO_AKTIF.set(com.savio.models.DataDompet.SALDO_AKTIF.get() + nominal);
                     } else {
-                        com.savio.model.DataDompet.SALDO_AKTIF.set(com.savio.model.DataDompet.SALDO_AKTIF.get() - nominal);
+                        com.savio.models.DataDompet.SALDO_AKTIF.set(com.savio.models.DataDompet.SALDO_AKTIF.get() - nominal);
                         if (pos.equalsIgnoreCase("Keinginan")) {
-                            com.savio.model.DataDompet.NOMINAL_KEINGINAN.set(com.savio.model.DataDompet.NOMINAL_KEINGINAN.get() - nominal);
+                            com.savio.models.DataDompet.NOMINAL_KEINGINAN.set(com.savio.models.DataDompet.NOMINAL_KEINGINAN.get() - nominal);
                         } else {
-                            com.savio.model.DataDompet.NOMINAL_KEBUTUHAN.set(com.savio.model.DataDompet.NOMINAL_KEBUTUHAN.get() - nominal);
+                            com.savio.models.DataDompet.NOMINAL_KEBUTUHAN.set(com.savio.models.DataDompet.NOMINAL_KEBUTUHAN.get() - nominal);
                         }
                     }
                 } else {
-                    // MASUKKAN KE MODEL ASLI PROYEK (5 Parameter sesuai isi KoneksiJSON)
-                    com.savio.model.ModelTransaksi transaksiBaruObj = new com.savio.model.ModelTransaksi(
+                    // MASUKKAN KE MODEL ASLI PROYEK (5 Parameter sesuai isi DatabaseConfig)
+                    com.savio.models.ModelTransaksi transaksiBaruObj = new com.savio.models.ModelTransaksi(
                         UUID.randomUUID().toString(), descFinal, kategori, nominal, tgl
                     );
                     daftarTransaksi.add(0, transaksiBaruObj);
 
                     // Jalankan efek kalkulasi saldo langsung
                     if (kategori.equalsIgnoreCase("Income")) {
-                        com.savio.model.DataDompet.SALDO_AKTIF.set(com.savio.model.DataDompet.SALDO_AKTIF.get() + nominal);
+                        com.savio.models.DataDompet.SALDO_AKTIF.set(com.savio.models.DataDompet.SALDO_AKTIF.get() + nominal);
                     } else {
-                        com.savio.model.DataDompet.SALDO_AKTIF.set(com.savio.model.DataDompet.SALDO_AKTIF.get() - nominal);
+                        com.savio.models.DataDompet.SALDO_AKTIF.set(com.savio.models.DataDompet.SALDO_AKTIF.get() - nominal);
                         if (pos.equalsIgnoreCase("Keinginan")) {
-                            com.savio.model.DataDompet.NOMINAL_KEINGINAN.set(com.savio.model.DataDompet.NOMINAL_KEINGINAN.get() - nominal);
+                            com.savio.models.DataDompet.NOMINAL_KEINGINAN.set(com.savio.models.DataDompet.NOMINAL_KEINGINAN.get() - nominal);
                         } else {
-                            com.savio.model.DataDompet.NOMINAL_KEBUTUHAN.set(com.savio.model.DataDompet.NOMINAL_KEBUTUHAN.get() - nominal);
+                            com.savio.models.DataDompet.NOMINAL_KEBUTUHAN.set(com.savio.models.DataDompet.NOMINAL_KEBUTUHAN.get() - nominal);
                         }
                     }
                 }
                 
                 // LOCK PATEN KE DATABASE JSON
-                com.savio.config.KoneksiJSON.simpanDataKeJSON();
+                com.savio.utils.DatabaseConfig.simpanDataKeJSON();
                 refreshDaftarTransaksi();
             } catch (Exception ex) {
                 System.out.println("Gagal proses form: " + ex.getMessage());

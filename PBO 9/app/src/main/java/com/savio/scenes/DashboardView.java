@@ -1,8 +1,8 @@
-package com.savio.view;
+package com.savio.scenes;
 
-import com.savio.config.ColorPalette;
-import com.savio.model.DataDompet;
-import com.savio.model.DataSesi;
+import com.savio.utils.ColorPalette;
+import com.savio.models.DataDompet;
+import com.savio.models.DataSesi;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
@@ -160,13 +160,13 @@ public class DashboardView extends VBox {
         
         chartContent.getChildren().addAll(doughnutWrapper, legendaBox);
         
-        HBox bottomAlokasi = new HBox();
-        bottomAlokasi.setAlignment(Pos.BOTTOM_RIGHT);
-        Button btnDetailAlokasi = new Button("Lihat Detail");
-        btnDetailAlokasi.setStyle("-fx-background-color: transparent; -fx-border-color: #3B4262; -fx-border-radius: 6; -fx-text-fill: #A0A4B8; -fx-font-size: 11px; -fx-cursor: hand; -fx-padding: 5 10;");
-        bottomAlokasi.getChildren().add(btnDetailAlokasi);
+        // HBox bottomAlokasi = new HBox();
+        // bottomAlokasi.setAlignment(Pos.BOTTOM_RIGHT);
+        // Button btnDetailAlokasi = new Button("Lihat Detail");
+        // btnDetailAlokasi.setStyle("-fx-background-color: transparent; -fx-border-color: #3B4262; -fx-border-radius: 6; -fx-text-fill: #A0A4B8; -fx-font-size: 11px; -fx-cursor: hand; -fx-padding: 5 10;");
+        // bottomAlokasi.getChildren().add(btnDetailAlokasi);
 
-        boxAlokasi.getChildren().addAll(lblTitleAlokasi, chartContent, bottomAlokasi);
+        boxAlokasi.getChildren().addAll(lblTitleAlokasi, chartContent);
 
         // --- BOX B: RINGKASAN BULAN INI (Kanan) ---
         VBox boxRingkasan = new VBox(15);
@@ -210,25 +210,12 @@ public class DashboardView extends VBox {
         lblTextInsight = new Label("Mengkalkulasi tren penggunaan saku keuangan Anda...");
         lblTextInsight.setStyle("-fx-text-fill: #A0A4B8; -fx-font-size: 13px;");
         lblTextInsight.setWrapText(true);
-        
-        // HBox btnBoxInsight = new HBox();
-        // btnBoxInsight.setAlignment(Pos.BOTTOM_RIGHT);
-        // Button btnLihatAnalisis = new Button("Lihat Analisis");
-        // btnLihatAnalisis.setStyle("-fx-background-color: transparent; -fx-border-color: #3B4262; -fx-border-radius: 6; -fx-text-fill: #A0A4B8; -fx-font-size: 11px; -fx-cursor: hand; -fx-padding: 5 10;");
-        // btnBoxInsight.getChildren().add(btnLihatAnalisis);
 
         boxInsight.getChildren().addAll(headerInsight, lblTextInsight);
 
 // --- BOX D: QUICK ACTION ---
         
         // ------------------------------------
-
-        // HBox.setHgrow(btnAddIncome, Priority.ALWAYS);
-        // HBox.setHgrow(btnAddOutcome, Priority.ALWAYS);
-        // HBox.setHgrow(btnViewTrans, Priority.ALWAYS);
-        // actionsRow.getChildren().addAll(btnAddIncome, btnAddOutcome, btnViewTrans);
-        
-        // boxQuickAction.getChildren().addAll(lblQuickAction, actionsRow);
 
         bottomRow.getChildren().addAll(boxInsight);
         this.getChildren().add(bottomRow);
@@ -375,7 +362,7 @@ public class DashboardView extends VBox {
             double totalIncomeMurni = 0;
             double totalOutcomeMurni = 0;
 
-            for (com.savio.model.ModelTransaksi t : DataDompet.LIST_TRANSAKSI) {
+            for (com.savio.models.ModelTransaksi t : DataDompet.LIST_TRANSAKSI) {
                 if (t.getKategori().equalsIgnoreCase("Income")) {
                     totalIncomeMurni += t.getNominal();
                 } else if (t.getKategori().equalsIgnoreCase("Outcome")) {

@@ -1,4 +1,4 @@
-package com.savio.model;
+package com.savio.models;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;

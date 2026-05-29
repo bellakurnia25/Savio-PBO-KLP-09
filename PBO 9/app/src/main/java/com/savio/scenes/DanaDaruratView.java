@@ -1,7 +1,7 @@
-package com.savio.view;
+package com.savio.scenes;
 
-import com.savio.config.KoneksiJSON;
-import com.savio.model.DataDompet;
+import com.savio.utils.DatabaseConfig;
+import com.savio.models.DataDompet;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -83,7 +83,6 @@ public class DanaDaruratView extends ScrollPane {
         DataDompet.PERSEN_TABUNGAN.addListener((o, ov, nv) -> refreshTeksTarget());
         
         // Memastikan tampilan saldo selalu update jika ada perubahan model
-        // (Jika Anda punya property di model, Anda bisa binding, atau gunakan listener ini)
         btnTarik.setOnAction(e -> handleAksiDana("Isi Dana Darurat", true));
         btnCairkan.setOnAction(e -> handleAksiDana("Cairkan Dana Darurat", false));
     }
@@ -123,7 +122,7 @@ public class DanaDaruratView extends ScrollPane {
                 DataDompet.kalkulasiUlang();
 
                 // Simpan permanen perubahan nilai ke database JSON
-                com.savio.config.KoneksiJSON.simpanDataKeJSON();
+                DatabaseConfig.simpanDataKeJSON();
 
                 // Perbarui label angka visual di halaman Dana Darurat
                 lblTotalDarurat.setText("Rp " + String.format("%,.0f", DataDompet.DANA_DARURAT.get()));
