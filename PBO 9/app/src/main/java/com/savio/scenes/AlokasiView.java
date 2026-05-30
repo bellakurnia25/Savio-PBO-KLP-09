@@ -175,10 +175,33 @@ public class AlokasiView extends VBox {
         bottomRow.getChildren().addAll(infoCard, btnSimpan);
         this.getChildren().add(bottomRow);
 
-        sliderKebutuhan.valueProperty().addListener((o, ov, nv) -> updateSemuaUI());
-        sliderKeinginan.valueProperty().addListener((o, ov, nv) -> updateSemuaUI());
-        sliderTabungan.valueProperty().addListener((o, ov, nv) -> updateSemuaUI());
+        sliderTabungan.setDisable(true); 
 
+        sliderKebutuhan.valueProperty().addListener((o, ov, nv) -> {
+            double kebVal = Math.round(nv.doubleValue());
+            double keiVal = Math.round(sliderKeinginan.getValue());
+
+            if (kebVal + keiVal > 100) {
+                kebVal = 100 - keiVal;
+                sliderKebutuhan.setValue(kebVal);
+            }
+
+            sliderTabungan.setValue(100 - (kebVal + keiVal));
+            updateSemuaUI();
+        });
+
+        sliderKeinginan.valueProperty().addListener((o, ov, nv) -> {
+            double keiVal = Math.round(nv.doubleValue());
+            double kebVal = Math.round(sliderKebutuhan.getValue());
+
+            if (kebVal + keiVal > 100) {
+                keiVal = 100 - kebVal;
+                sliderKeinginan.setValue(keiVal);
+            }
+
+            sliderTabungan.setValue(100 - (kebVal + keiVal));
+            updateSemuaUI();
+        });
         updateSemuaUI();
     }
 
