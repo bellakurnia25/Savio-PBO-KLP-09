@@ -3,7 +3,7 @@ package com.savio.model;
 public class ModelTransaksi {
     private String id;
     private String deskripsi;
-    private String kategori; // Income, Kebutuhan, Keinginan
+    private String kategori;
     private double nominal;
     private String tanggal;
 
@@ -15,7 +15,6 @@ public class ModelTransaksi {
         this.tanggal = tanggal;
     }
 
-    // Properti Getter dan Setter untuk mendukung operasi CRUD & Enkapsulasi data
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
     

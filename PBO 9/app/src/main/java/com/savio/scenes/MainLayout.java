@@ -26,30 +26,24 @@ public class MainLayout extends HBox {
         this.mainApp = mainApp;
         this.setStyle("-fx-background-color: " + ColorPalette.BG_PRIMARY + ";");
 
-        // 1. MEMBUAT STRUKTUR KANAN TERLEBIH DAHULU (KONTROL ATAS + KONTEN TENGAH)
         VBox rightSideContainer = new VBox();
         HBox.setHgrow(rightSideContainer, Priority.ALWAYS);
 
-        // Buat Baris Tombol Kontrol Jendela Atas (—, ❑, ✕)
+        //Tombol Kontrol
         HBox windowControls = buatTombolKontrolJendela();
         
-        // Wadah Konten Tengah Dinamis
         contentArea = new StackPane();
         contentArea.setPadding(new Insets(10));
         VBox.setVgrow(contentArea, Priority.ALWAYS);
 
-        // Siapkan Halaman Awal Default
         this.dashboardView = new DashboardView(this);        contentArea.getChildren().setAll(dashboardView);
 
         rightSideContainer.getChildren().addAll(windowControls, contentArea);
 
-        // 2. MEMBUAT SIDEBAR KIRI (Mengirimkan 'this' MainLayout yang sudah siap)
         Sidebar sidebar = new Sidebar(this);
 
-        // 3. Satukan Sidebar dan Sisi Kanan ke dalam Layout Utama
         this.getChildren().addAll(sidebar, rightSideContainer);
 
-        // Logika Dragging Jendela lewat Top Bar Kontrol
         windowControls.setOnMousePressed(event -> {
             xOffset = event.getSceneX();
             yOffset = event.getSceneY();
@@ -61,30 +55,26 @@ public class MainLayout extends HBox {
         });
     }
 
-    /**
-     * Memproses perpindahan halaman tengah secara dinamis saat menu diklik.
-     */
     public void showView(String viewName) {
         switch (viewName) {
-            case "Dashboard":
+            case "🏠 Dashboard":
             case "Dasbor":
-                // KUNCI PERBAIKAN: Nama fungsi disesuaikan dengan DashboardView terbaru
                 dashboardView.refreshDataKalkulasiPusat();                setHalamanTengah(dashboardView);
                 break;
-            case "Transaksi":
+            case "🔁 Transaksi":
                 setHalamanTengah(new TransaksiView());
                 break;
-            case "Alokasi Dana":
+            case "📊 Alokasi Dana":
                 setHalamanTengah(new AlokasiView());
                 break;
-            case "Dana Darurat":
+            case "🔒 Dana Darurat":
                 setHalamanTengah(new DanaDaruratView());
                 break;
-            case "Laporan":
+            case "📈 Laporan":
                 setHalamanTengah(new LaporanView());
                 break;
-            case "Profil":
-            case "Profile":
+            case "👤 Profil":
+            case "👤 Profile":
                 setHalamanTengah(new ProfilView());
                 break;
             case "Keluar":
@@ -97,9 +87,6 @@ public class MainLayout extends HBox {
         contentArea.getChildren().setAll(viewBaru);
     }
 
-    /**
-     * Membuat bilah tombol aksi jendela kustom (—, ❑, ✕)
-     */
     private HBox buatTombolKontrolJendela() {
         HBox topBar = new HBox(5);
         topBar.setAlignment(Pos.CENTER_RIGHT);

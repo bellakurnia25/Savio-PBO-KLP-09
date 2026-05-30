@@ -6,29 +6,21 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class DataDompet {
-    // 1. Variabel Utama (Sudah di-upgrade jadi Property agar Reaktif)
     public static final DoubleProperty TOTAL_INCOME = new SimpleDoubleProperty(0.0);
     public static final DoubleProperty TOTAL_OUTCOME = new SimpleDoubleProperty(0.0);
     public static final DoubleProperty SALDO_AKTIF = new SimpleDoubleProperty(0.0);
     public static final DoubleProperty DANA_DARURAT = new SimpleDoubleProperty(0.0);
 
-    // 2. Variabel Alokasi Persentase
     public static final DoubleProperty PERSEN_KEBUTUHAN = new SimpleDoubleProperty(50.0);
     public static final DoubleProperty PERSEN_KEINGINAN = new SimpleDoubleProperty(30.0);
     public static final DoubleProperty PERSEN_TABUNGAN = new SimpleDoubleProperty(20.0);
 
-    // 3. Variabel Nominal (Ini yang dicari oleh DashboardView & AlokasiView agar tidak error!)
     public static final DoubleProperty NOMINAL_KEBUTUHAN = new SimpleDoubleProperty(0.0);
     public static final DoubleProperty NOMINAL_KEINGINAN = new SimpleDoubleProperty(0.0);
     public static final DoubleProperty NOMINAL_TABUNGAN = new SimpleDoubleProperty(0.0);
 
-    // 4. List Transaksi Global
     public static final ObservableList<ModelTransaksi> LIST_TRANSAKSI = FXCollections.observableArrayList();
 
-    /**
-     * Mesin Back-End: Menghitung total income/outcome dan membagi nominal pos anggaran.
-     * SALDO_AKTIF = income - outcome - DANA_DARURAT (dana darurat sudah "dikunci", bukan bagian saldo bebas).
-     */
     public static void kalkulasiUlang() {
         double income = 0;
         double outcome = 0;
@@ -52,7 +44,6 @@ public class DataDompet {
         NOMINAL_KEINGINAN.set(nomKei);
         NOMINAL_TABUNGAN.set(nomTab);
 
-        // SALDO_AKTIF tidak termasuk dana darurat yang sudah dikunci
         double sisaJatah = income - outcome - DANA_DARURAT.get();
         SALDO_AKTIF.set(Math.max(0, sisaJatah));
     }

@@ -26,7 +26,7 @@ public class LaporanView extends VBox {
     private final Label lblTotalIncome;
     private final Label lblTotalOutcome;
 
-    private int modeHari = 1; // Default awal: Bulanan (tidak dibagi)
+    private int modeHari = 1;
     private final Label lblTitleKeb;
     private final Label lblTitleKei;
 
@@ -35,11 +35,10 @@ public class LaporanView extends VBox {
         this.setPadding(new Insets(30));
         this.setStyle("-fx-background-color: " + ColorPalette.BG_PRIMARY + ";");
 
-        // ==================== HEADER HALAMAN ====================
+        //Header
         Label lblTitle = new Label("Analisis Batas Aman Kas 📈");
         lblTitle.setStyle("-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold;");
 
-        // 🔥 SEKARANG LENGKAP 3 TOMBOL NAVIGASI KAS
         HBox btnGroup = new HBox(10);
         Button btnHarian = new Button("Harian");
         Button btnMingguan = new Button("Mingguan");
@@ -48,7 +47,6 @@ public class LaporanView extends VBox {
         String styleActive = "-fx-background-color: " + ColorPalette.ACCENT_KEINGINAN + "; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand;";
         String styleInactive = "-fx-background-color: " + ColorPalette.BG_CARD + "; -fx-text-fill: #888888; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand;";
 
-        // Set default aktif awal di menu Bulanan
         btnHarian.setStyle(styleInactive);
         btnMingguan.setStyle(styleInactive);
         btnBulanan.setStyle(styleActive);
@@ -62,7 +60,7 @@ public class LaporanView extends VBox {
         topRow.getChildren().addAll(lblTitle, spacer, btnGroup);
         this.getChildren().add(topRow);
 
-        // ==================== PANEL RINGKASAN REALS ====================
+        //Row 1
         HBox summaryCard = new HBox(30);
         summaryCard.setPadding(new Insets(15, 20, 15, 20));
         summaryCard.setStyle("-fx-background-color: #1a153a; -fx-background-radius: 12; -fx-border-color: #2d2565; -fx-border-radius: 12;");
@@ -93,12 +91,11 @@ public class LaporanView extends VBox {
         HBox.setHgrow(outBox, Priority.ALWAYS);
         this.getChildren().add(summaryCard);
 
-        // ==================== KARTU NOTIFIKASI / STATUS ALARM ====================
+        //Row 2
         GridPane gridCards = new GridPane();
         gridCards.setHgap(15);
         gridCards.setVgap(15);
 
-        // 1. Kartu Pos Kebutuhan
         VBox cardKeb = new VBox(8);
         cardKeb.setPadding(new Insets(20));
         cardKeb.setStyle("-fx-background-color: " + ColorPalette.BG_CARD + "; -fx-background-radius: 12;");
@@ -114,7 +111,6 @@ public class LaporanView extends VBox {
         lblStatusKeb.setStyle("-fx-text-fill: #2ECC71; -fx-font-size: 12px; -fx-font-style: italic;");
         cardKeb.getChildren().addAll(lblTitleKeb, lblKeb, lblDetailBulananKeb, lblStatusKeb);
 
-        // 2. Kartu Pos Keinginan
         VBox cardKei = new VBox(8);
         cardKei.setPadding(new Insets(20));
         cardKei.setStyle("-fx-background-color: " + ColorPalette.BG_CARD + "; -fx-background-radius: 12;");
@@ -136,7 +132,6 @@ public class LaporanView extends VBox {
         GridPane.setHgrow(cardKei, Priority.ALWAYS);
         this.getChildren().add(gridCards);
 
-        // ==================== LOGIKA INTERAKSI AKSI KLIK TOMBOL ====================
         hitungBatasAman();
 
         btnHarian.setOnAction(e -> {
@@ -159,9 +154,8 @@ public class LaporanView extends VBox {
             hitungBatasAman();
         });
 
-        // 🔥 AKSI UNTUK TOMBOL BULANAN
         btnBulanan.setOnAction(e -> {
-            modeHari = 1; // Angka utuh tanpa dibagi jatah berkala
+            modeHari = 1;
             btnHarian.setStyle(styleInactive);
             btnMingguan.setStyle(styleInactive);
             btnBulanan.setStyle(styleActive);
@@ -192,7 +186,6 @@ public class LaporanView extends VBox {
         lblDetailBulananKeb.setText("Sisa saku bulanan asli: Rp " + String.format("%,.0f", sisaKebBulanan));
         lblDetailBulananKei.setText("Sisa saku bulanan asli: Rp " + String.format("%,.0f", sisaKeiBulanan));
 
-        // Kalkulasi pembagian dinamis
         double batasKeb = sisaKebBulanan / modeHari;
         double batasKei = sisaKeiBulanan / modeHari;
 
@@ -202,7 +195,6 @@ public class LaporanView extends VBox {
         lblKeb.setText("Rp " + String.format("%,.0f", batasKeb));
         lblKei.setText("Rp " + String.format("%,.0f", batasKei));
 
-        // Status Rem Keuangan
         if (sisaKebBulanan <= 0) {
             lblStatusKeb.setText("🚨 Jatah Kebutuhan HABIS! Stop pengeluaran!");
             lblStatusKeb.setStyle("-fx-text-fill: " + ColorPalette.TEXT_DANGER + "; -fx-font-size: 12px; -fx-font-weight: bold;");

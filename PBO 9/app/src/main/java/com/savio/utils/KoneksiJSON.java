@@ -11,51 +11,26 @@ import java.nio.file.Paths;
 import java.util.Scanner;
 import java.util.UUID;
 
-/**
- * KoneksiJSON - Kelas utama pengelola database JSON untuk SAVIO.
- *
- * Format database (database_savio.json):
- * {
- *   "users": [
- *     {
- *       "email": "user@example.com",
- *       "nama_pengguna": "USER",
- *       "password_aktif": "password123",
- *       "saldo_aktif": 0.0,
- *       ...
- *     }
- *   ]
- * }
- */
 public class KoneksiJSON {
 
-    // Path database: prioritas ke src/main/resources (untuk development via Gradle),
-    // fallback ke folder home user jika path tersebut tidak bisa diakses (mode distribusi JAR).
     private static final String FILE_PATH = resolveFilePath();
 
     private static String resolveFilePath() {
-        // Saat dijalankan via Gradle, working directory (user.dir) adalah folder 'app'
         String devPath = System.getProperty("user.dir")
                 + File.separator + "src"
                 + File.separator + "main"
                 + File.separator + "resources"
                 + File.separator + "database_savio.json";
         File devFile = new File(devPath);
-        // Gunakan path development jika folder-nya ada (bisa ditulis)
         if (devFile.getParentFile() != null && devFile.getParentFile().exists()) {
             System.out.println("ℹ️ Database path (dev): " + devPath);
             return devPath;
         }
-        // Fallback ke home user untuk mode produksi / distribusi JAR
         String homePath = System.getProperty("user.home") + File.separator + "database_savio.json";
         System.out.println("ℹ️ Database path (home): " + homePath);
         return homePath;
     }
 
-    /**
-     * Muat data user yang sedang login ke memori DataDompet & DataSesi.
-     * Dipanggil setelah DataSesi.setUsernameAktif() sudah di-set.
-     */
     public static void muatDataDariJSON() {
         String emailLogin = DataSesi.getUsernameAktif();
         if (emailLogin == null || emailLogin.trim().isEmpty()) {
@@ -65,9 +40,6 @@ public class KoneksiJSON {
         muatDataUserDariJSON(emailLogin.toLowerCase().trim());
     }
 
-    /**
-     * Muat data spesifik milik email tertentu.
-     */
     public static void muatDataUserDariJSON(String email) {
         File file = new File(FILE_PATH);
         if (!file.exists()) {
@@ -144,9 +116,7 @@ public class KoneksiJSON {
         }
     }
 
-    /**
-     * Verifikasi login: cek apakah email + password cocok di database.
-     */
+    //Verivikasi Login
     public static boolean verifikasiLoginSistem(String email, String password) {
         File file = new File(FILE_PATH);
         if (!file.exists()) return false;
@@ -162,9 +132,6 @@ public class KoneksiJSON {
         }
     }
 
-    /**
-     * Cek apakah email sudah terdaftar di database.
-     */
     public static boolean cekEmailSudahTerdaftar(String email) {
         File file = new File(FILE_PATH);
         if (!file.exists()) return false;
@@ -178,10 +145,6 @@ public class KoneksiJSON {
         }
     }
 
-    /**
-     * Simpan/Update data user yang sedang aktif ke database JSON.
-     * Mendukung multi-user: user lain tidak akan terhapus.
-     */
     public static void simpanDataKeJSON() {
         String emailAktif = DataSesi.getUsernameAktif();
         if (emailAktif == null || emailAktif.trim().isEmpty()) {
@@ -190,7 +153,6 @@ public class KoneksiJSON {
         }
         emailAktif = emailAktif.toLowerCase().trim();
 
-        // Bangun JSON blok user aktif
         String userAktifJson = buatJsonUser(emailAktif);
 
         File file = new File(FILE_PATH);
@@ -207,12 +169,10 @@ public class KoneksiJSON {
         jsonBaru.append("{\n  \"users\": [\n");
 
         if (isiLama.contains("\"users\":")) {
-            // File sudah ada dalam format multi-user baru
             int startArray = isiLama.indexOf("[", isiLama.indexOf("\"users\":"));
             int endArray = isiLama.lastIndexOf("]");
 
             if (startArray == -1 || endArray == -1) {
-                // Format tidak valid, tulis ulang dengan user aktif saja
                 jsonBaru.append(userAktifJson);
             } else {
                 String subArray = isiLama.substring(startArray + 1, endArray).trim();
@@ -229,12 +189,9 @@ public class KoneksiJSON {
 
                     String emailBlok = ekstrakNilaiString(blok, "email");
                     if (emailBlok.equalsIgnoreCase(emailAktif)) {
-                        // Ganti dengan data terbaru user aktif
                         jsonBaru.append(userAktifJson);
                         terupdate = true;
                     } else {
-                        // Pertahankan data user lain
-                        // Pastikan tidak ada trailing koma
                         String blokBersih = blok.replaceAll(",\\s*$", "").trim();
                         jsonBaru.append("    ").append(blokBersih);
                     }
@@ -246,7 +203,6 @@ public class KoneksiJSON {
                 }
             }
         } else {
-            // File baru / format lama — tulis hanya user aktif
             jsonBaru.append(userAktifJson);
         }
 
@@ -260,10 +216,6 @@ public class KoneksiJSON {
         }
     }
 
-    /**
-     * Inisialisasi awal aplikasi: hanya cek/buat file database jika belum ada.
-     * JANGAN load data di sini karena user belum login.
-     */
     public static void inisialisasiDatabase() {
         File file = new File(FILE_PATH);
         if (!file.exists()) {
@@ -272,8 +224,6 @@ public class KoneksiJSON {
             System.out.println("✅ Database ditemukan di: " + FILE_PATH);
         }
     }
-
-    // ==================== PRIVATE HELPER METHODS ====================
 
     private static String buatJsonUser(String email) {
         StringBuilder sb = new StringBuilder();
@@ -307,9 +257,6 @@ public class KoneksiJSON {
         return sb.toString();
     }
 
-    /**
-     * Memisahkan blok-blok user JSON menggunakan bracket counting.
-     */
     private static String[] pisahkanBlokUser(String subArray) {
         java.util.List<String> bloks = new java.util.ArrayList<>();
         int i = 0;
@@ -334,10 +281,6 @@ public class KoneksiJSON {
         return bloks.toArray(new String[0]);
     }
 
-    /**
-     * Ekstrak blok JSON milik user dengan email tertentu.
-     * Menggunakan bracket counting untuk presisi tinggi.
-     */
     private static String ekstrakBlokUser(String json, String email) {
         String target = "\"email\": \"" + email + "\"";
         int idx = json.indexOf(target);
@@ -378,13 +321,11 @@ public class KoneksiJSON {
             String target = "\"" + key + "\":";
             int start = json.indexOf(target);
             if (start == -1) {
-                // Coba dengan spasi setelah titik dua
                 target = "\"" + key + "\": ";
                 start = json.indexOf(target);
                 if (start == -1) return 0.0;
             }
             start += target.length();
-            // Lewati spasi
             while (start < json.length() && json.charAt(start) == ' ') start++;
             int end = start;
             while (end < json.length() && json.charAt(end) != ',' && json.charAt(end) != '}' && json.charAt(end) != '\n') {
@@ -402,13 +343,11 @@ public class KoneksiJSON {
             String target = "\"" + key + "\": \"";
             int start = json.indexOf(target);
             if (start == -1) {
-                // Coba tanpa spasi
                 target = "\"" + key + "\":\"";
                 start = json.indexOf(target);
                 if (start == -1) return "";
             }
             start += target.length();
-            // Cari penutup quote, dengan escape handling
             StringBuilder result = new StringBuilder();
             while (start < json.length()) {
                 char c = json.charAt(start);

@@ -2,7 +2,6 @@ package com.savio.scenes;
 
 import com.savio.model.DataDompet;
 import com.savio.model.ModelTransaksi;
-import com.savio.utils.ColorPalette;
 import com.savio.utils.KoneksiJSON;
 
 import javafx.application.Platform;
@@ -15,7 +14,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Arc;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.StrokeLineCap;
 
 public class AlokasiView extends VBox {
@@ -23,17 +21,14 @@ public class AlokasiView extends VBox {
     private final Slider sliderKeinginan;
     private final Slider sliderTabungan;
 
-    // Label Pct (Persentase Samping Slider)
     private final Label lblPctKeb;
     private final Label lblPctKei;
     private final Label lblPctTab;
 
-    // Label Rp (Nominal Samping Slider)
     private final Label lblRpKeb;
     private final Label lblRpKei;
     private final Label lblRpTab;
 
-    // Label Simulasi Kartu Bawah
     private final Label lblSimKebVal;
     private final Label lblSimKeiVal;
     private final Label lblSimTabVal;
@@ -41,7 +36,6 @@ public class AlokasiView extends VBox {
     private final Label lblSimKeiPct;
     private final Label lblSimTabPct;
 
-    // Donut Chart Arcs
     private final Arc arcKebutuhan;
     private final Arc arcKeinginan;
     private final Arc arcDarurat;
@@ -57,9 +51,9 @@ public class AlokasiView extends VBox {
         this.setStyle("-fx-background-color: #0F1123;"); // Background gelap utama
         this.setAlignment(Pos.TOP_LEFT);
 
-        hitungTotalIncome(); // Kalkulasi income sebelum render UI
+        hitungTotalIncome();
 
-        // ==================== 1. HEADER ====================
+        //Header
         VBox headerBox = new VBox(5);
         Label lblTitle = new Label("Atur Alokasi Dana");
         lblTitle.setStyle("-fx-text-fill: white; -fx-font-size: 26px; -fx-font-weight: bold;");
@@ -68,11 +62,10 @@ public class AlokasiView extends VBox {
         headerBox.getChildren().addAll(lblTitle, lblSub);
         this.getChildren().add(headerBox);
 
-        // ==================== 2. KONTEN ATAS (Sliders + Chart) ====================
+        //Row 1
         HBox topContent = new HBox(40);
         topContent.setAlignment(Pos.CENTER_LEFT);
 
-        // --- SISI KIRI: SLIDERS ---
         VBox slidersBox = new VBox(25);
         slidersBox.setPrefWidth(450);
         slidersBox.setAlignment(Pos.CENTER_LEFT);
@@ -91,14 +84,13 @@ public class AlokasiView extends VBox {
 
         slidersBox.getChildren().addAll(rowKeb, rowKei, rowTab);
 
-        // --- SISI KANAN: DONUT CHART ---
         VBox chartBox = new VBox();
         chartBox.setAlignment(Pos.CENTER);
         chartBox.setPrefSize(250, 250);
 
-        arcKebutuhan = buatArc("#4776f7");
-        arcKeinginan = buatArc("#c61d6f");
-        arcDarurat = buatArc("#f28c00");
+        arcKebutuhan = buatArc("#0E7E6B");
+        arcKeinginan = buatArc("#2e54a5");
+        arcDarurat = buatArc("#5A1A6B");
 
         Arc arcBg = new Arc(0, 0, 90, 90, 0, 360);
         arcBg.setFill(javafx.scene.paint.Color.TRANSPARENT);
@@ -123,7 +115,7 @@ public class AlokasiView extends VBox {
         topContent.getChildren().addAll(slidersBox, chartBox);
         this.getChildren().add(topContent);
 
-        // ==================== 3. KONTEN TENGAH (KARTU SIMULASI) ====================
+        //Row 2
         VBox midContent = new VBox(15);
         
         lblTitleSimulasi = new Label("Simulasi Alokasi (Berdasarkan Income Rp " + String.format("%,.0f", totalIncomeSaatIni) + ")");
@@ -132,7 +124,7 @@ public class AlokasiView extends VBox {
         HBox cardsRow = new HBox(15);
         
         lblSimKebVal = new Label(); lblSimKebPct = new Label();
-        VBox cardKeb = buatKartuSimulasi("Kebutuhan", lblSimKebPct, lblSimKebVal, "#4776f7");
+        VBox cardKeb = buatKartuSimulasi("Kebutuhan", lblSimKebPct, lblSimKebVal, "#0E7E6B");
         
         lblSimKeiVal = new Label(); lblSimKeiPct = new Label();
         VBox cardKei = buatKartuSimulasi("Keinginan", lblSimKeiPct, lblSimKeiVal, "#c61d6f");
@@ -148,11 +140,10 @@ public class AlokasiView extends VBox {
         midContent.getChildren().addAll(lblTitleSimulasi, cardsRow);
         this.getChildren().add(midContent);
 
-        // ==================== 4. KONTEN BAWAH (INFO & TOMBOL SIMPAN) ====================
+        //Row 3
         HBox bottomRow = new HBox(20);
         bottomRow.setAlignment(Pos.CENTER_LEFT);
 
-        // Info Darurat Terkunci
         HBox infoCard = new HBox(15);
         infoCard.setAlignment(Pos.CENTER_LEFT);
         infoCard.setPadding(new Insets(15, 20, 15, 20));
@@ -175,7 +166,6 @@ public class AlokasiView extends VBox {
 
         infoCard.getChildren().addAll(lockIconPane, infoText);
 
-        // Tombol Simpan
         Button btnSimpan = new Button("Simpan Alokasi");
         btnSimpan.setPrefHeight(60);
         btnSimpan.setPrefWidth(200);
@@ -185,12 +175,10 @@ public class AlokasiView extends VBox {
         bottomRow.getChildren().addAll(infoCard, btnSimpan);
         this.getChildren().add(bottomRow);
 
-        // ==================== EVENT LISTENERS ====================
         sliderKebutuhan.valueProperty().addListener((o, ov, nv) -> updateSemuaUI());
         sliderKeinginan.valueProperty().addListener((o, ov, nv) -> updateSemuaUI());
         sliderTabungan.valueProperty().addListener((o, ov, nv) -> updateSemuaUI());
 
-        // Jalankan update pertama kali agar sinkron
         updateSemuaUI();
     }
 
@@ -204,7 +192,7 @@ public class AlokasiView extends VBox {
     }
 
     private Arc buatArc(String hexWarna) {
-        Arc arc = new Arc(0, 0, 90, 90, 0, 0); // Ukuran radius 90 agar tebal
+        Arc arc = new Arc(0, 0, 90, 90, 0, 0);
         arc.setFill(javafx.scene.paint.Color.TRANSPARENT);
         arc.setStroke(javafx.scene.paint.Color.web(hexWarna));
         arc.setStrokeWidth(28);
@@ -219,7 +207,6 @@ public class AlokasiView extends VBox {
         slider.setBlockIncrement(1.0);
         slider.setMajorTickUnit(1.0);
         slider.setSnapToTicks(true);
-        // Style basic untuk slider, thumb diatur ke putih
         slider.setStyle("-fx-control-inner-background: #2D314A;"); 
         return slider;
     }
@@ -250,7 +237,6 @@ public class AlokasiView extends VBox {
     private VBox buatKartuSimulasi(String title, Label lblPct, Label lblVal, String hexBgColor) {
         VBox card = new VBox(10);
         card.setPadding(new Insets(20));
-        // Menggunakan opasitas (33 = 20%) untuk warna background kartu simulasi
         card.setStyle("-fx-background-color: " + hexBgColor + "33; -fx-background-radius: 12;");
         
         HBox header = new HBox(5);
@@ -278,7 +264,6 @@ public class AlokasiView extends VBox {
         double nomTab = totalIncomeSaatIni * (vTab / 100.0);
 
         Platform.runLater(() -> {
-            // Update Teks Samping Slider
             lblPctKeb.setText((int)vKeb + "%");
             lblRpKeb.setText("Rp " + String.format("%,.0f", nomKeb));
             lblPctKei.setText((int)vKei + "%");
@@ -286,7 +271,6 @@ public class AlokasiView extends VBox {
             lblPctTab.setText((int)vTab + "%");
             lblRpTab.setText("Rp " + String.format("%,.0f", nomTab));
 
-            // Update Kartu Simulasi Bawah
             lblSimKebPct.setText("(" + (int)vKeb + "%)");
             lblSimKebVal.setText("Rp " + String.format("%,.0f", nomKeb));
             lblSimKeiPct.setText("(" + (int)vKei + "%)");
@@ -294,7 +278,6 @@ public class AlokasiView extends VBox {
             lblSimTabPct.setText("(" + (int)vTab + "%)");
             lblSimTabVal.setText("Rp " + String.format("%,.0f", nomTab));
 
-            // Update Donut Chart
             if (totalPct > 0) {
                 double angleKeb = (vKeb / totalPct) * 360.0;
                 double angleKei = (vKei / totalPct) * 360.0;
@@ -330,19 +313,15 @@ public class AlokasiView extends VBox {
             return;
         }
 
-        // Simpan persentase ke model
         DataDompet.PERSEN_KEBUTUHAN.set(keb);
         DataDompet.PERSEN_KEINGINAN.set(kei);
         DataDompet.PERSEN_TABUNGAN.set(tab);
 
-        // Otomatis alokasikan nominal dana darurat dari income sesuai persentase
         double nominalDanaDarurat = totalIncomeSaatIni * (tab / 100.0);
         DataDompet.DANA_DARURAT.set(nominalDanaDarurat);
 
-        // Kalkulasi ulang agar SALDO_AKTIF menyesuaikan (income - outcome - dana_darurat)
         DataDompet.kalkulasiUlang();
 
-        // TULIS PERMANEN KE DATABASE JSON
         KoneksiJSON.simpanDataKeJSON();
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

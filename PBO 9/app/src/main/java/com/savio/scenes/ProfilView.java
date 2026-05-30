@@ -24,7 +24,6 @@ public class ProfilView extends VBox {
         this.setPadding(new Insets(30));
         this.setStyle("-fx-background-color: " + ColorPalette.BG_PRIMARY + ";");
 
-        // ==================== 1. HEADER HALAMAN ====================
         VBox headerBox = new VBox(5);
         Label lblTitle = new Label("Profil Pengguna 👤");
         lblTitle.setStyle("-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;");
@@ -34,11 +33,9 @@ public class ProfilView extends VBox {
         headerBox.getChildren().addAll(lblTitle, lblSub);
         this.getChildren().add(headerBox);
 
-        // ==================== 2. AREA UTAMA (KARTU PROFIL) ====================
         HBox mainContentRow = new HBox(30);
         mainContentRow.setAlignment(Pos.TOP_LEFT);
 
-        // --- KARTU KIRI: AVATAR VISUAL ---
         VBox avatarCard = new VBox(15);
         avatarCard.setAlignment(Pos.CENTER);
         avatarCard.setPadding(new Insets(35, 30, 35, 30));
@@ -63,7 +60,6 @@ public class ProfilView extends VBox {
 
         avatarCard.getChildren().addAll(avatarCircle, lblNamaUser);
 
-        // --- KARTU KANAN: RINCIAN INFORMASI AKUN + AKSI ---
         VBox infoCard = new VBox(15);
         infoCard.setPadding(new Insets(30));
         HBox.setHgrow(infoCard, Priority.ALWAYS);
@@ -86,7 +82,6 @@ public class ProfilView extends VBox {
         
         double totalSaldoLive = DataDompet.SALDO_AKTIF.get() + DataDompet.DANA_DARURAT.get();        infoCard.getChildren().add(buatBarisInfo("Total Aset Terpantau", "Rp " + String.format("%,.0f", totalSaldoLive)));
 
-        // Tombol Aksi Kustom Akun
         HBox actionButtonRow = new HBox(15);
         actionButtonRow.setPadding(new Insets(15, 0, 0, 0));
 
@@ -108,9 +103,6 @@ public class ProfilView extends VBox {
         btnUbahPassword.setOnAction(e -> aksiPopUpUbahPassword());
     }
 
-    /**
-     * Jendela Pop-up Edit Profil (Ganti Nama Pengguna)
-     */
     private void aksiPopUpUbahProfil() {
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setTitle("Ubah Profil");
@@ -140,8 +132,7 @@ public class ProfilView extends VBox {
                     lblValNama.setText(namaInput.toUpperCase());
                     lblNamaUser.setText(namaInput.toUpperCase());
                     lblInisial.setText(namaInput.substring(0, 1).toUpperCase());
-                    
-                    // 🔥 AUTO-SAVE NAMA BARU KE DATABASE JSON
+
                     KoneksiJSON.simpanDataKeJSON();
                 }
             }
@@ -181,7 +172,6 @@ public class ProfilView extends VBox {
                     if (passBaruInput.trim().length() >= 6) {
                         DataSesi.setPasswordAktif(passBaruInput);
                         
-                        // 🔥 AUTO-SAVE PASSWORD BARU KE DATABASE JSON
                         KoneksiJSON.simpanDataKeJSON();
                         
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);

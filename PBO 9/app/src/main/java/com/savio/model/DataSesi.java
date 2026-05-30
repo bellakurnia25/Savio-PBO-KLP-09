@@ -6,8 +6,7 @@ import javafx.beans.property.StringProperty;
 public class DataSesi {
     private static String usernameAktif = "";
     private static String passwordAktif = "";
-    
-    // Properti koneksi nama pengguna
+
     private static final StringProperty namaPenggunaProperty = new SimpleStringProperty("SAVIO");
 
     public static String getUsernameAktif() {
@@ -16,7 +15,6 @@ public class DataSesi {
 
     public static void setUsernameAktif(String username) {
         usernameAktif = username;
-        // Saat pertama kali login, set nama default diambil dari bagian depan email
         if (username != null && username.contains("@")) {
             setNamaPengguna(username.split("@")[0].toUpperCase());
         } else if (username != null) {
@@ -32,7 +30,6 @@ public class DataSesi {
         passwordAktif = password;
     }
 
-    // Getter untuk menyinkronkan nama di profil dan dashboard
     public static StringProperty namaPenggunaProperty() {
         return namaPenggunaProperty;
     }

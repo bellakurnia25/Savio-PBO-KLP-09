@@ -8,11 +8,9 @@ public class LogoSavio extends StackPane {
 
     public LogoSavio(double width, double height) {
         try {
-            // Mengambil gambar resmi dari folder resources proyek
             Image img = new Image(getClass().getResourceAsStream("/logo_savio.png"));
             ImageView imageView = new ImageView(img);
             
-            // Mengatur ukuran proporsional gambar tanpa merusak aspek rasio
             imageView.setFitWidth(width);
             imageView.setFitHeight(height);
             imageView.setPreserveRatio(true);

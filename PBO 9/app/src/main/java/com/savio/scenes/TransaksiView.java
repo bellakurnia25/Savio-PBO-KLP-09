@@ -1,48 +1,32 @@
 package com.savio.scenes;
 
-import javafx.beans.binding.Bindings;
 import javafx.geometry.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.*;
-import javafx.scene.shape.*;
 import javafx.scene.text.*;
 import javafx.scene.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-/**
- * TransaksiView — SAVIO Finance App
- * Drop-in replacement yang cocok dengan style SavioApp.
- * Semua logic bisnis & model dipertahankan dari kode original.
- */
 public class TransaksiView extends VBox {
 
-    // ── SAVIO COLOR PALETTE ────────────────────────────────────
     private static final String BG_MAIN    = "#0D0B1E";
     private static final String BG_CARD    = "#120E2E";
-    private static final String BG_SIDEBAR = "#0A0818";
-    private static final String BG_ROW     = "#1A1040";
     private static final String BG_INPUT   = "#0A0818";
     private static final String C_TEXT     = "white";
     private static final String C_MUTED    = "#A0A4B8";
     private static final String C_DIM      = "#6C7293";
     private static final String C_BORDER   = "#2D314A";
-    private static final String C_PRIMARY  = "#9B5CF6";
     private static final String C_PINK     = "#F72BB0";
     private static final String C_TEAL     = "#00D4AA";
     private static final String C_AMBER    = "#F28C00";
-    private static final String C_BLUE     = "#4B9EF5";
-    private static final String C_GREEN    = "#2ECC71";
     private static final String C_RED      = "#F72BB0";
 
     private static final String GRAD_BTN   =
         "linear-gradient(to right, #9B5CF6, #F72BB0)";
-    private static final String GRAD_PINK  =
-        "linear-gradient(to right, #D81B60, #8E24AA)";
 
-    // ── STATE ──────────────────────────────────────────────────
     private final VBox listContainer;
     private String filterAktif = "Semua";
 
@@ -53,7 +37,6 @@ public class TransaksiView extends VBox {
     private final DateTimeFormatter formatter =
         DateTimeFormatter.ofPattern("dd MMM yyyy");
 
-    // ── MODEL REAKTIF SINKRON SAMA DENGAN DATABASE JSON ────────
     private final javafx.collections.ObservableList<com.savio.model.ModelTransaksi> daftarTransaksi = com.savio.model.DataDompet.LIST_TRANSAKSI;
 
     public TransaksiView() {
@@ -61,7 +44,6 @@ public class TransaksiView extends VBox {
         this.setStyle("-fx-background-color: " + BG_MAIN + ";");
         this.setPrefWidth(750);
 
-        // ═══ KONTEN UTAMA (dengan ScrollPane) ════════════════
         ScrollPane scroll = new ScrollPane();
         scroll.setFitToWidth(true);
         scroll.setStyle("-fx-background: transparent; -fx-background-color: transparent; -fx-border-color: transparent;");
@@ -71,7 +53,6 @@ public class TransaksiView extends VBox {
         mainContent.setPadding(new Insets(28, 28, 28, 28));
         mainContent.setStyle("-fx-background-color: " + BG_MAIN + ";");
 
-        // ── Judul + Tombol Tambah ────────────────────────────
         HBox titleRow = new HBox();
         titleRow.setAlignment(Pos.CENTER_LEFT);
 
@@ -86,7 +67,6 @@ public class TransaksiView extends VBox {
 
         titleRow.getChildren().addAll(lblTitle, sp, btnTambah);
 
-        // ── Filter Tabs ──────────────────────────────────────
         HBox filterRow = new HBox(8);
         filterRow.setAlignment(Pos.CENTER_LEFT);
 
@@ -101,7 +81,6 @@ public class TransaksiView extends VBox {
         filterRow.getChildren().addAll(btnFilterSemua, btnFilterIncome, btnFilterOutcome);
         updateStyleFilter();
 
-        // ── List Container (Kartu Raksasa) ───────────────────
         listContainer = new VBox(0);
         listContainer.setStyle(
             "-fx-background-color: " + BG_CARD + ";" +
@@ -118,9 +97,6 @@ public class TransaksiView extends VBox {
         refreshDaftarTransaksi();
     }
 
-    // ═══════════════════════════════════════════════════════════
-    // FILTER
-    // ═══════════════════════════════════════════════════════════
     private Button buildFilterTab(String teks) {
         Button btn = new Button(teks);
         btn.setPadding(new Insets(7, 18, 7, 18));
@@ -143,13 +119,9 @@ public class TransaksiView extends VBox {
         btnFilterOutcome.setStyle(filterAktif.equals("Outcome") ? aktif : pasif);
     }
 
-    // ═══════════════════════════════════════════════════════════
-    // REFRESH LIST SINKRON DATABASE
-    // ═══════════════════════════════════════════════════════════
     private void refreshDaftarTransaksi() {
         listContainer.getChildren().clear();
 
-        // Menggunakan tipe data model asli com.savio.model.ModelTransaksi secara total
         List<com.savio.model.ModelTransaksi> filtered = new ArrayList<>();
         for (com.savio.model.ModelTransaksi t : daftarTransaksi) {
             if (filterAktif.equals("Semua") || t.getKategori().equalsIgnoreCase(filterAktif)) {
@@ -172,7 +144,6 @@ public class TransaksiView extends VBox {
         for (int i = 0; i < filtered.size(); i++) {
             com.savio.model.ModelTransaksi t = filtered.get(i);
 
-            // ── Group header tanggal ─────────────────────────────
             if (!t.getTanggal().equals(prevTanggal)) {
                 if (!firstGroup) {
                     Separator sep = new Separator();
@@ -194,7 +165,6 @@ public class TransaksiView extends VBox {
                 prevTanggal = t.getTanggal();
             }
 
-            // ── Baris transaksi ──────────────────────────────────
             HBox row = buildTransaksiRow(t);
             listContainer.getChildren().add(row);
         }
@@ -203,16 +173,12 @@ public class TransaksiView extends VBox {
         listContainer.getChildren().add(pad);
     }
 
-    // ═══════════════════════════════════════════════════════════
-    // BARIS TRANSAKSI (PAKAI MODEL ASLI PROYEK)
-    // ═══════════════════════════════════════════════════════════
     private HBox buildTransaksiRow(com.savio.model.ModelTransaksi t) {
         HBox row = new HBox(14);
         row.setAlignment(Pos.CENTER_LEFT);
         row.setPadding(new Insets(13, 20, 13, 20));
         row.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
 
-        // ── Ikon ─────────────────────────────────────────────────
         String iconColor = t.getKategori().equalsIgnoreCase("Income")
             ? "rgba(0,212,170,0.15)" : "rgba(247,43,176,0.12)";
         if (t.getDeskripsi().toLowerCase().contains("[keinginan]") ||
@@ -228,7 +194,6 @@ public class TransaksiView extends VBox {
         ico.setFont(Font.font(18));
         iconBox.getChildren().add(ico);
 
-        // ── Info ──────────────────────────────────────────────────
         String descClean = t.getDeskripsi()
             .replace("[Kebutuhan] ", "")
             .replace("[Keinginan] ", "");
@@ -249,7 +214,6 @@ public class TransaksiView extends VBox {
         VBox info = new VBox(3, descRow);
         HBox.setHgrow(info, Priority.ALWAYS);
 
-        // ── Nominal ───────────────────────────────────────────────
         boolean isIncome = t.getKategori().equalsIgnoreCase("Income");
         Label lblNominal = new Label(
             (isIncome ? "+" : "-") + "Rp " +
@@ -265,7 +229,6 @@ public class TransaksiView extends VBox {
 
         row.getChildren().addAll(iconBox, info, lblNominal, btnEdit);
 
-        // ── Interaksi ─────────────────────────────────────────────
         row.setOnMouseEntered(e -> {
             row.setStyle("-fx-background-color: rgba(155,92,246,0.08); -fx-cursor: hand;");
             btnEdit.setOpacity(1);
@@ -301,9 +264,6 @@ public class TransaksiView extends VBox {
         return chip;
     }
 
-    // ═══════════════════════════════════════════════════════════
-    // POPUP FORM TAMBAH / EDIT (SINKRONISASI 5 PARAMETER ASLI)
-    // ═══════════════════════════════════════════════════════════
     private void bukaPopUpForm(boolean isEdit, com.savio.model.ModelTransaksi lama) {
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setTitle(isEdit ? "Edit Transaksi" : "Tambah Transaksi Baru");
@@ -443,13 +403,11 @@ public class TransaksiView extends VBox {
                         }
                     }
 
-                    // Set nilai data ter-update
                     lama.setDeskripsi(descFinal);
                     lama.setKategori(kategori);
                     lama.setNominal(nominal);
                     lama.setTanggal(tgl);
 
-                    // Terapkan efek keuangan baru
                     if (kategori.equalsIgnoreCase("Income")) {
                         com.savio.model.DataDompet.SALDO_AKTIF.set(com.savio.model.DataDompet.SALDO_AKTIF.get() + nominal);
                     } else {
@@ -461,13 +419,11 @@ public class TransaksiView extends VBox {
                         }
                     }
                 } else {
-                    // MASUKKAN KE MODEL ASLI PROYEK (5 Parameter sesuai isi KoneksiJSON)
                     com.savio.model.ModelTransaksi transaksiBaruObj = new com.savio.model.ModelTransaksi(
                         UUID.randomUUID().toString(), descFinal, kategori, nominal, tgl
                     );
                     daftarTransaksi.add(0, transaksiBaruObj);
 
-                    // Jalankan efek kalkulasi saldo langsung
                     if (kategori.equalsIgnoreCase("Income")) {
                         com.savio.model.DataDompet.SALDO_AKTIF.set(com.savio.model.DataDompet.SALDO_AKTIF.get() + nominal);
                     } else {
@@ -480,7 +436,6 @@ public class TransaksiView extends VBox {
                     }
                 }
                 
-                // LOCK PATEN KE DATABASE JSON
                 com.savio.utils.KoneksiJSON.simpanDataKeJSON();
                 refreshDaftarTransaksi();
             } catch (Exception ex) {
@@ -489,9 +444,6 @@ public class TransaksiView extends VBox {
         });
     }
 
-    // ═══════════════════════════════════════════════════════════
-    // HELPERS UI
-    // ═══════════════════════════════════════════════════════════
     private Button buildPrimaryButton(String text) {
         Button btn = new Button(text);
         btn.setFont(Font.font("System", FontWeight.BOLD, 13));
