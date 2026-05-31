@@ -84,8 +84,8 @@ public class WelcomeView extends StackPane {
         
         LogoSavio brandLogo = new LogoSavio(200, 200); 
         
-        Label brandName = new Label("S A V I O");
-        brandName.setStyle("-fx-font-family: 'Times New Roman', serif; -fx-font-size: 50px; -fx-font-weight: bold; -fx-text-fill: white; -fx-letter-spacing: 5px;");
+        Label brandName = new Label("SAVIO");
+        brandName.setStyle("-fx-font-family: 'Segoe UI', Arial; -fx-font-size: 50px; -fx-font-weight: bold; -fx-text-fill: white; -fx-letter-spacing: 5px;");
         DropShadow glowName = new DropShadow(20, Color.web("#9B5CF6", 0.6));
         brandName.setEffect(glowName);
         VBox.setMargin(brandName, new Insets(-20, 0, -10, 0));
@@ -103,7 +103,7 @@ public class WelcomeView extends StackPane {
 
         Label lblTapAnywhere = new Label("TEKAN DI MANA SAJA UNTUK MELANJUTKAN");
         lblTapAnywhere.setTextAlignment(TextAlignment.CENTER);
-        lblTapAnywhere.setStyle("-fx-font-size: 20px; -fx-text-fill: #9000ad75; -fx-font-weight: bold; -fx-letter-spacing: 1.5px;");
+        lblTapAnywhere.setStyle("-fx-font-size: 10px; -fx-text-fill: #9000ad75; -fx-font-weight: bold; -fx-letter-spacing: 1.5px;");
         StackPane.setAlignment(lblTapAnywhere, Pos.BOTTOM_CENTER);
         StackPane.setMargin(lblTapAnywhere, new Insets(0, 0, 120, 0));
 
@@ -333,7 +333,7 @@ public class WelcomeView extends StackPane {
         c3.setFill(Color.TRANSPARENT);
         c3.setStroke(Color.web("#ffffff", 0.04));
 
-        circlesPane.getChildren().addAll(c3, c2, c1);
+        // circlesPane.getChildren().addAll(c3, c2, c1);
         return circlesPane;
     }
 
