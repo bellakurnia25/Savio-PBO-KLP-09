@@ -24,28 +24,46 @@ public class DataDompet {
     public static void kalkulasiUlang() {
         double income = 0;
         double outcome = 0;
+        double pengeluaranKebutuhan = 0;
+        double pengeluaranKeinginan = 0;
 
         for (ModelTransaksi t : LIST_TRANSAKSI) {
             if (t.getKategori().equalsIgnoreCase("Income")) {
                 income += t.getNominal();
             } else if (t.getKategori().equalsIgnoreCase("Outcome")) {
                 outcome += t.getNominal();
+
+                if (t.getDeskripsi().contains("[Keinginan]")) {
+                    pengeluaranKeinginan += t.getNominal();
+                } else {
+                    pengeluaranKebutuhan += t.getNominal();
+                }
             }
         }
 
         TOTAL_INCOME.set(income);
         TOTAL_OUTCOME.set(outcome);
 
-        double nomKeb = income * (PERSEN_KEBUTUHAN.get() / 100.0);
-        double nomKei = income * (PERSEN_KEINGINAN.get() / 100.0);
-        double nomTab = income * (PERSEN_TABUNGAN.get() / 100.0);
-
-        NOMINAL_KEBUTUHAN.set(nomKeb);
-        NOMINAL_KEINGINAN.set(nomKei);
-        NOMINAL_TABUNGAN.set(nomTab);
-
         double sisaJatah = income - outcome - DANA_DARURAT.get();
         SALDO_AKTIF.set(Math.max(0, sisaJatah));
+
+        double pKeb = PERSEN_KEBUTUHAN.get();
+        double pKei = PERSEN_KEINGINAN.get();
+        double pTab = PERSEN_TABUNGAN.get();
+
+        double jatahKebutuhanAwal = income * (pKeb / 100.0);
+        double jatahKeinginanAwal = income * (pKei / 100.0);
+        double targetDanaDarurat = income * (pTab / 100.0);
+
+        double actualDanaDarurat = DANA_DARURAT.get();
+        double selisihDarurat = targetDanaDarurat - actualDanaDarurat; 
+        
+        double tambahanKebutuhan = selisihDarurat;
+        double tambahanKeinginan = 0;
+
+        NOMINAL_KEBUTUHAN.set((jatahKebutuhanAwal + tambahanKebutuhan) - pengeluaranKebutuhan);
+        NOMINAL_KEINGINAN.set((jatahKeinginanAwal + tambahanKeinginan) - pengeluaranKeinginan);
+        NOMINAL_TABUNGAN.set(targetDanaDarurat);
     }
 
     public static void resetData() {

@@ -117,6 +117,16 @@ public class TransaksiView extends VBox {
             }
         }
 
+        filtered.sort((t1, t2) -> {
+            try {
+                LocalDate date1 = LocalDate.parse(t1.getTanggal(), formatter);
+                LocalDate date2 = LocalDate.parse(t2.getTanggal(), formatter);
+                return date2.compareTo(date1); 
+            } catch (Exception e) {
+                return 0;
+            }
+        });
+
         if (filtered.isEmpty()) {
             Label lbl = new Label("Belum ada catatan transaksi.");
             lbl.setFont(Font.font("System", FontWeight.NORMAL, 14));
@@ -167,12 +177,9 @@ public class TransaksiView extends VBox {
         row.setPadding(new Insets(13, 20, 13, 20));
         row.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
 
-        // PERUBAHAN WARNA ICON BOX
-        // Income = Tetap, Kebutuhan (Default Outcome) = Mengambil warna keinginan lama (Oranye)
         String iconColor = t.getKategori().equalsIgnoreCase("Income")
             ? "rgba(0,212,170,0.15)" : "rgba(242,140,0,0.15)"; 
             
-        // Keinginan = Menggunakan warna baru (#798EFA -> R:121, G:142, B:250)
         if (t.getDeskripsi().toLowerCase().contains("[keinginan]") ||
             t.getDeskripsi().toLowerCase().contains("nongkrong") ||
             t.getDeskripsi().toLowerCase().contains("belanja"))
@@ -239,13 +246,12 @@ public class TransaksiView extends VBox {
         chip.setFont(Font.font("System", FontWeight.NORMAL, 10));
         String chipColor, chipBg;
         
-        // PERUBAHAN WARNA CHIP
         if (kategori.equalsIgnoreCase("Income")) {
             chipColor = "#00D4AA";  chipBg = "rgba(0,212,170,0.12)";
         } else if (subKat.equalsIgnoreCase("Keinginan")) {
-            chipColor = "#798EFA"; chipBg = "rgba(121,142,250,0.12)"; // Warna Baru Keinginan
+            chipColor = "#798EFA"; chipBg = "rgba(121,142,250,0.12)";
         } else {
-            chipColor = "#F28C00"; chipBg = "rgba(242,140,0,0.12)";   // Warna Lama Keinginan Dipindah Ke Kebutuhan
+            chipColor = "#F28C00"; chipBg = "rgba(242,140,0,0.12)";
         }
         
         chip.setTextFill(Color.web(chipColor));
@@ -360,7 +366,6 @@ btnHapus.setOnAction(e -> {
                 konfirm.getDialogPane().setStyle("-fx-background-color: " + "#120E2E" + ";");
                 konfirm.showAndWait().ifPresent(r -> {
                     if (r == ButtonType.OK) {
-                        // --- TAMBAHAN FIX: Kembalikan saldo sebelum dihapus ---
                         if (lamaFinal.getKategori().equalsIgnoreCase("Income")) {
                             com.savio.model.DataDompet.SALDO_AKTIF.set(com.savio.model.DataDompet.SALDO_AKTIF.get() - lamaFinal.getNominal());
                         } else {
@@ -399,7 +404,6 @@ btnHapus.setOnAction(e -> {
                 String descFinal = kategori.equalsIgnoreCase("Outcome") ? "[" + pos + "] " + rawDesc : rawDesc;
 
                 if (isEdit && lama != null) {
-                    // Balikkan efek saldo lama terlebih dahulu secara proporsional
                     if (lama.getKategori().equalsIgnoreCase("Income")) {
                         com.savio.model.DataDompet.SALDO_AKTIF.set(com.savio.model.DataDompet.SALDO_AKTIF.get() - lama.getNominal());
                     } else {

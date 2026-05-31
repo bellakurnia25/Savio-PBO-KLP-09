@@ -46,7 +46,7 @@ public class LaporanView extends VBox {
         this.setStyle("-fx-background-color: " + "#0F1123" + ";");
 
         //Header
-Label lblTitle = new Label("Analisis Batas Aman Kas 📈");
+        Label lblTitle = new Label("Analisis Batas Aman Kas 📈");
         lblTitle.setStyle("-fx-text-fill: white; -fx-font-size: 26px; -fx-font-weight: bold;");
         
         Label lblSubTitle = new Label("Pantau sisa jatah harian, mingguan, atau bulananmu di sini.");

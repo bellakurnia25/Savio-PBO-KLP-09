@@ -124,13 +124,13 @@ public class AlokasiView extends VBox {
         HBox cardsRow = new HBox(15);
         
         lblSimKebVal = new Label(); lblSimKebPct = new Label();
-        VBox cardKeb = buatKartuSimulasi("Kebutuhan", lblSimKebPct, lblSimKebVal, "#0E7E6B");
+        VBox cardKeb = buatKartuSimulasi("Kebutuhan", lblSimKebPct, lblSimKebVal, "#b66700");
         
         lblSimKeiVal = new Label(); lblSimKeiPct = new Label();
-        VBox cardKei = buatKartuSimulasi("Keinginan", lblSimKeiPct, lblSimKeiVal, "#c61d6f");
+        VBox cardKei = buatKartuSimulasi("Keinginan", lblSimKeiPct, lblSimKeiVal, "#4759b1");
         
         lblSimTabVal = new Label(); lblSimTabPct = new Label();
-        VBox cardTab = buatKartuSimulasi("Dana Darurat", lblSimTabPct, lblSimTabVal, "#f28c00");
+        VBox cardTab = buatKartuSimulasi("Dana Darurat", lblSimTabPct, lblSimTabVal, "#b12463");
 
         HBox.setHgrow(cardKeb, Priority.ALWAYS);
         HBox.setHgrow(cardKei, Priority.ALWAYS);

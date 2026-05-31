@@ -1,85 +1,50 @@
 {
   "users": [
     {
-      "email": "kurnia@gmail.com",
-      "nama_pengguna": "KURNIA",
+      "email": "pbo9@gmail.com",
+      "nama_pengguna": "PBO9",
       "password_aktif": "123456",
-      "saldo_aktif": 2.0E7,
-      "nominal_kebutuhan": 1.25E7,
-      "nominal_keinginan": 7500000.0,
-      "dana_darurat": 5000000.0,
+      "saldo_aktif": 7903000.0,
+      "nominal_kebutuhan": 4943000.0,
+      "nominal_keinginan": 2960000.0,
+      "dana_darurat": 2000000.0,
       "persen_kebutuhan": 50.0,
       "persen_keinginan": 30.0,
       "persen_tabungan": 20.0,
       "list_transaksi": [
         {
-          "id": "9f72978c-4a4a-412d-bd8c-52559b7f3427",
-          "deskripsi": "gaji",
-          "kategori": "Income",
-          "nominal": 2.5E7,
-          "tanggal": "29 May 2026"
-        }
-      ]
-    },
-    {
-      "email": "manik@gmail.com",
-      "nama_pengguna": "MANIK",
-      "password_aktif": "manikrara",
-      "saldo_aktif": 1.9E7,
-      "nominal_kebutuhan": 1.15E7,
-      "nominal_keinginan": 7500000.0,
-      "dana_darurat": 5000000.0,
-      "persen_kebutuhan": 50.0,
-      "persen_keinginan": 30.0,
-      "persen_tabungan": 20.0,
-      "list_transaksi": [
-        {
-          "id": "550ee20f-b293-451c-aeb1-ff2b750e71ab",
-          "deskripsi": "[Kebutuhan] susu",
+          "id": "cf848091-d0e7-45e9-9779-c491fcae4411",
+          "deskripsi": "[Kebutuhan] Makan Siang",
           "kategori": "Outcome",
-          "nominal": 1000000.0,
+          "nominal": 20000.0,
           "tanggal": "29 May 2026"
         },
         {
-          "id": "7bb24162-012e-4a29-9ed7-96da7069d21a",
-          "deskripsi": "gaji mami",
-          "kategori": "Income",
-          "nominal": 2.5E7,
-          "tanggal": "29 May 2026"
-        }
-      ]
-    },
-    {
-      "email": "a@gmail.com",
-      "nama_pengguna": "ADMIN",
-      "password_aktif": "admin123",
-      "saldo_aktif": 1.9935E7,
-      "nominal_kebutuhan": 1.2475E7,
-      "nominal_keinginan": 7460000.0,
-      "dana_darurat": 5000000.0,
-      "persen_kebutuhan": 50.0,
-      "persen_keinginan": 30.0,
-      "persen_tabungan": 20.0,
-      "list_transaksi": [
+          "id": "8288ecbe-a598-4162-8246-4e958c04c925",
+          "deskripsi": "[Kebutuhan] Transportasi",
+          "kategori": "Outcome",
+          "nominal": 12000.0,
+          "tanggal": "01 Jun 2026"
+        },
         {
-          "id": "5afa259c-ea0f-4041-b795-6b6d4705d481",
+          "id": "9f692201-f5dd-4b1a-9682-5ca1ad7fe88a",
           "deskripsi": "[Keinginan] Nongkrong",
           "kategori": "Outcome",
           "nominal": 40000.0,
           "tanggal": "31 May 2026"
         },
         {
-          "id": "c499310e-88bc-48bd-9b22-ef9a3b35280d",
+          "id": "d3d80b93-2c27-4559-892a-395bd66b163f",
           "deskripsi": "[Kebutuhan] Makan Malam",
           "kategori": "Outcome",
           "nominal": 25000.0,
           "tanggal": "31 May 2026"
         },
         {
-          "id": "86a313a6-824b-4d15-9ffb-dc132e12a8ce",
+          "id": "10f5a2b0-c758-4481-bfe9-2b749222767e",
           "deskripsi": "Gaji",
           "kategori": "Income",
-          "nominal": 2.5E7,
+          "nominal": 1.0E7,
           "tanggal": "31 May 2026"
         }
       ]

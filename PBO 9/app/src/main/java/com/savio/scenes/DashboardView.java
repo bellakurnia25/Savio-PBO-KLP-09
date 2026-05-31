@@ -45,7 +45,7 @@ public class DashboardView extends VBox {
         this.mainLayout = mainLayout;
         this.setSpacing(20);
         this.setPadding(new Insets(25, 30, 25, 30));
-        this.setStyle("-fx-background-color: #0b0426;");
+        this.setStyle("-fx-background-color: #0F1123;");
 
         //Header
         HBox topRow = new HBox();
@@ -352,12 +352,5 @@ public class DashboardView extends VBox {
                 lblTextInsight.setText("Pengeluaran keinginanmu aman. Pertahankan alokasi bijak ini!");
             }
         });
-    }
-
-    @SuppressWarnings("unused")
-    private double kalkulasiSisaOutcome(double totalIncome, double keb, double kei) {
-        double jatahKebutuhanAwal = totalIncome * (DataDompet.PERSEN_KEBUTUHAN.get() / 100.0);
-        double jatahKeinginanAwal = totalIncome * (DataDompet.PERSEN_KEINGINAN.get() / 100.0);
-        return (jatahKebutuhanAwal - keb) + (jatahKeinginanAwal - kei);
     }
 }

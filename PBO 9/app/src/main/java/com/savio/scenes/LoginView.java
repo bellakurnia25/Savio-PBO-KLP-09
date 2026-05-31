@@ -5,6 +5,7 @@ import com.savio.model.DataSesi;
 import com.savio.scenes.components.LogoSavio;
 import com.savio.utils.KoneksiJSON;
 
+import javafx.animation.AnimationTimer;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -29,6 +30,11 @@ public class LoginView extends StackPane {
     private boolean isLoginMode = true;
     private double xOffset = 0;
     private double yOffset = 0;
+    
+    private double timeOffset = 0;
+    
+    // 1. Deklarasi di tingkat kelas agar bisa dihentikan di method lain
+    private AnimationTimer waveTimer;
 
     public LoginView(MainApp mainApp) {
         this.mainApp = mainApp;
@@ -37,19 +43,26 @@ public class LoginView extends StackPane {
         HBox mainRow = new HBox();
         mainRow.setAlignment(Pos.CENTER);
 
-        //Kiri
+        // Kiri
         StackPane leftStack = new StackPane();
         HBox.setHgrow(leftStack, Priority.ALWAYS);
         leftStack.setPrefWidth(280);
         leftStack.setStyle("-fx-background-color: #120B29;");
         javafx.scene.canvas.Canvas waveCanvas = new javafx.scene.canvas.Canvas(450, 700);
         javafx.scene.canvas.GraphicsContext gc = waveCanvas.getGraphicsContext2D();
-        drawWaveBackground(gc, 450, 700);
 
         waveCanvas.widthProperty().bind(leftStack.widthProperty());
         waveCanvas.heightProperty().bind(leftStack.heightProperty());
-        waveCanvas.widthProperty().addListener(e -> drawWaveBackground(gc, waveCanvas.getWidth(), waveCanvas.getHeight()));
-        waveCanvas.heightProperty().addListener(e -> drawWaveBackground(gc, waveCanvas.getWidth(), waveCanvas.getHeight()));
+        
+        // 2. Inisialisasi menggunakan instance variable kelas
+        waveTimer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                timeOffset += 0.005;
+                drawWaveBackground(gc, waveCanvas.getWidth(), waveCanvas.getHeight(), timeOffset);
+            }
+        };
+        waveTimer.start();
 
         VBox leftContent = new VBox(0);
         leftContent.setAlignment(Pos.CENTER);
@@ -68,7 +81,7 @@ public class LoginView extends StackPane {
         leftContent.getChildren().addAll(brandLogoLeft, lblBrandLeft, lblSloganLeft);
         leftStack.getChildren().addAll(waveCanvas, leftContent);
 
-        //Kanan
+        // Kanan
         VBox rightColumn = new VBox();
         rightColumn.setAlignment(Pos.CENTER);
         rightColumn.setPadding(new Insets(40, 60, 40, 60)); 
@@ -118,7 +131,7 @@ public class LoginView extends StackPane {
         
         mainRow.getChildren().addAll(leftStack, rightColumn); 
 
-        HBox windowControls = buatTombolKontrolJendela();
+        HBox windowControls = buatTomrolKontrolJendela();
         StackPane.setAlignment(windowControls, Pos.TOP_RIGHT);
         this.getChildren().addAll(mainRow, windowControls);
 
@@ -151,7 +164,7 @@ public class LoginView extends StackPane {
         btnAksiUtama.setOnAction(e -> handleLoginRegister());
     }
 
-    private void drawWaveBackground(javafx.scene.canvas.GraphicsContext gc, double w, double h) {
+    private void drawWaveBackground(javafx.scene.canvas.GraphicsContext gc, double w, double h, double time) {
         if (w <= 0 || h <= 0) return;
         gc.clearRect(0, 0, w, h);
 
@@ -161,53 +174,78 @@ public class LoginView extends StackPane {
         gc.setFill(bgGrad);
         gc.fillRect(0, 0, w, h);
 
+        // Ombak 1
         gc.setFill(new LinearGradient(0, 0, 0.5, 0.5, true, CycleMethod.NO_CYCLE,
             new Stop(0, Color.web("#D81B60")), new Stop(1, Color.web("#6A1B9A", 0.7))
         ));
         gc.beginPath();
         gc.moveTo(0, 0);
         gc.lineTo(w * 0.7, 0);
-        gc.bezierCurveTo(w * 0.3, h * 0.05, w * 0.15, h * 0.2, 0, h * 0.35);
+        gc.bezierCurveTo(
+            w * 0.3, h * 0.05 + Math.sin(time) * 15, 
+            w * 0.15, h * 0.2 + Math.cos(time * 0.8) * 20, 
+            0, h * 0.35 + Math.sin(time * 1.2) * 10
+        );
         gc.closePath();
         gc.fill();
 
+        // Ombak 2
         gc.setFill(new LinearGradient(0, 0, 0.5, 0.5, true, CycleMethod.NO_CYCLE,
             new Stop(0, Color.web("#3C1361")), new Stop(1, Color.web("#1B0A3A", 0.8))
         ));
         gc.beginPath();
         gc.moveTo(0, 0);
         gc.lineTo(w * 0.4, 0);
-        gc.bezierCurveTo(w * 0.15, h * 0.1, w * 0.05, h * 0.3, 0, h * 0.5);
+        gc.bezierCurveTo(
+            w * 0.15, h * 0.1 + Math.sin(time + 2) * 20, 
+            w * 0.05, h * 0.3 + Math.cos(time * 0.9) * 15, 
+            0, h * 0.5 + Math.sin(time * 1.1 + 1) * 10
+        );
         gc.closePath();
         gc.fill();
 
+        // Ombak 3
         gc.setFill(new LinearGradient(0, 1, 1, 0.5, true, CycleMethod.NO_CYCLE,
             new Stop(0, Color.web("#501166")), new Stop(1, Color.web("#1F0A3B", 0.8))
         ));
         gc.beginPath();
         gc.moveTo(0, h);
         gc.lineTo(0, h);
-        gc.bezierCurveTo(w * 0.3, h * 1.2, w * 0.6, h * 0.6, w, h * 0.45);
+        gc.bezierCurveTo(
+            w * 0.3, h * 1.2 + Math.cos(time * 0.7) * 25, 
+            w * 0.6, h * 0.6 + Math.sin(time * 0.8) * 25, 
+            w, h * 0.45 + Math.cos(time) * 15
+        );
         gc.lineTo(w, h);
         gc.closePath();
         gc.fill();
 
+        // Ombak 4
         gc.setFill(new LinearGradient(0, 1, 1, 0.6, true, CycleMethod.NO_CYCLE,
             new Stop(0, Color.web("#AD165B")), new Stop(1, Color.web("#681263", 0.9))
         ));
         gc.beginPath();
         gc.moveTo(w * 0.15, h);
-        gc.bezierCurveTo(w * 0.4, h * 0.9, w * 0.7, h * 0.7, w, h * 0.6);
+        gc.bezierCurveTo(
+            w * 0.4, h * 0.9 + Math.sin(time * 1.3) * 20, 
+            w * 0.7, h * 0.7 + Math.cos(time * 1.1) * 15, 
+            w, h * 0.6 + Math.sin(time * 0.9) * 10
+        );
         gc.lineTo(w, h);
         gc.closePath();
         gc.fill();
 
+        // Ombak 5
         gc.setFill(new LinearGradient(0.5, 1, 1, 0.7, true, CycleMethod.NO_CYCLE,
             new Stop(0, Color.web("#FF402B")), new Stop(1, Color.web("#FF9F1C"))
         ));
         gc.beginPath();
         gc.moveTo(w * 0.45, h);
-        gc.bezierCurveTo(w * 0.6, h * 0.95, w * 0.8, h * 0.85, w, h * 0.7);
+        gc.bezierCurveTo(
+            w * 0.6, h * 0.95 + Math.sin(time * 1.5 + 4) * 15, 
+            w * 0.8, h * 0.85 + Math.cos(time * 1.2 + 5) * 15, 
+            w, h * 0.7 + Math.cos(time * 1.4) * 10
+        );
         gc.lineTo(w, h);
         gc.closePath();
         gc.fill();
@@ -267,6 +305,12 @@ public class LoginView extends StackPane {
                 DataSesi.setUsernameAktif(usernameInput.toLowerCase());
                 DataSesi.setPasswordAktif(passwordInput);
                 KoneksiJSON.muatDataDariJSON();
+                
+                // 3. Menghentikan timer animasi gelombang agar hemat sumber daya CPU
+                if (waveTimer != null) {
+                    waveTimer.stop();
+                }
+                
                 mainApp.navigateToDashboard();
             } else {
                 tampilkanError("⚠️ Username atau password salah / belum terdaftar!");
@@ -306,7 +350,7 @@ public class LoginView extends StackPane {
         lblError.setManaged(true);
     }
 
-    private HBox buatTombolKontrolJendela() {
+    private HBox buatTomrolKontrolJendela() {
         HBox topBar = new HBox(5); topBar.setAlignment(Pos.CENTER_RIGHT); topBar.setPadding(new Insets(5, 10, 0, 0)); topBar.setMaxHeight(35);
         Button btnMinimize = new Button("—"); styleTombolWindow(btnMinimize, "#333333");
         btnMinimize.setOnAction(e -> ((Stage) this.getScene().getWindow()).setIconified(true));
