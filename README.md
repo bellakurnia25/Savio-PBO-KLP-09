@@ -1,6 +1,12 @@
 # Savio-PBO-KLP-09
 SAVIO – Smart Personal Finance Tracker
 ## 1. Apa itu SAVIO?
+
+Nama **SAVIO** dirancang sebagai representasi dua makna fungsional yang saling melengkapi (*double meaning*):
+* **Filosofis (Bahasa Italia):** Kata *Savio* berarti **"Bijaksana"** (*Wise* / *Clever*), melambangkan visi utama aplikasi ini untuk memandu pengguna agar bertindak cerdas dalam mengambil keputusan finansial.
+* **Fungsional (Bahasa Inggris):** Nama ini terinspirasi dari kata **"Saving"** atau **"Save"** yang merujuk pada aktivitas menabung, menyimpan, dan mengendalikan dana.
+Kombinasi tersebut menegaskan posisi SAVIO sebagai asisten pintar yang membantu mahasiswa dan anak muda untuk **mengelola, mengalokasikan, dan menata** keuangan mereka secara bijak, rapi, dan terstruktur.
+
 SAVIO (Smart Personal Finance Tracker) adalah aplikasi keuangan untuk mengelola keuangan pribadi yang dirancang untuk membantu pengguna mengatur pemasukan, pengeluaran, dan tabungan secara lebih teratur. Aplikasi ini ditujukan terutama bagi mahasiswa dan anak muda yang sering mengalami kesulitan dalam mengontrol keuangan sehari-hari.
 Aplikasi ini memungkinkan pengguna untuk mencatat pemasukan, pengeluaran, mengatur alokasi dana otomatis, memantau dana darurat, serta melihat laporan keuangan dalam satu sistem terintegrasi.
 SAVIO dibuat menggunakan konsep Object Oriented Programming (OOP) sehingga memiliki struktur kode yang modular, rapi, dan mudah dikembangkan.
