@@ -108,7 +108,7 @@ public class Sidebar extends VBox {
 
     private void setButtonToDefaultStyle(Button btn, String name) {
         if (name.equals("Keluar")) {
-            btn.setStyle("-fx-background-color: transparent; -fx-text-fill: " + ColorPalette.TEXT_DANGER + "; -fx-font-size: 14px; -fx-cursor: hand;");
+            btn.setStyle("-fx-background-color: transparent; -fx-text-fill: " + "#E74C3C" + "; -fx-font-size: 14px; -fx-cursor: hand;");
         } else {
             btn.setStyle("-fx-background-color: transparent; -fx-text-fill: " + ColorPalette.TEXT_MUTED + "; -fx-font-size: 14px; -fx-cursor: hand;");
         }

@@ -45,7 +45,7 @@ public class DashboardView extends VBox {
         this.mainLayout = mainLayout;
         this.setSpacing(20);
         this.setPadding(new Insets(25, 30, 25, 30));
-        this.setStyle("-fx-background-color: #0F1123;");
+        this.setStyle("-fx-background-color: #0b0426;");
 
         //Header
         HBox topRow = new HBox();
@@ -71,16 +71,16 @@ public class DashboardView extends VBox {
         HBox topCardsRow = new HBox(15);
         topCardsRow.setAlignment(Pos.CENTER_LEFT);
 
-        VBox cardSaldo = buatKartuAtas("Total Saldo Aktif", "linear-gradient(to bottom right, #0d155d, #1D2A6D)", "Saldo yang dapat digunakan", "");
+        VBox cardSaldo = buatKartuAtas("Total Saldo Aktif", "linear-gradient(to bottom right, #2E1566, #130f13)", "Saldo yang dapat digunakan", "");
         lblSaldoAtas = (Label) cardSaldo.getChildren().get(1);
 
-        VBox cardDarurat = buatKartuAtas("Dana Darurat (Terkunci)", "linear-gradient(to bottom right, #5A1A6B, #340D40)", "Aman dan tidak dapat digunakan", "🔒");
+        VBox cardDarurat = buatKartuAtas("Dana Darurat (Terkunci)", "linear-gradient(to bottom right, #68143a, #130f11)", "Aman dan tidak dapat digunakan", "🔒");
         lblDaruratAtas = (Label) cardDarurat.getChildren().get(1);
 
-        VBox cardAlokasi = buatKartuAtas("Saldo Keinginan Bulan Ini", "linear-gradient(to bottom right, #2e54a5, #245379)", "Dari total alokasi dana", "☕");
+        VBox cardAlokasi = buatKartuAtas("Saldo Keinginan Bulan Ini", "linear-gradient(to bottom right, #142163, #0f1013)", "Dari total alokasi dana", "☕");
         lblAlokasiAtas = (Label) cardAlokasi.getChildren().get(1);
 
-        VBox cardKebutuhan = buatKartuAtas("Saldo Kebutuhan Bulan Ini", "linear-gradient(to bottom right, #0E7E6B, #065A4A)", "Anggaran kebutuhan pokok", "🛒");
+        VBox cardKebutuhan = buatKartuAtas("Saldo Kebutuhan Bulan Ini", "linear-gradient(to bottom right, #75461b, #13120f)", "Anggaran kebutuhan pokok", "🛒");
         lblKebutuhanAtas = (Label) cardKebutuhan.getChildren().get(1);
 
         HBox.setHgrow(cardSaldo, Priority.ALWAYS); 
@@ -108,19 +108,19 @@ public class DashboardView extends VBox {
         
         arcKebutuhan = new Arc(0, 0, 70, 70, 90, 0);
         arcKebutuhan.setFill(javafx.scene.paint.Color.TRANSPARENT);
-        arcKebutuhan.setStroke(javafx.scene.paint.Color.web("#0E7E6B"));
+        arcKebutuhan.setStroke(javafx.scene.paint.Color.web("#b66700"));
         arcKebutuhan.setStrokeWidth(22);
         arcKebutuhan.setStrokeLineCap(StrokeLineCap.BUTT); 
 
         arcKeinginan = new Arc(0, 0, 70, 70, 0, 0);
         arcKeinginan.setFill(javafx.scene.paint.Color.TRANSPARENT);
-        arcKeinginan.setStroke(javafx.scene.paint.Color.web("#2e54a5"));
+        arcKeinginan.setStroke(javafx.scene.paint.Color.web("#4759b1"));
         arcKeinginan.setStrokeWidth(22);
         arcKeinginan.setStrokeLineCap(StrokeLineCap.BUTT);
 
         arcDarurat = new Arc(0, 0, 70, 70, 0, 0);
         arcDarurat.setFill(javafx.scene.paint.Color.TRANSPARENT);
-        arcDarurat.setStroke(javafx.scene.paint.Color.web("#5A1A6B"));
+        arcDarurat.setStroke(javafx.scene.paint.Color.web("#b12463"));
         arcDarurat.setStrokeWidth(22);
         arcDarurat.setStrokeLineCap(StrokeLineCap.BUTT);
 
@@ -139,15 +139,15 @@ public class DashboardView extends VBox {
         
         doughnutWrapper.getChildren().addAll(donutGroup, chartText);
 
-        VBox itemKeb = buatItemLegendaLengkap("Kebutuhan", "#0E7E6B"); 
+        VBox itemKeb = buatItemLegendaLengkap("Kebutuhan", "#FF8F00"); 
         lblLegendaKebutuhan = (Label) ((HBox) itemKeb.getChildren().get(0)).getChildren().get(1);
         lblValKebutuhan = (Label) itemKeb.getChildren().get(1);
 
-        VBox itemKei = buatItemLegendaLengkap("Keinginan", "#2e54a5"); 
+        VBox itemKei = buatItemLegendaLengkap("Keinginan", "#667ef7"); 
         lblLegendaKeinginan = (Label) ((HBox) itemKei.getChildren().get(0)).getChildren().get(1);
         lblValKeinginan = (Label) itemKei.getChildren().get(1);
 
-        VBox itemDar = buatItemLegendaLengkap("Dana Darurat", "#5A1A6B"); 
+        VBox itemDar = buatItemLegendaLengkap("Dana Darurat", "#E02B7D"); 
         lblLegendaDarurat = (Label) ((HBox) itemDar.getChildren().get(0)).getChildren().get(1);
         lblValDarurat = (Label) itemDar.getChildren().get(1);
 

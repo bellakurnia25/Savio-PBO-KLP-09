@@ -138,7 +138,7 @@ public class MainLayout extends HBox {
         alert.getButtonTypes().setAll(btnYa, btnTidak);
 
         javafx.scene.control.DialogPane dialogPane = alert.getDialogPane();
-        dialogPane.setStyle("-fx-background-color: " + ColorPalette.BG_CARD + "; -fx-border-color: " + ColorPalette.ACCENT_KEINGINAN + "; -fx-border-width: 2px; -fx-border-radius: 10px; -fx-background-radius: 10px;");
+        dialogPane.setStyle("-fx-background-color: " + ColorPalette.BG_CARD + "; -fx-border-color: " + "#d36f14" + "; -fx-border-width: 2px; -fx-border-radius: 10px; -fx-background-radius: 10px;");
         dialogPane.lookup(".content.label").setStyle("-fx-text-fill: white; -fx-font-size: 13px;");
         
         if (dialogPane.lookup(".header-panel .label") != null) {

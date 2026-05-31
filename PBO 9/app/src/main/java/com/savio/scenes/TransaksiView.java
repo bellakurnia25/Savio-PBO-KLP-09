@@ -167,12 +167,16 @@ public class TransaksiView extends VBox {
         row.setPadding(new Insets(13, 20, 13, 20));
         row.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
 
+        // PERUBAHAN WARNA ICON BOX
+        // Income = Tetap, Kebutuhan (Default Outcome) = Mengambil warna keinginan lama (Oranye)
         String iconColor = t.getKategori().equalsIgnoreCase("Income")
-            ? "rgba(0,212,170,0.15)" : "rgba(247,43,176,0.12)";
+            ? "rgba(0,212,170,0.15)" : "rgba(242,140,0,0.15)"; 
+            
+        // Keinginan = Menggunakan warna baru (#798EFA -> R:121, G:142, B:250)
         if (t.getDeskripsi().toLowerCase().contains("[keinginan]") ||
             t.getDeskripsi().toLowerCase().contains("nongkrong") ||
             t.getDeskripsi().toLowerCase().contains("belanja"))
-            iconColor = "rgba(242,140,0,0.15)";
+            iconColor = "rgba(121,142,250,0.15)";
 
         StackPane iconBox = new StackPane();
         iconBox.setPrefSize(42, 42);
@@ -234,13 +238,16 @@ public class TransaksiView extends VBox {
         Label chip = new Label(subKat);
         chip.setFont(Font.font("System", FontWeight.NORMAL, 10));
         String chipColor, chipBg;
+        
+        // PERUBAHAN WARNA CHIP
         if (kategori.equalsIgnoreCase("Income")) {
             chipColor = "#00D4AA";  chipBg = "rgba(0,212,170,0.12)";
         } else if (subKat.equalsIgnoreCase("Keinginan")) {
-            chipColor = "#F28C00"; chipBg = "rgba(242,140,0,0.12)";
+            chipColor = "#798EFA"; chipBg = "rgba(121,142,250,0.12)"; // Warna Baru Keinginan
         } else {
-            chipColor = "#9B5CF6"; chipBg = "rgba(155,92,246,0.12)";
+            chipColor = "#F28C00"; chipBg = "rgba(242,140,0,0.12)";   // Warna Lama Keinginan Dipindah Ke Kebutuhan
         }
+        
         chip.setTextFill(Color.web(chipColor));
         chip.setPadding(new Insets(2, 8, 2, 8));
         chip.setStyle(

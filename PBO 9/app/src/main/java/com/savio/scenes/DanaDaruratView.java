@@ -34,7 +34,7 @@ public class DanaDaruratView extends ScrollPane {
 
         VBox cardContent = new VBox(15);
         cardContent.setPadding(new Insets(30));
-        cardContent.setStyle("-fx-background-color: linear-gradient(to bottom right, #5A1A6B, #340D40); -fx-background-radius: 16;");
+        cardContent.setStyle("-fx-background-color: linear-gradient(to bottom right, #55102f, #24101a); -fx-background-radius: 16;");
 
         HBox vaultHeader = new HBox(10);
         Label lblIconVault = new Label("🔒");
@@ -49,7 +49,7 @@ public class DanaDaruratView extends ScrollPane {
         HBox actionRow = new HBox(15);
         Button btnTarik = new Button("📥 Isi Dana");
         Button btnCairkan = new Button("📤 Cairkan");
-        btnTarik.setStyle("-fx-background-color: white; -fx-text-fill: #73007e; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand; -fx-padding: 10 20;");
+        btnTarik.setStyle("-fx-background-color: white; -fx-text-fill: #6b143b); -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand; -fx-padding: 10 20;");
         btnCairkan.setStyle("-fx-background-color: transparent; -fx-border-color: white; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-border-radius: 8; -fx-cursor: hand; -fx-padding: 10 20;");
         
         HBox.setHgrow(btnTarik, Priority.ALWAYS); HBox.setHgrow(btnCairkan, Priority.ALWAYS);
@@ -63,7 +63,7 @@ public class DanaDaruratView extends ScrollPane {
         infoBox.setStyle("-fx-background-color: #1A1D36; -fx-background-radius: 16;");
 
         Label lblInfoT = new Label("💡 Mengapa Dana Darurat Penting?");
-        lblInfoT.setStyle("-fx-text-fill: #9700a5; -fx-font-size: 16px; -fx-font-weight: bold;");
+        lblInfoT.setStyle("-fx-text-fill: #a51c59; -fx-font-size: 16px; -fx-font-weight: bold;");
         lblTargetInfo = new Label();
         lblTargetInfo.setStyle("-fx-text-fill: #d2d4dd; -fx-font-size: 13px; -fx-line-spacing: 5px;");
         lblTargetInfo.setWrapText(true);
@@ -90,34 +90,33 @@ public class DanaDaruratView extends ScrollPane {
         dialog.setContentText("Masukkan Nominal (Rp):");
 
         dialog.showAndWait().ifPresent(input -> {
-            try {
-                double nominal = Double.parseDouble(input.trim());
-                if (nominal <= 0) throw new NumberFormatException();
+        try {
+            double nominal = Double.parseDouble(input.trim());
+            if (nominal <= 0) throw new NumberFormatException();
 
-                if (isTarik) {
-                    if (nominal > DataDompet.SALDO_AKTIF.get()) {
-                        tampilkanAlert("Saldo Kurang", "Saldo Aktif tidak mencukupi untuk dialokasikan!", Alert.AlertType.ERROR);
-                        return;
-                    }
-                    DataDompet.DANA_DARURAT.set(DataDompet.DANA_DARURAT.get() + nominal);
-                    tampilkanAlert("Sukses", "Uang berhasil dikunci di brankas Dana Darurat!", Alert.AlertType.INFORMATION);
-                } else {
-                    if (nominal > DataDompet.DANA_DARURAT.get()) {
-                        tampilkanAlert("Dana Kurang", "Nominal penarikan melebihi isi simpanan Dana Darurat Anda!", Alert.AlertType.ERROR);
-                        return;
-                    }
-                    DataDompet.DANA_DARURAT.set(DataDompet.DANA_DARURAT.get() - nominal);
-                    tampilkanAlert("Sukses", "Dana Darurat berhasil dicairkan ke Saldo Aktif!", Alert.AlertType.INFORMATION);
-                }
-
-                DataDompet.kalkulasiUlang();
-
-                com.savio.utils.KoneksiJSON.simpanDataKeJSON();
-
-                lblTotalDarurat.setText("Rp " + String.format("%,.0f", DataDompet.DANA_DARURAT.get()));
-
-            } catch (Exception ex) {
-                tampilkanAlert("Error", "Format nominal yang Anda masukkan tidak valid!", Alert.AlertType.ERROR);
+            if (isTarik) {
+                if (nominal > DataDompet.SALDO_AKTIF.get()) {
+                tampilkanAlert("Saldo Kurang", "Saldo Aktif tidak mencukupi untuk dialokasikan!", Alert.AlertType.ERROR);
+                return;
+            }
+            DataDompet.DANA_DARURAT.set(DataDompet.DANA_DARURAT.get() + nominal);
+            DataDompet.SALDO_AKTIF.set(DataDompet.SALDO_AKTIF.get() - nominal); 
+            tampilkanAlert("Sukses", "Uang berhasil dikunci di brankas Dana Darurat!", Alert.AlertType.INFORMATION);
+            
+            } else {
+                if (nominal > DataDompet.DANA_DARURAT.get()) {
+                tampilkanAlert("Dana Kurang", "Nominal penarikan melebihi isi simpanan Dana Darurat Anda!", Alert.AlertType.ERROR);
+                return;
+            }
+            DataDompet.DANA_DARURAT.set(DataDompet.DANA_DARURAT.get() - nominal);
+            DataDompet.SALDO_AKTIF.set(DataDompet.SALDO_AKTIF.get() + nominal);
+            DataDompet.NOMINAL_KEBUTUHAN.set(DataDompet.NOMINAL_KEBUTUHAN.get() + nominal);
+            tampilkanAlert("Sukses", "Dana Darurat berhasil dicairkan langsung ke Kantong Kebutuhan!", Alert.AlertType.INFORMATION);
+        }
+        com.savio.utils.KoneksiJSON.simpanDataKeJSON();
+        lblTotalDarurat.setText("Rp " + String.format("%,.0f", DataDompet.DANA_DARURAT.get()));
+        } catch (Exception ex) {
+        tampilkanAlert("Error", "Format nominal yang Anda masukkan tidak valid!", Alert.AlertType.ERROR);
             }
         });
     }

@@ -45,7 +45,7 @@ public class ProfilView extends VBox {
         StackPane avatarCircle = new StackPane();
         Circle circle = new Circle(50);
         circle.setFill(javafx.scene.paint.Color.web("#241468")); 
-        circle.setStroke(javafx.scene.paint.Color.web(ColorPalette.ACCENT_KEBUTUHAN));
+        circle.setStroke(javafx.scene.paint.Color.web("#0d7765"));
         circle.setStrokeWidth(2);
 
         String namaSaatIni = DataSesi.getNamaPengguna();
@@ -66,7 +66,7 @@ public class ProfilView extends VBox {
         infoCard.setStyle("-fx-background-color: " + ColorPalette.BG_CARD + "; -fx-background-radius: 16;");
 
         Label lblInfoTitle = new Label("Informasi Akun");
-        lblInfoTitle.setStyle("-fx-text-fill: " + ColorPalette.ACCENT_KEBUTUHAN + "; -fx-font-size: 18px; -fx-font-weight: bold; -fx-padding: 0 0 5 0;");
+        lblInfoTitle.setStyle("-fx-text-fill: " + "#0d7765" + "; -fx-font-size: 18px; -fx-font-weight: bold; -fx-padding: 0 0 5 0;");
         infoCard.getChildren().add(lblInfoTitle);
 
         VBox namaRow = new VBox(6);

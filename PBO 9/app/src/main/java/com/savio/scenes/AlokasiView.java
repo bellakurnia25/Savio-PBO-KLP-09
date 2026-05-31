@@ -78,9 +78,9 @@ public class AlokasiView extends VBox {
         sliderKeinginan = buatSliderKustom(DataDompet.PERSEN_KEINGINAN.get());
         sliderTabungan = buatSliderKustom(DataDompet.PERSEN_TABUNGAN.get());
 
-        HBox rowKeb = buatBarisSlider("Kebutuhan", sliderKebutuhan, lblPctKeb, lblRpKeb, "#4776f7");
-        HBox rowKei = buatBarisSlider("Keinginan", sliderKeinginan, lblPctKei, lblRpKei, "#c61d6f");
-        HBox rowTab = buatBarisSlider("Dana Darurat", sliderTabungan, lblPctTab, lblRpTab, "#f28c00");
+        HBox rowKeb = buatBarisSlider("Kebutuhan", sliderKebutuhan, lblPctKeb, lblRpKeb, "#b66700");
+        HBox rowKei = buatBarisSlider("Keinginan", sliderKeinginan, lblPctKei, lblRpKei, "#4759b1");
+        HBox rowTab = buatBarisSlider("Dana Darurat", sliderTabungan, lblPctTab, lblRpTab, "#b12463");
 
         slidersBox.getChildren().addAll(rowKeb, rowKei, rowTab);
 
@@ -88,9 +88,9 @@ public class AlokasiView extends VBox {
         chartBox.setAlignment(Pos.CENTER);
         chartBox.setPrefSize(250, 250);
 
-        arcKebutuhan = buatArc("#0E7E6B");
-        arcKeinginan = buatArc("#2e54a5");
-        arcDarurat = buatArc("#5A1A6B");
+        arcKebutuhan = buatArc("#b66700");
+        arcKeinginan = buatArc("#4759b1");
+        arcDarurat = buatArc("#b12463");
 
         Arc arcBg = new Arc(0, 0, 90, 90, 0, 360);
         arcBg.setFill(javafx.scene.paint.Color.TRANSPARENT);

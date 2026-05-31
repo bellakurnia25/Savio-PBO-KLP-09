@@ -108,7 +108,7 @@ Label lblTitle = new Label("Analisis Batas Aman Kas 📈");
         lblStatusKeb = new Label("Aman");
         chipStatusKeb = buatChipStatus(lblStatusKeb, "#2ECC71");
         fillKeb = new Region();
-        trackKeb = buatProgressBar(fillKeb, "#0E7E6B");
+        trackKeb = buatProgressBar(fillKeb, "#b66700");
         VBox cardKeb = buatKartuDetail(lblTitleKeb, lblKeb, trackKeb, lblDetailBulananKeb, chipStatusKeb, "🛒");
 
         lblTitleKei = new Label("Sisa Jatah Keinginan (Bulan Ini)");
