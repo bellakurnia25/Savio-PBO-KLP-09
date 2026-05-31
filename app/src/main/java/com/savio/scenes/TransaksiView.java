@@ -388,6 +388,44 @@ btnHapus.setOnAction(e -> {
             form.getChildren().addAll(lineSep, btnHapus);
         }
 
+        okBtn.addEventFilter(javafx.event.ActionEvent.ACTION, event -> {
+            try {
+                String inputText = txtNominal.getText().trim().replace(".", "").replace(",", "");
+                if (inputText.isEmpty()) return;
+                
+                double nominalInput = Double.parseDouble(inputText);
+                String kategori = cbKat.getValue();
+                String pos = cbPos.getValue();
+
+                if (kategori != null && kategori.equalsIgnoreCase("Outcome") && pos != null) {
+                    double saldoTersedia = 0;
+                    if (pos.equalsIgnoreCase("Keinginan")) {
+                        saldoTersedia = com.savio.model.DataDompet.NOMINAL_KEINGINAN.get();
+                        if (isEdit && lama != null && !lama.getKategori().equalsIgnoreCase("Income") && lama.getDeskripsi().contains("[Keinginan]")) {
+                            saldoTersedia += lama.getNominal();
+                        }
+                    } else if (pos.equalsIgnoreCase("Kebutuhan")) {
+                        saldoTersedia = com.savio.model.DataDompet.NOMINAL_KEBUTUHAN.get();
+                        if (isEdit && lama != null && !lama.getKategori().equalsIgnoreCase("Income") && lama.getDeskripsi().contains("[Kebutuhan]")) {
+                            saldoTersedia += lama.getNominal();
+                        }
+                    }
+
+                    if (nominalInput > saldoTersedia) {
+                        Alert alertError = new Alert(Alert.AlertType.ERROR);
+                        alertError.setTitle("Saldo Tidak Mencukupi");
+                        alertError.setHeaderText(null);
+                        alertError.setContentText("Transaksi dibatalkan! Nominal melebihi sisa kantong " + pos + ".\nSisa maksimal yang bisa ditarik: Rp " + String.format("%,.0f", saldoTersedia));
+                        alertError.getDialogPane().setStyle("-fx-background-color: #120E2E; -fx-border-color: #F72BB0; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-radius: 10;");
+                        alertError.getDialogPane().lookup(".content.label").setStyle("-fx-text-fill: white; -fx-font-weight: bold;");
+                        
+                        alertError.showAndWait();
+                        event.consume(); 
+                    }
+                }
+            } catch (NumberFormatException ex) {
+            }
+        });
         dialog.getDialogPane().setContent(form);
 
         dialog.showAndWait().ifPresent(res -> {
