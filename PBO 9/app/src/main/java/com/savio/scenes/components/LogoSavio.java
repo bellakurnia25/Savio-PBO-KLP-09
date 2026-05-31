@@ -7,7 +7,6 @@ import javafx.scene.layout.StackPane;
 public class LogoSavio extends StackPane {
 
     public LogoSavio(double width, double height) {
-        try {
             Image img = new Image(getClass().getResourceAsStream("/logo_savio.png"));
             ImageView imageView = new ImageView(img);
             
@@ -17,12 +16,5 @@ public class LogoSavio extends StackPane {
             imageView.setSmooth(true);
             
             this.getChildren().add(imageView);
-        } catch (Exception e) {
-            // Sistem pengaman cadangan jika gambar lupa dimasukkan ke folder resources
-            javafx.scene.control.Label fallback = new javafx.scene.control.Label("S");
-            fallback.setStyle("-fx-font-size: " + (height * 0.8) + "px; -fx-font-weight: bold; -fx-text-fill: #D41A8B;");
-            this.getChildren().add(fallback);
-            System.out.println("Peringatan: File logo.png belum ditaruh di folder resources!");
-        }
     }
 }

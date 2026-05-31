@@ -12,21 +12,6 @@ import java.util.*;
 
 public class TransaksiView extends VBox {
 
-    private static final String BG_MAIN    = "#0D0B1E";
-    private static final String BG_CARD    = "#120E2E";
-    private static final String BG_INPUT   = "#0A0818";
-    private static final String C_TEXT     = "white";
-    private static final String C_MUTED    = "#A0A4B8";
-    private static final String C_DIM      = "#6C7293";
-    private static final String C_BORDER   = "#2D314A";
-    private static final String C_PINK     = "#F72BB0";
-    private static final String C_TEAL     = "#00D4AA";
-    private static final String C_AMBER    = "#F28C00";
-    private static final String C_RED      = "#F72BB0";
-
-    private static final String GRAD_BTN   =
-        "linear-gradient(to right, #9B5CF6, #F72BB0)";
-
     private final VBox listContainer;
     private String filterAktif = "Semua";
 
@@ -41,7 +26,7 @@ public class TransaksiView extends VBox {
 
     public TransaksiView() {
         this.setSpacing(0);
-        this.setStyle("-fx-background-color: " + BG_MAIN + ";");
+        this.setStyle("-fx-background-color: " + "#0F1123" + ";");
         this.setPrefWidth(750);
 
         ScrollPane scroll = new ScrollPane();
@@ -51,21 +36,24 @@ public class TransaksiView extends VBox {
 
         VBox mainContent = new VBox(20);
         mainContent.setPadding(new Insets(28, 28, 28, 28));
-        mainContent.setStyle("-fx-background-color: " + BG_MAIN + ";");
+        mainContent.setStyle("-fx-background-color: " + "#0F1123" + ";");
 
         HBox titleRow = new HBox();
         titleRow.setAlignment(Pos.CENTER_LEFT);
 
+        VBox headerBox = new VBox(5);
         Label lblTitle = new Label("Transaksi");
-        lblTitle.setFont(Font.font("System", FontWeight.BOLD, 22));
-        lblTitle.setTextFill(Color.web(C_TEXT));
+        lblTitle.setStyle("-fx-text-fill: white; -fx-font-size: 26px; -fx-font-weight: bold;");
+        Label lblSub = new Label("Catatan riwayat pemasukan dan pengeluaran");
+        lblSub.setStyle("-fx-text-fill: #A0A4B8; -fx-font-size: 14px;");
+        headerBox.getChildren().addAll(lblTitle, lblSub);
 
         Region sp = new Region(); HBox.setHgrow(sp, Priority.ALWAYS);
 
         Button btnTambah = buildPrimaryButton("+ Tambah Transaksi");
         btnTambah.setOnAction(e -> bukaPopUpForm(false, null));
 
-        titleRow.getChildren().addAll(lblTitle, sp, btnTambah);
+        titleRow.getChildren().addAll(headerBox, sp, btnTambah);
 
         HBox filterRow = new HBox(8);
         filterRow.setAlignment(Pos.CENTER_LEFT);
@@ -83,9 +71,9 @@ public class TransaksiView extends VBox {
 
         listContainer = new VBox(0);
         listContainer.setStyle(
-            "-fx-background-color: " + BG_CARD + ";" +
+            "-fx-background-color: " + "#120E2E" + ";" +
             "-fx-background-radius: 16;" +
-            "-fx-border-color: " + C_BORDER + ";" +
+            "-fx-border-color: " + "#2D314A" + ";" +
             "-fx-border-radius: 16;" +
             "-fx-border-width: 1;"
         );
@@ -112,8 +100,8 @@ public class TransaksiView extends VBox {
     }
 
     private void updateStyleFilter() {
-        String aktif = "-fx-background-color: " + GRAD_BTN + "; -fx-text-fill: white; -fx-background-radius: 20; -fx-border-width: 0; -fx-cursor: hand;";
-        String pasif = "-fx-background-color: rgba(255,255,255,0.07); -fx-text-fill: " + C_MUTED + "; -fx-background-radius: 20; -fx-border-width: 0; -fx-cursor: hand;";
+        String aktif = "-fx-background-color: " + "linear-gradient(to right, #9B5CF6, #F72BB0)" + "; -fx-text-fill: white; -fx-background-radius: 20; -fx-border-width: 0; -fx-cursor: hand;";
+        String pasif = "-fx-background-color: rgba(255,255,255,0.07); -fx-text-fill: " + "#A0A4B8" + "; -fx-background-radius: 20; -fx-border-width: 0; -fx-cursor: hand;";
         btnFilterSemua  .setStyle(filterAktif.equals("Semua")   ? aktif : pasif);
         btnFilterIncome .setStyle(filterAktif.equals("Income")  ? aktif : pasif);
         btnFilterOutcome.setStyle(filterAktif.equals("Outcome") ? aktif : pasif);
@@ -132,7 +120,7 @@ public class TransaksiView extends VBox {
         if (filtered.isEmpty()) {
             Label lbl = new Label("Belum ada catatan transaksi.");
             lbl.setFont(Font.font("System", FontWeight.NORMAL, 14));
-            lbl.setTextFill(Color.web(C_MUTED));
+            lbl.setTextFill(Color.web("#A0A4B8"));
             lbl.setPadding(new Insets(28, 20, 28, 20));
             listContainer.getChildren().add(lbl);
             return;
@@ -147,7 +135,7 @@ public class TransaksiView extends VBox {
             if (!t.getTanggal().equals(prevTanggal)) {
                 if (!firstGroup) {
                     Separator sep = new Separator();
-                    sep.setStyle("-fx-background-color: " + C_BORDER + "; -fx-border-width: 0;");
+                    sep.setStyle("-fx-background-color: " + "#2D314A" + "; -fx-border-width: 0;");
                     VBox.setMargin(sep, new Insets(0));
                     listContainer.getChildren().add(sep);
                 }
@@ -158,7 +146,7 @@ public class TransaksiView extends VBox {
                 dateHeader.setStyle("-fx-background-color: rgba(255,255,255,0.025);");
                 Label lblDate = new Label(t.getTanggal());
                 lblDate.setFont(Font.font("System", FontWeight.BOLD, 11));
-                lblDate.setTextFill(Color.web(C_DIM));
+                lblDate.setTextFill(Color.web("#6C7293"));
                 dateHeader.getChildren().add(lblDate);
                 listContainer.getChildren().add(dateHeader);
 
@@ -204,7 +192,7 @@ public class TransaksiView extends VBox {
 
         Label lblDesc = new Label(descClean);
         lblDesc.setFont(Font.font("System", FontWeight.BOLD, 13));
-        lblDesc.setTextFill(Color.web(C_TEXT));
+        lblDesc.setTextFill(Color.web("white"));
 
         Label chip = buildChip(subKat, t.getKategori());
 
@@ -220,7 +208,7 @@ public class TransaksiView extends VBox {
             String.format("%,.0f", t.getNominal()).replace(',', '.')
         );
         lblNominal.setFont(Font.font("System", FontWeight.BOLD, 13));
-        lblNominal.setTextFill(Color.web(isIncome ? C_TEAL : C_RED));
+        lblNominal.setTextFill(Color.web(isIncome ? "#00D4AA" : "#F72BB0"));
 
         Label btnEdit = new Label("✏️");
         btnEdit.setFont(Font.font(14));
@@ -247,9 +235,9 @@ public class TransaksiView extends VBox {
         chip.setFont(Font.font("System", FontWeight.NORMAL, 10));
         String chipColor, chipBg;
         if (kategori.equalsIgnoreCase("Income")) {
-            chipColor = C_TEAL;  chipBg = "rgba(0,212,170,0.12)";
+            chipColor = "#00D4AA";  chipBg = "rgba(0,212,170,0.12)";
         } else if (subKat.equalsIgnoreCase("Keinginan")) {
-            chipColor = C_AMBER; chipBg = "rgba(242,140,0,0.12)";
+            chipColor = "#F28C00"; chipBg = "rgba(242,140,0,0.12)";
         } else {
             chipColor = "#9B5CF6"; chipBg = "rgba(155,92,246,0.12)";
         }
@@ -269,8 +257,8 @@ public class TransaksiView extends VBox {
         dialog.setTitle(isEdit ? "Edit Transaksi" : "Tambah Transaksi Baru");
 
         dialog.getDialogPane().setStyle(
-            "-fx-background-color: " + BG_CARD + ";" +
-            "-fx-border-color: " + C_BORDER + ";" +
+            "-fx-background-color: " + "#120E2E" + ";" +
+            "-fx-border-color: " + "#2D314A" + ";" +
             "-fx-border-width: 2;" +
             "-fx-border-radius: 16;" +
             "-fx-background-radius: 16;"
@@ -279,11 +267,11 @@ public class TransaksiView extends VBox {
 
         Button okBtn = (Button) dialog.getDialogPane().lookupButton(ButtonType.OK);
         okBtn.setText("Simpan");
-        okBtn.setStyle("-fx-background-color: " + GRAD_BTN + "; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 10 22 10 22;");
+        okBtn.setStyle("-fx-background-color: " + "linear-gradient(to right, #9B5CF6, #F72BB0)" + "; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 10 22 10 22;");
         
         Button cancelBtn = (Button) dialog.getDialogPane().lookupButton(ButtonType.CANCEL);
         cancelBtn.setText("Batal");
-        cancelBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: " + C_MUTED + "; -fx-border-color: " + C_BORDER + "; -fx-border-radius: 10; -fx-padding: 9 20 9 20;");
+        cancelBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: " + "#A0A4B8" + "; -fx-border-color: " + "#2D314A" + "; -fx-border-radius: 10; -fx-padding: 9 20 9 20;");
 
         VBox form = new VBox(14);
         form.setPadding(new Insets(20, 20, 8, 20));
@@ -291,7 +279,7 @@ public class TransaksiView extends VBox {
 
         Label formTitle = new Label(isEdit ? "✏️  Edit Transaksi" : "➕  Transaksi Baru");
         formTitle.setFont(Font.font("System", FontWeight.BOLD, 16));
-        formTitle.setTextFill(Color.web(C_TEXT));
+        formTitle.setTextFill(Color.web("white"));
         form.getChildren().add(formTitle);
 
         TextField txtDesc = buildInput("Deskripsi (Gaji, Makan Siang...)");
@@ -313,7 +301,7 @@ public class TransaksiView extends VBox {
         DatePicker dp = new DatePicker();
         dp.setMaxWidth(Double.MAX_VALUE);
         dp.setValue(LocalDate.now());
-        dp.setStyle("-fx-background-color: " + BG_INPUT + "; -fx-border-color: " + C_BORDER + "; -fx-border-radius: 10; -fx-background-radius: 10; -fx-control-inner-background: " + BG_INPUT + "; -fx-text-fill: white;");
+        dp.setStyle("-fx-background-color: " + "#0A0818" + "; -fx-border-color: " + "#2D314A" + "; -fx-border-radius: 10; -fx-background-radius: 10; -fx-control-inner-background: " + "#0A0818" + "; -fx-text-fill: white;");
 
         cbKat.valueProperty().addListener((o, ov, nv) -> {
             boolean out = nv != null && nv.equalsIgnoreCase("Outcome");
@@ -346,7 +334,7 @@ public class TransaksiView extends VBox {
 
         if (isEdit && lama != null) {
             Separator lineSep = new Separator();
-            lineSep.setStyle("-fx-background-color: " + C_BORDER + ";");
+            lineSep.setStyle("-fx-background-color: " + "#2D314A" + ";");
             VBox.setMargin(lineSep, new Insets(10, 0, 0, 0));
 
             Button btnHapus = new Button("🗑️   Hapus Transaksi Ini");
@@ -354,17 +342,30 @@ public class TransaksiView extends VBox {
             btnHapus.setPadding(new Insets(11));
             btnHapus.setFont(Font.font("System", FontWeight.BOLD, 13));
             btnHapus.setCursor(Cursor.HAND);
-            btnHapus.setStyle("-fx-background-color: rgba(247,43,176,0.08); -fx-border-color: " + C_PINK + "; -fx-border-radius: 10; -fx-background-radius: 10; -fx-text-fill: " + C_PINK + ";");
+            btnHapus.setStyle("-fx-background-color: rgba(247,43,176,0.08); -fx-border-color: " + "#F72BB0" + "; -fx-border-radius: 10; -fx-background-radius: 10; -fx-text-fill: " + "#F72BB0" + ";");
 
             final com.savio.model.ModelTransaksi lamaFinal = lama;
-            btnHapus.setOnAction(e -> {
+btnHapus.setOnAction(e -> {
                 Alert konfirm = new Alert(Alert.AlertType.CONFIRMATION);
                 konfirm.setTitle("Konfirmasi Hapus");
                 konfirm.setHeaderText(null);
                 konfirm.setContentText("Hapus transaksi \"" + lamaFinal.getDeskripsi().replace("[Kebutuhan] ","").replace("[Keinginan] ","") + "\"?");
-                konfirm.getDialogPane().setStyle("-fx-background-color: " + BG_CARD + ";");
+                konfirm.getDialogPane().setStyle("-fx-background-color: " + "#120E2E" + ";");
                 konfirm.showAndWait().ifPresent(r -> {
                     if (r == ButtonType.OK) {
+                        // --- TAMBAHAN FIX: Kembalikan saldo sebelum dihapus ---
+                        if (lamaFinal.getKategori().equalsIgnoreCase("Income")) {
+                            com.savio.model.DataDompet.SALDO_AKTIF.set(com.savio.model.DataDompet.SALDO_AKTIF.get() - lamaFinal.getNominal());
+                        } else {
+                            com.savio.model.DataDompet.SALDO_AKTIF.set(com.savio.model.DataDompet.SALDO_AKTIF.get() + lamaFinal.getNominal());
+                            if (lamaFinal.getDeskripsi().contains("[Keinginan]")) {
+                                com.savio.model.DataDompet.NOMINAL_KEINGINAN.set(com.savio.model.DataDompet.NOMINAL_KEINGINAN.get() + lamaFinal.getNominal());
+                            } else {
+                                com.savio.model.DataDompet.NOMINAL_KEBUTUHAN.set(com.savio.model.DataDompet.NOMINAL_KEBUTUHAN.get() + lamaFinal.getNominal());
+                            }
+                        }
+                        // -----------------------------------------------------
+
                         daftarTransaksi.remove(lamaFinal);
                         com.savio.utils.KoneksiJSON.simpanDataKeJSON();
                         refreshDaftarTransaksi();
@@ -447,17 +448,17 @@ public class TransaksiView extends VBox {
     private Button buildPrimaryButton(String text) {
         Button btn = new Button(text);
         btn.setFont(Font.font("System", FontWeight.BOLD, 13));
-        btn.setTextFill(Color.web(C_TEXT));
+        btn.setTextFill(Color.web("white"));
         btn.setPadding(new Insets(10, 20, 10, 20));
         btn.setCursor(Cursor.HAND);
-        btn.setStyle("-fx-background-color: " + GRAD_BTN + "; -fx-background-radius: 11; -fx-border-width: 0;");
+        btn.setStyle("-fx-background-color: " + "linear-gradient(to right, #9B5CF6, #F72BB0)" + "; -fx-background-radius: 11; -fx-border-width: 0;");
         return btn;
     }
 
     private Label buildFormLabel(String text) {
         Label l = new Label(text);
         l.setFont(Font.font("System", FontWeight.BOLD, 12));
-        l.setTextFill(Color.web(C_TEXT));
+        l.setTextFill(Color.web("white"));
         return l;
     }
 
@@ -465,12 +466,12 @@ public class TransaksiView extends VBox {
         TextField tf = new TextField();
         tf.setPromptText(prompt);
         tf.setFont(Font.font(13));
-        tf.setStyle("-fx-background-color: " + BG_INPUT + "; -fx-text-fill: white; -fx-prompt-text-fill: " + C_DIM + "; -fx-border-color: " + C_BORDER + "; -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 11 14 11 14;");
+        tf.setStyle("-fx-background-color: " + "#0A0818" + "; -fx-text-fill: white; -fx-prompt-text-fill: " + "#6C7293" + "; -fx-border-color: " + "#2D314A" + "; -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 11 14 11 14;");
         return tf;
     }
 
     private void styleComboBox(ComboBox<String> cb) {
-        cb.setStyle("-fx-background-color: " + BG_INPUT + "; -fx-text-fill: white; -fx-border-color: " + C_BORDER + "; -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 4;");
+        cb.setStyle("-fx-background-color: " + "#0A0818" + "; -fx-text-fill: white; -fx-border-color: " + "#2D314A" + "; -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 4;");
     }
 
     private String tentukanIkon(String desc, String kat) {

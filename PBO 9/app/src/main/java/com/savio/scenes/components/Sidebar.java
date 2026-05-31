@@ -98,7 +98,7 @@ public class Sidebar extends VBox {
 
     private void setButtonToActiveStyle(Button btn) {
         btn.setStyle(
-            "-fx-background-color: #241468; " + // Latar belakang ungu indigo menyala seperti mockup-mu
+            "-fx-background-color: #241468; " +
             "-fx-text-fill: white; " +
             "-fx-font-weight: bold; " +
             "-fx-font-size: 14px; " +

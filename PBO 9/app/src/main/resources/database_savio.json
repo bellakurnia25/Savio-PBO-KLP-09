@@ -53,37 +53,30 @@
       "email": "a@gmail.com",
       "nama_pengguna": "ADMIN",
       "password_aktif": "admin123",
-      "saldo_aktif": 1.592E7,
-      "nominal_kebutuhan": 1.0E7,
-      "nominal_keinginan": 6000000.0,
+      "saldo_aktif": 1.594E7,
+      "nominal_kebutuhan": 9980000.0,
+      "nominal_keinginan": 5960000.0,
       "dana_darurat": 4000000.0,
       "persen_kebutuhan": 50.0,
       "persen_keinginan": 30.0,
       "persen_tabungan": 20.0,
       "list_transaksi": [
         {
-          "id": "124f8d32-e55b-46e3-9081-d4b8aa96e017",
+          "id": "9c9cd5ea-12eb-4e43-b6f1-1e46ebbb7674",
+          "deskripsi": "[Keinginan] Nongkrong",
+          "kategori": "Outcome",
+          "nominal": 40000.0,
+          "tanggal": "31 May 2026"
+        },
+        {
+          "id": "701546ce-974c-463f-8444-42d193faf446",
           "deskripsi": "[Kebutuhan] Makan Malam",
-          "kategori": "Outcome",
-          "nominal": 25000.0,
-          "tanggal": "31 May 2026"
-        },
-        {
-          "id": "6e3e8ceb-5ab9-4349-8690-56a10e24c3e5",
-          "deskripsi": "[Kebutuhan] Nongkrong",
-          "kategori": "Outcome",
-          "nominal": 35000.0,
-          "tanggal": "31 May 2026"
-        },
-        {
-          "id": "31fe7f96-36c2-4952-a142-9827e737b928",
-          "deskripsi": "[Kebutuhan] Makan Siang",
           "kategori": "Outcome",
           "nominal": 20000.0,
           "tanggal": "31 May 2026"
         },
         {
-          "id": "c0b8c9c7-4d31-4b1b-81c7-1e79ac9e85a1",
+          "id": "2bf7da5f-e4d1-4cf2-8798-3c062f17252c",
           "deskripsi": "Gaji",
           "kategori": "Income",
           "nominal": 2.0E7,

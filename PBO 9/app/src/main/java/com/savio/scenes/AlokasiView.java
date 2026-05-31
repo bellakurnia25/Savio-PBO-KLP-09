@@ -48,7 +48,7 @@ public class AlokasiView extends VBox {
     public AlokasiView() {
         this.setSpacing(25);
         this.setPadding(new Insets(30, 40, 30, 40));
-        this.setStyle("-fx-background-color: #0F1123;"); // Background gelap utama
+        this.setStyle("-fx-background-color: #0F1123;");
         this.setAlignment(Pos.TOP_LEFT);
 
         hitungTotalIncome();
@@ -243,8 +243,7 @@ public class AlokasiView extends VBox {
         lblTitle.setStyle("-fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;");
 
         HBox.setHgrow(slider, Priority.ALWAYS);
-        
-        // Membungkus Label Persen & Nominal agar tersusun atas-bawah di sebelah kanan
+
         VBox textValues = new VBox(0);
         textValues.setAlignment(Pos.CENTER_RIGHT);
         textValues.setPrefWidth(100);

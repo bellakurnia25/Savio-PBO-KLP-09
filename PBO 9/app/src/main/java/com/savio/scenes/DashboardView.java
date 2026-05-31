@@ -51,13 +51,13 @@ public class DashboardView extends VBox {
         HBox topRow = new HBox();
         topRow.setAlignment(Pos.CENTER_LEFT);
 
-        VBox welcomeBox = new VBox(4);
+        VBox welcomeBox = new VBox(5);
         Label lblWelcome = new Label();
-        lblWelcome.setStyle("-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold;");
+        lblWelcome.setStyle("-fx-text-fill: white; -fx-font-size: 26px; -fx-font-weight: bold;");
         lblWelcome.textProperty().bind(Bindings.concat("Halo, ", DataSesi.namaPenggunaProperty(), "! 👋"));
         
         Label lblSub = new Label("Kelola keuanganmu dengan bijak.");
-        lblSub.setStyle("-fx-text-fill: #A0A4B8; -fx-font-size: 13px;");
+        lblSub.setStyle("-fx-text-fill: #A0A4B8; -fx-font-size: 14px;");
         welcomeBox.getChildren().addAll(lblWelcome, lblSub);
 
         Region topSpacer = new Region();

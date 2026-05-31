@@ -26,10 +26,10 @@ public class ProfilView extends VBox {
 
         VBox headerBox = new VBox(5);
         Label lblTitle = new Label("Profil Pengguna 👤");
-        lblTitle.setStyle("-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;");
+        lblTitle.setStyle("-fx-text-fill: white; -fx-font-size: 26px; -fx-font-weight: bold;");
         
         Label lblSub = new Label("Kelola informasi data akun, perbarui kata sandi, dan pantau ringkasan aset finansial SAVIO Anda.");
-        lblSub.setStyle("-fx-text-fill: " + ColorPalette.TEXT_MUTED + "; -fx-font-size: 14px;");
+        lblSub.setStyle("-fx-text-fill: #A0A4B8; -fx-font-size: 14px;");
         headerBox.getChildren().addAll(lblTitle, lblSub);
         this.getChildren().add(headerBox);
 
@@ -91,7 +91,7 @@ public class ProfilView extends VBox {
 
         Button btnUbahPassword = new Button("🔒 Ubah Password");
         btnUbahPassword.setPadding(new Insets(10, 20, 10, 20));
-        btnUbahPassword.setStyle("-fx-background-color: " + ColorPalette.ACCENT_KEINGINAN + "; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand;");
+        btnUbahPassword.setStyle("-fx-background-color: " + "linear-gradient(to right, #9B5CF6, #F72BB0)" + "; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand;");
 
         actionButtonRow.getChildren().addAll(btnUbahProfil, btnUbahPassword);
         infoCard.getChildren().add(actionButtonRow);

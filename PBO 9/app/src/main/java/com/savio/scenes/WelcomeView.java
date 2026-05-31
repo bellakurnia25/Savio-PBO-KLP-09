@@ -96,7 +96,7 @@ public class WelcomeView extends StackPane {
         
         Circle c1 = new Circle(180);
         c1.setFill(Color.TRANSPARENT);
-        c1.setStroke(Color.web("#ffffff", 0.08)); // Sangat transparan
+        c1.setStroke(Color.web("#ffffff", 0.08));
         
         Circle c2 = new Circle(280);
         c2.setFill(Color.TRANSPARENT);
