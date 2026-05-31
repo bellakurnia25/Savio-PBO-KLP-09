@@ -1,0 +1,53 @@
+{
+  "users": [
+    {
+      "email": "pbo9@gmail.com",
+      "nama_pengguna": "PBO9",
+      "password_aktif": "123456",
+      "saldo_aktif": 7903000.0,
+      "nominal_kebutuhan": 4943000.0,
+      "nominal_keinginan": 2960000.0,
+      "dana_darurat": 2000000.0,
+      "persen_kebutuhan": 50.0,
+      "persen_keinginan": 30.0,
+      "persen_tabungan": 20.0,
+      "list_transaksi": [
+        {
+          "id": "cf848091-d0e7-45e9-9779-c491fcae4411",
+          "deskripsi": "[Kebutuhan] Makan Siang",
+          "kategori": "Outcome",
+          "nominal": 20000.0,
+          "tanggal": "29 May 2026"
+        },
+        {
+          "id": "8288ecbe-a598-4162-8246-4e958c04c925",
+          "deskripsi": "[Kebutuhan] Transportasi",
+          "kategori": "Outcome",
+          "nominal": 12000.0,
+          "tanggal": "01 Jun 2026"
+        },
+        {
+          "id": "9f692201-f5dd-4b1a-9682-5ca1ad7fe88a",
+          "deskripsi": "[Keinginan] Nongkrong",
+          "kategori": "Outcome",
+          "nominal": 40000.0,
+          "tanggal": "31 May 2026"
+        },
+        {
+          "id": "d3d80b93-2c27-4559-892a-395bd66b163f",
+          "deskripsi": "[Kebutuhan] Makan Malam",
+          "kategori": "Outcome",
+          "nominal": 25000.0,
+          "tanggal": "31 May 2026"
+        },
+        {
+          "id": "10f5a2b0-c758-4481-bfe9-2b749222767e",
+          "deskripsi": "Gaji",
+          "kategori": "Income",
+          "nominal": 1.0E7,
+          "tanggal": "31 May 2026"
+        }
+      ]
+    }
+  ]
+}
