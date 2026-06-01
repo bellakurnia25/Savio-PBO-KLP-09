@@ -23,7 +23,7 @@ Welcome Screen merupakan antarmuka penyambut yang pertama kali dilihat oleh peng
 * *Berkas terkait:* `WelcomeView.java`, `LogoSavio.java`, `MainApp.java`
 
 
-**b. Login Screen (Halaman Autentikasi)  
+**b. Login Screen (Halaman Autentikasi)**  
 <img width="1920" height="1080" alt="Screenshot 2026-05-31 233320" src="https://github.com/user-attachments/assets/297ed4b2-8f0e-4d00-a67b-5181e8f6955b" />
 
 Login Screen berfungsi sebagai sistem gerbang keamanan (*security gate*) yang memvalidasi hak akses pengguna sebelum masuk ke dalam sistem keuangan pribadi SAVIO. Halaman ini menyediakan formulir pengisian akun yang terintegrasi langsung dengan mekanisme pencarian data pada berkas basis data lokal. Selain memproses log masuk, halaman ini juga menyediakan opsi navigasi bagi pengguna baru yang ingin beralih ke menu registrasi pembuatan akun.
