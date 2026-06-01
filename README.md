@@ -346,7 +346,7 @@ Method yang sama menghasilkan perilaku berbeda tergantung objek yang digunakan.
 
 ## 📄 Lisensi 
 
-Dengan ini SAVIO- PBO-KLP-09 memberikan izin tanpa biaya kepada siapa pun yang mendapatkan salinan perangkat lunak ini dan dokumen terkait untuk **menggunakan, menggandakan, memodifikasi, menggabungkan, memublikasikan, dan mengembangkan lebih lanjut** proyek **SAVIO – Smart Personal Finance Tracker** ini untuk keperluan akademis, pembelajaran, maupun komersial.
+Dengan ini **SAVIO-PBO-KLP-09** memberikan izin tanpa biaya kepada siapa pun yang mendapatkan salinan perangkat lunak ini dan dokumen terkait untuk **menggunakan, menggandakan, memodifikasi, menggabungkan, memublikasikan, dan mengembangkan lebih lanjut** proyek **SAVIO – Smart Personal Finance Tracker** ini untuk keperluan akademis, pembelajaran, maupun komersial.
 
 ***Salam hangat dan selamat menggunakan, dari KLP-PBO-09 untuk para pengguna👋***  
 ***Terima Kasih.***
