@@ -338,9 +338,9 @@ Method yang sama menghasilkan perilaku berbeda tergantung objek yang digunakan.
 
 
 ## 👥 Tim Pengembang (Kelompok 09)
-1. Vivien — Project Manager (PM)
-2. Randy — Front End Developer
-3. Bela — Back End Developer
+1. [Vivien](https://github.com/vivienmonteiro) — Project Manager (PM)
+2. [Randy](https://github.com/RandyRahmat) — Front End Developer
+3. [Bela](https://github.com/kurnianataliabela) — Back End Developer
 
 ---
 
